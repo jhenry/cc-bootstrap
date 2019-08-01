@@ -1,0 +1,103 @@
+<?php
+$this->addMeta('videoId', $video->videoId);
+$this->addMeta('theme', $this->options->themeUrl);
+$this->addMeta('loggedIn', (boolean) $loggedInUser);
+$this->addCss('video-js.css');
+$this->addJs('video.plugin.js');
+?>
+
+
+<div class="py-5 bg-light">
+    <div class="container">
+
+      <div class="row">
+          <div class="col">
+            <h1><?php echo htmlspecialchars($video->title); ?></h1>
+          </div>
+      </div>
+    
+      <div class="row">
+        <div class="col-md-8">
+            <div class="message"></div>
+            <?php if ($video->gated && !$loggedInUser): ?>
+                <div id="player-gated">
+                <img width="600" height="337" src="<?=getVideoThumbUrl($video)?>" alt="<?=htmlspecialchars($video->title);?>" />
+                    <div>
+                        <p><?=Language::getText('gated_video')?></p>
+                        <a href="<?=HOST?>/login/?redirect=<?=urlencode($this->getService('Video')->getUrl($video))?>" class="button_small"><?=Language::getText('login')?></a>
+                        <?php if ($config->enableRegistrations): ?>
+                            <a href="<?=HOST?>/register/" class="button_small"><?=Language::getText('register')?></a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+            <?php else: ?>
+                <!-- BEGIN VIDEO -->
+                <div id="player">
+                    <video class="video-js vjs-default-skin" data-setup='{ "controls": true, "autoplay": false, "preload": "auto" }' width="600" height="337" poster="<?=getVideoThumbUrl($video)?>">
+                        <source src="<?=$config->h264Url?>/<?=$video->filename?>.mp4" type="video/mp4" />
+                        <?php if ($webmEncodingEnabled): ?>
+                            <source src="<?=$config->webmUrl?>/<?=$video->filename?>.webm" type="video/webm" />
+                        <?php endif; ?>
+                        <?php if ($theoraEncodingEnabled): ?>
+                            <source src="<?=$config->theoraUrl?>/<?=$video->filename?>.ogg" type="video/ogg" />
+                        <?php endif; ?>
+                    </video>
+                </div>
+                <!-- END VIDEO -->
+            <?php endif; ?>
+        
+           <!-- BEGIN ACTIONS -->         
+           <div class="row actions">
+                <div class="col-md-6">
+                    <p class="large"><?=$video->views?></p>
+                    <p>
+                        <span class="like"><?=$rating->likes?></span>
+                        <span class="dislike"><?=$rating->dislikes?></span>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <a class="like rating" href="" data-rating="1" title="<?=Language::getText('like')?>"><?=Language::getText('like')?></a>
+                    <a class="dislike rating" href="" data-rating="0" title="<?=Language::getText('dislike')?>"><?=Language::getText('dislike')?></a>
+                </div>
+            </div>
+            <!-- END ACTIONS -->
+
+            <!-- BEGIN TABS -->
+            <div class="row actions">
+                <div class="col">
+                    <nav>
+                      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link active" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab" aria-controls="nav-about" aria-selected="true"><?=Language::getText('about')?></a>
+                        <a class="nav-item nav-link" id="nav-share-tab" data-toggle="tab" href="#nav-share" role="tab" aria-controls="nav-share" aria-selected="false"><?=Language::getText('share')?></a>
+                        <a class="nav-item nav-link" id="nav-save-tab" data-toggle="tab" href="#nav-save" role="tab" aria-controls="nav-save" aria-selected="false"><?=Language::getText('save')?></a>
+                        <a class="nav-item nav-link" id="nav-flag-tab" data-toggle="tab" href="#nav-flag" role="tab" aria-controls="nav-flag" aria-selected="false"><?=Language::getText('flag')?></a>
+                      </div>
+                    </nav>
+                </div>
+            </div>
+            <!-- END TABS -->
+
+            <!-- BEGIN TAB CONTENT -->
+            <div class="row">
+                <div class="col">
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+                            <?php include 'blocks/watch/about.php'; ?>   
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- END TAB CONTENT -->
+        
+    
+        </div>
+        <div class="col-md-4">
+
+        </div>
+      </div>
+
+
+    </div>
+</div>

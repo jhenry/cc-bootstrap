@@ -51,3 +51,40 @@ function getPlaylistThumbnail(Playlist $playlist)
     $video = $videoMapper->getVideoById($playlist->entries[0]->videoId);
     return $config->thumbUrl . '/' . $video->filename . '.jpg';
 }
+
+/**
+ * Retrieves full URL to an image to be used as the given video thumbnail
+ * @param Video $video The video to retrieve thumbnail image for
+ * @return string Returns URL to the thumbnail for a video
+ */
+function getVideoThumbUrl(Video $video)
+{
+    $config = Registry::get('config');
+
+    if( class_exists('CustomThumbs') ){
+        $url = CustomThumbs::thumb_url($video->videoId);
+    }
+    else {
+        $url = $config->thumbUrl . "/" . $featuredVideo->filename . ".jpg";
+    }
+
+    return $url;
+}
+
+
+/**
+ * Output a custom video card block to the browser
+ * @param string $viewFile Name of the block to be output
+ * @return mixed Block is output to browser
+ *
+ **/
+function videoCardBlock($viewFile, $video)
+{
+    // Detect correct block path
+    $request_block = $this->getFallbackPath("blocks/$viewFile");
+    $block = ($request_block) ? $request_block : $viewFile;
+    extract(get_object_vars($this->vars));
+    include($block);
+}
+                
+
