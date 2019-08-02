@@ -1,14 +1,17 @@
 <?php $avatar = $this->getService('User')->getAvatarUrl($member); ?>
-<?php $avatar_thumb = ($avatar) ? $avatar : $this->options->themeUrl . '/images/avatar.gif'?>
-<div class="card mb-3" style="max-width: 540px;">
+<div class="card mb-3">
   <div class="row no-gutters">
     <div class="col-md-4">
-    <img src="<?=$avatar_thumb;?>" class="card-img" alt="Avatar image for <?=$member->username?>">
+    <?php if($avatar): ?>
+        <img src="<?=$avatar_thumb;?>" class="card-img" alt="Avatar image for <?=$member->username?>">
+    <?php else: ?>
+       <ion-icon class="card-img avatar" style="font-size: 128px;" name="person"></ion-icon> 
+    <?php endif; ?>
+        <p class="text-center"><button data-type="<?=$subscribe_text?>" data-user="<?=$video->userId?>" type="button" class="btn btn-outline-primary">Follow <?=$member->username?></button></p>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text"><strong><?=Language::getText('Uploaded by')?> </strong><a href="<?=HOST?>/members/<?=$member->username?>/"><?=$member->username?></a> <?=Language::getText('on')?> <?=date('m/d/Y', strtotime($video->dateCreated))?></p>
+        <p class="card-text"><strong>Uploaded by </strong><a href="<?=HOST?>/members/<?=$member->username?>/"><?=$member->username?></a> on <?=date('m/d/Y', strtotime($video->dateCreated))?></p>
         <p class="card-text"> <strong><?=Language::getText('tags')?>:</strong>
                 <?php foreach ($video->tags as $value): ?>
                     <a href="<?=HOST?>/search/?keyword=<?=$value?>" title="<?php echo htmlspecialchars($value); ?>"><?php echo htmlspecialchars($value); ?></a>&nbsp;&nbsp;
@@ -28,16 +31,9 @@
             <?php endforeach; ?>
         </p>
     <?php endif; ?>
+        <p><?php echo htmlspecialchars($video->description); ?></p>
       </div>
-    </div>
-    <div class="col-md-2">
-        <button data-type="<?=$subscribe_text?>" data-user="<?=$video->userId?>" type="button" class="btn btn-outline-primary">Follow <?=$member->username?></button>
     </div>
   </div>
 </div>
 
-<div class="row">
-    <div class="col">
-        <p><?php echo htmlspecialchars($video->description); ?></p>
-  </div>
-</div>
