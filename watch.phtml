@@ -96,8 +96,28 @@ $this->addJs('video.plugin.js');
                 </div>
             </div>
             <!-- END TAB CONTENT -->
-        
-    
+
+            <!-- BEGIN COMMENTS SECTION -->        
+<?php if ($video->commentsClosed): ?>
+            <div id="comments_closed" class="row">
+                <div class="col">
+                    <p class="commentMessage"><?=Language::getText('comments_closed')?></p>
+                </div>
+            </div>
+        <?php else: ?>
+
+            <div id="comments" class="row">
+                <div class="col">
+                    <h3><?=Language::getText('comments_header')?></h3>
+                    <?php include 'blocks/watch/comments_form.php'; ?>    
+                </div>
+            </div>
+            <div id="comments" class="row">
+                <div class="col">
+                    <?php include 'blocks/watch/comments_list.php'; ?>    
+                </div>
+            </div>
+ <?php endif; ?>
         </div>
         <div class="col-md-4">
             <h2>Related Content</h2>
