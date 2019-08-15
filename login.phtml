@@ -1,10 +1,19 @@
 
 <?php 
-    if ($message_type == 'errors'){
-            
-            $message_type = 'alert-danger';
-            $forgot_login_errors = ($forgot_submit) ? true : false;
+if ( $message ){
+    $forgot_login_errors = false;
+    if ( $message_type == 'errors' ){
+        $message_type = 'alert-danger';
+        if( $forgot_submit ) { 
+            $forgot_login_errors = true; 
+        }
     }
+
+    if ( $message_type == 'success' ){
+        $message_type = 'alert-success';
+    }
+}
+    
 ?>
 <div class="container login">
 <div class="row py-2 justify-content-md-center">
