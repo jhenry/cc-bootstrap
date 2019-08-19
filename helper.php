@@ -87,4 +87,20 @@ function videoCardBlock($viewFile, $video)
     include($block);
 }
                 
-
+/**
+ * Set message type class to use bootstrap alert styles
+ * @param string $message_type status message passed from controller
+ * @return string bootstrap message type
+ *
+ **/
+function setMessageType($message)
+{
+    if ( $message ){
+        if ( $message_type == 'errors' ){
+            $message_type = 'alert-danger';
+        }
+        if ( $message_type == 'success' ){
+            $message_type = 'alert-success';
+        }
+    }
+}

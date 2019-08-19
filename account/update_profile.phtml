@@ -1,0 +1,83 @@
+<?php
+$this->SetLayout('account');
+$message_type = setMessageType($message_type);
+?>
+
+<div class="row">
+    <div class="col">
+    <h2><?=Language::getText('profile_header')?></h2>
+    <p class="large"><?=Language::getText('personal_header')?></p>
+    <p><?=Language::getText('asterisk')?></p>
+    <div class="message <?=$message_type?>"><?=$message?></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="first-name"><?=Language::getText('first_name')?></label>
+                <input type="text" class="form-control <?=(isset ($Errors['first_name'])) ? ' is-invalid' : ''?>" name="first_name" id="first-name" placeholder="First Name" value="<?=htmlspecialchars($loggedInUser->firstName)?>">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="last-name"><?=Language::getText('last_name')?></label>
+                <input type="text" class="form-control <?=(isset ($Errors['last_name'])) ? ' is-invalid' : ''?>" name="last_name" id="last-name" placeholder="Last Name" value="<?=htmlspecialchars($loggedInUser->lastName)?>">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="email"><?=Language::getText('email')?></label>
+                <input type="email" class="form-control <?=(isset ($Errors['email'])) ? ' is-invalid' : ''?>" name="email" id="email" placeholder="email" value="<?=htmlspecialchars($loggedInUser->email)?>">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="website"><?=Language::getText('website')?></label>
+                <input type="website" class="form-control <?=(isset ($Errors['website'])) ? ' is-invalid' : ''?>" name="website" id="website" placeholder="website" value="<?=htmlspecialchars($loggedInUser->website)?>">
+            </div>
+            </div>
+          <div class="form-row">
+            <div class="form-group col">
+            <label for="about-me"><?=Language::getText('about_me')?></label>
+            <textarea name="about"class="form-control" id="about" rows="3" cols="100"><?=htmlspecialchars($loggedInUser->about_me)?></textarea>
+            </div>
+          </div>
+            <input type="hidden" value="yes" name="submitted" />
+            <input type="hidden" name="nonce" value="<?php echo $formNonce; ?>" />
+            <button class="btn btn-primary" type="submit" name="button" /><?=Language::getText('profile_button')?></button>
+          </form>
+    </div>
+</div>
+<div class="row my-5">
+    <div class="col">
+    <h2><?=Language::getText('update_avatar_header')?></h2>
+    <div class="message <?=$message_type?>"><?=$message?></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+            <div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+           <ion-icon class="card-img avatar md hydrated" style="font-size: 128px;" name="person" role="img" aria-label="person"></ion-icon> 
+            <p class="text-center"><button data-type="subscribe" data-user="1" type="button" class="btn btn-outline-danger">Reset Avatar</button></p>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+      <p class="card-text"><?php echo Language::getText('update_avatar_text'); ?></p>
+            <p class="card-text"></p>
+          <form action="<?php echo BASE_URL; ?>/account/profile/" method="post">
+            <div class="input-group mb-3">
+  <div class="custom-file">
+    <input type="file" class="custom-file-input" id="inputGroupFile02">
+    <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
+  </div>
+  <div class="input-group-append">
+<button class="btn btn-outline-primary" type="submit">Upload</button>
+  </div>
+</div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+    </div>
+</div>
