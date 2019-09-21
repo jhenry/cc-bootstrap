@@ -102,5 +102,6 @@ function setMessageType($message)
         if ( $message_type == 'success' ){
             $message_type = 'alert-success';
         }
+	return $message_type;
     }
 }
