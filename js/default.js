@@ -5,7 +5,7 @@ var cc = {
     loggedIn: $('meta[name="loggedIn"]').attr('content'),
     
     //if on the watch page?
-    videoId = $('meta[name="videoId"]').attr('content'),
+    videoId:  $('meta[name="videoId"]').attr('content'),
 
     // On like click 
     likeVideoRating: function () {
@@ -31,7 +31,7 @@ var cc = {
      * @return void Message is display according to server response. Any other
      * follow up behaviour is performed within the callback
      */
-    function executeAction(url, data, callback)
+	executeAjax: function (url, data, callback)
     {
         $.ajax({
             type        : 'POST',
@@ -49,5 +49,9 @@ var cc = {
 
 $( ".like" ).click(function() {
     cc.likeVideoRating();
+});
+
+$(function(){
+	bsCustomFileInput.init();
 });
 
