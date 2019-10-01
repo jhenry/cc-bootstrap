@@ -48,7 +48,7 @@ $message_type = setMessageType($message_type);
 </div>
 <div class="row my-5">
     <div class="col">
-    <h2><?=Language::getText('update_avatar_header')?></h2>
+    <h2 id="update_avatar"><?=Language::getText('update_avatar_header')?></h2>
     <div class="message <?=$message_type?>"><?=$message?></div>
     </div>
 </div>
@@ -57,7 +57,7 @@ $message_type = setMessageType($message_type);
             <div class="card mb-3">
   <div class="row no-gutters">
     <div class="col-md-4 pt-4">
-           <ion-icon class="card-img avatar md hydrated" style="font-size: 128px;" name="person" role="img" aria-label="person"></ion-icon> 
+	<p class="text-center py-4"><i class="fas fa-user fa-lg" style="font-size: 128px;"></i></p>
             <p class="text-center"><button data-type="subscribe" data-user="1" type="button" class="btn btn-outline-danger">Reset Avatar</button></p>
     </div>
     <div class="col-md-8">

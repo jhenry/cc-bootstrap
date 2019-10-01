@@ -1,0 +1,56 @@
+<div class="album py-5 bg-light">
+    <div class="container">
+
+      <div class="row">
+          <div class="col">
+            <h2><?=Language::GetText('videos_header')?></h2>
+	   <p><?=Language::GetText('viewing')?>: <?=$sub_header?></p>	
+           </div>
+        </div>
+
+      <div class="row filters-categories">
+          <div class="col-md-8 filter">
+		<ul class="nav nav-pills">
+		  <li class="nav-item">
+		    <a class="nav-link<?=($sub_header == "Most Recent") ? ' active' : ''?>" href="<?=HOST?>/browse/most-recent/"><?=Language::GetText('most_recent')?></a>
+		  </li>
+		  <li class="nav-item">
+		    <a class="nav-link<?=($sub_header == "Most Viewed") ? ' active' : ''?>" href="<?=HOST?>/browse/most-viewed/"><?=Language::GetText('most_viewed')?></a>
+		  </li>
+		  <li class="nav-item">
+		  <a class="nav-link<?=($sub_header == "Most Discussed") ? ' active' : ''?>" href="<?=HOST?>/browse/most-discussed/"><?=Language::GetText('most_discussed')?></a>
+		  </li>
+		  <li class="nav-item">
+		  <a class="nav-link<?=($sub_header == "Most Rated") ? ' active' : ''?>" href="<?=HOST?>/browse/most-rated/"><?=Language::GetText('most_rated')?></a>
+		  </li>
+		<li class="nav-item dropdown">
+		    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Category</a>
+		    <div class="dropdown-menu">
+			<?php foreach ($category_list as $category): ?>
+ <a class="dropdown-item" href="<?=HOST?>/browse/<?=$category->slug?>/" title="<?=$category->name?>"><?=$category->name?></a>
+          <?php endforeach; ?>
+		    </div>
+		  </li>
+		</ul>
+           </div>
+          <div class="col-md-4 category">
+
+           </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col-md-4">
+	  <?php if (!empty ($browse_videos)): ?>
+	      <div class="videos_list">
+		  <?php //$this->RepeatingBlock('video.phtml', $browse_videos); ?>
+	      </div>
+	      <?=$pagination->Paginate();?>
+	  <?php else: ?>
+	      <p><strong><?=Language::GetText('no_videos')?></strong></p>
+	  <?php endif; ?>
+        </div>
+
+
+    </div>
+</div>
