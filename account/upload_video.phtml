@@ -1,4 +1,9 @@
 <?php
+$this->addJs($this->options->themeUrl . '/node_modules/blueimp-file-upload/js/vendor/jquery.ui.widget.js');
+$this->addJs($this->options->themeUrl . '/node_modules/blueimp-file-upload/js/jquery.iframe-transport.js');
+$this->addJs($this->options->themeUrl . '/node_modules/blueimp-file-upload/js/jquery.fileupload.js');
+$this->addJs('general.js');
+$this->addJs('fileupload.js');
 $this->setLayout('account');
 $message_type = setMessageType($message_type);
 ?>
@@ -16,8 +21,8 @@ $message_type = setMessageType($message_type);
 
          <form action="<?php echo BASE_URL; ?>/account/upload/video/" method="post">
 <div class="input-group mb-3">
-<div class="custom-file">
-    <input type="file" class="custom-file-input form-control" id="upload" 
+<div class="custom-file uploader-wrapper">
+    <input type="file" class="custom-file-input form-control uploader" id="upload" 
             name="upload"
             data-url="<?php echo BASE_URL; ?>/ajax/upload/"
             data-text="<?php echo Language::getText('browse_files_button'); ?>"
