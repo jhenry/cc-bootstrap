@@ -33,7 +33,3 @@ footer p {
     margin-bottom: .25rem;
 }
 
-/* Legacy form management. TODO: replace with Bootstrap's Display functionality. */
-.hidden {
-	display: none;
-}

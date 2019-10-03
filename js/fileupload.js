@@ -104,7 +104,7 @@ cumulusClips.uploaderOptions = {
         }
 
         // Prepare upload progress box
-        $uploadWidget.find('.upload-progress').removeClass('hidden');
+        $uploadWidget.find('.upload-progress').removeClass('d-none');
         $uploadWidget.find('.progress-bar').css('width', '0%').attr('aria-valuenow','0');;
 
         // Set upload filename
@@ -173,8 +173,7 @@ cumulusClips.uploaderOptions = {
             $uploadWidget.find('.name').val(selectedFileData.files[0].name);
 
             // Mark progress widget as complete
-            $uploadWidget.find('.progress-track').addClass('hidden');
-            $uploadWidget.find('.glyphicon-ok').removeClass('hidden');
+            $uploadWidget.find('.progress-bar').addClass('bg-success');
             $(this).data('selectedFileData', null).data('jqXHR', null);
 
             // Submit parent form if auto-submit is turned on
@@ -218,12 +217,11 @@ function initUploader(domNode)
             + '<input type="hidden" class="name" name="' + fieldName + '[original-name]" value="" />'
 
             // Append progress bar template
-            + '<div class="my-3 upload-progress hidden">'
+            + '<div class="my-3 upload-progress d-none">'
                 + '<p>Uploading <span class="title"></span> ... </p>'
                 + '<div class="row"><div class="col-10 pt-2"><div class="progress">'
                     + '<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>'
                 + '</div></div><div class="col-2 pl-0"><a class="btn btn-sm btn-outline-danger remove" href="#" role="button">Cancel</a></div></div>'
-                + '<span class="hidden pull-right glyphicon glyphicon-ok"></span>'
             + '</div>'
         );
 
@@ -232,9 +230,9 @@ function initUploader(domNode)
 
         // Hide progress track and icons
         var $uploadWidget = getUploadWidget(domNode);
-        $uploadWidget.find('.upload-progress').removeClass('hidden');
-        $uploadWidget.find('.progress-track').addClass('hidden');
-        $uploadWidget.find('.glyphicon-ok').removeClass('hidden');
+        $uploadWidget.find('.upload-progress').removeClass('d-none');
+        $uploadWidget.find('.progress-track').addClass('d-none');
+        $uploadWidget.find('.glyphicon-ok').removeClass('d-none');
 
         // Populate form field values for pre-selected file
         var prePopulatedFile = $.parseJSON(decodeURIComponent($(domNode).data('prepopulate')));
@@ -309,10 +307,10 @@ function startUpload($uploadWidget)
  */
 function resetProgress($uploadWidget)
 {
-    $uploadWidget.find('.upload-progress').addClass('hidden');
+    $uploadWidget.find('.upload-progress').addClass('d-none');
     $uploadWidget.find('.title').text('');
-    $uploadWidget.find('.progress-track').removeClass('hidden');
-    $uploadWidget.find('.glyphicon-ok').addClass('hidden');
+    $uploadWidget.find('.progress-track').removeClass('d-none');
+    $uploadWidget.find('.glyphicon-ok').addClass('d-none');
     $uploadWidget.find('.progress-fill')
         .removeClass('in-progress')
         .css('width', '0%');
