@@ -219,11 +219,10 @@ function initUploader(domNode)
 
             // Append progress bar template
             + '<div class="my-3 upload-progress hidden">'
-                + '<a class="remove" href=""><span class="glyphicon glyphicon-remove"></span></a>'
                 + '<p>Uploading <span class="title"></span> ... </p>'
-                + '<div class="progress">'
+                + '<div class="row"><div class="col-10 pt-2"><div class="progress">'
                     + '<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>'
-                + '</div>'
+                + '</div></div><div class="col-2 pl-0"><a class="btn btn-sm btn-outline-danger remove" href="#" role="button">Cancel</a></div></div>'
                 + '<span class="hidden pull-right glyphicon glyphicon-ok"></span>'
             + '</div>'
         );
