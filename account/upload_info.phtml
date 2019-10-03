@@ -1,0 +1,88 @@
+<?php
+$this->addJs($this->options->themeUrl . '/node_modules/blueimp-file-upload/js/vendor/jquery.ui.widget.js');
+$this->addJs($this->options->themeUrl . '/node_modules/blueimp-file-upload/js/jquery.iframe-transport.js');
+$this->addJs($this->options->themeUrl . '/node_modules/blueimp-file-upload/js/jquery.fileupload.js');
+$this->addJs('general.js');
+$this->addJs('fileupload.js');
+$this->setLayout('account');
+$message_type = setMessageType($message_type);
+?>
+
+<div class="row">
+  <div class="col">
+    <h2><?=Language::getText('upload_header')?></h2>
+    <div class="message <?php echo $message_type ?: ''; ?>"><?php echo $message ?: ''; ?></div>
+  </div>
+</div>
+<div class="row video-info-block">
+  <div class="col">
+    <nav id="video-information-navbar" class="navbar navbar-light bg-light">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link" href="#basic-information"><?php echo Language::getText('video_basic_tab'); ?></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#video-attachments"><?php echo Language::getText('video_attachments_tab'); ?></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#advanced-settings"><?php echo Language::getText('video_advanced_tab'); ?></a>
+        </li>
+      </ul>
+    </nav>
+    <div id="video-information-form">
+      <form action="<?=HOST?>/account/upload/info/" method="post">
+
+        <!-- BEGIN Basic Information Tab -->
+        <h4 class="target" id="basic-information"><?php echo Language::getText('video_basic_tab_header'); ?></h4>
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="title"><?=Language::getText('title')?></label>
+            <input type="text" class="form-control <?=(isset ($Errors['title'])) ? ' is-invalid' : ''?>" name="title" id="title" placeholder="<?=Language::getText('title')?>" value="<?=(!empty($video->title)) ? $video->title : ''?>">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col">
+            <label class="<?=(isset($errors['description'])) ? 'error' : ''?>" for="description"><?=Language::getText('description')?></label>
+            <textarea name="description"class="form-control" id="description" rows="3" cols="100"><?=(!empty($video->description)) ? $video->description : ''?></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="tags"><?=Language::getText('tags')?></label>
+            <input type="text" class="form-control <?=(isset ($errors['tags'])) ? ' is-invalid' : ''?>" name="tags" id="tags" placeholder="i.e. a, comma, separated, list, of, tags" value="<?=(!empty($video->tags)) ? implode(', ', $video->tags) : ''?>">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="category"><?=Language::getText('category')?></label>
+            <select class="custom-select <?=(isset ($errors['cat_id'])) ? ' is-invalid' : ''?>" id="category" name="cat_id">
+              <?php foreach ($categoryList as $category): ?>
+              <option<?=(!empty($video->categoryId) && $category->categoryId == $video->categoryId) ? ' selected="selected"' : ''?> value="<?=$category->categoryId?>"><?=$category->name?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+        </div>
+        <!-- END Basic Information Tab -->
+
+        <h4 class="target" id="video-attachments"><?php echo Language::getText('video_attachments_tab_header'); ?></h4>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <h4 class="target" id="advanced-settings"><?php echo Language::getText('video_advanced_tab_header'); ?></h4>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+        <p>...</p>
+      </form>
+    </div>
+  </div>
+</div>
+

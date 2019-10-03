@@ -33,3 +33,11 @@ footer p {
     margin-bottom: .25rem;
 }
 
+/* Jumplink viewport positioning issue */
+.target:before { 
+  display: block; 
+  content: " "; 
+  margin-top: -75px; 
+  height: 75px; 
+  visibility: hidden; 
+}
