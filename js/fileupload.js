@@ -105,7 +105,7 @@ cumulusClips.uploaderOptions = {
 
         // Prepare upload progress box
         $uploadWidget.find('.upload-progress').removeClass('hidden');
-        $uploadWidget.find('.progress-fill').css('width', '0%');
+        $uploadWidget.find('.progress-bar').css('width', '0%').attr('aria-valuenow','0');;
 
         // Set upload filename
         var displayFilename = (selectedFile.name.length > 35)
@@ -132,7 +132,7 @@ cumulusClips.uploaderOptions = {
         var progress = parseInt(data.loaded / data.total * 100, 10);
 
         // Update progress bar
-        $uploadWidget.find('.progress-fill').css('width', progress + '%');
+        $uploadWidget.find('.progress-bar').css('width', progress + '%').attr('aria-valuenow', progress);
     },
     fail: function(event, data)
     {
@@ -201,28 +201,28 @@ function initUploader(domNode)
 {
     var buttonText = $(domNode).data('text');
     var fieldName = $(domNode).attr('name');
-    var startUploadButtonText = $(domNode).data('upload-button');
+    //var startUploadButtonText = $(domNode).data('upload-button');
 
     // Build uploader and progress widgets
-    $(domNode).wrap('<div class="uploader-container uploader-' + fieldName + '"><div class="button button-browse"></div></div>')
-        .before('<span>' + buttonText + '</span>')
-        .parents('.uploader-container')
-        .append(
+    $(domNode).wrap('<div class="uploader-container uploader-' + fieldName + '"></div>')
+        //.before('<span>' + buttonText + '</span>')
+        //.parents('.uploader-container')
+        .after(
 
             // Append start upload button if the button's text is provied
-            (startUploadButtonText ? '<input type="button" class="button button-upload" disabled value="' + startUploadButtonText + '" />' : '')
+            //(startUploadButtonText ? '<input type="button" class="button button-upload" disabled value="' + startUploadButtonText + '" />' : '')
 
             // Append uploader settings
-            + '<input type="hidden" class="size" name="' + fieldName + '[original-size]" value="" />'
+            '<input type="hidden" class="size" name="' + fieldName + '[original-size]" value="" />'
             + '<input type="hidden" class="temp" name="' + fieldName + '[temp]" value="" />'
             + '<input type="hidden" class="name" name="' + fieldName + '[original-name]" value="" />'
 
             // Append progress bar template
-            + '<div class="upload-progress hidden">'
+            + '<div class="my-3 upload-progress hidden">'
                 + '<a class="remove" href=""><span class="glyphicon glyphicon-remove"></span></a>'
-                + '<span class="title"></span>'
-                + '<div class="progress-track">'
-                    + '<div class="progress-fill"></div>'
+                + '<p>Uploading <span class="title"></span> ... </p>'
+                + '<div class="progress">'
+                    + '<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>'
                 + '</div>'
                 + '<span class="hidden pull-right glyphicon glyphicon-ok"></span>'
             + '</div>'

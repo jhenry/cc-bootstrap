@@ -20,8 +20,8 @@ $message_type = setMessageType($message_type);
         <p><?php echo Language::getText('upload_supported_formats') . ': ' . implode(', ', $config->acceptedVideoFormats); ?></p>
 
          <form action="<?php echo BASE_URL; ?>/account/upload/video/" method="post">
-<div class="input-group mb-3">
-<div class="custom-file uploader-wrapper">
+<div class="uploader-wrapper">
+<div class="custom-file ">
     <input type="file" class="custom-file-input form-control uploader" id="upload" 
             name="upload"
             data-url="<?php echo BASE_URL; ?>/ajax/upload/"
@@ -31,9 +31,6 @@ $message_type = setMessageType($message_type);
             data-type="video"
             data-auto-submit="true" />
     <label class="custom-file-label" for="upload">Choose file</label>
-  </div>
-  <div class="input-group-append">
-    <button class="btn btn-outline-primary" type="submit">Upload</button>
   </div>
 </div>
     <input type="hidden" name="submitted" value="true" />
