@@ -800,18 +800,16 @@ function buildAttachmentCard(index, name, size, file)
     displayFilename += ' (' + formatBytes(size, 0) + ')';
 
     // Build card
-    var $attachment = $('<div class="attachment">'
+    var $attachment = $('<div class="attachment card border-info mb-3">'
 
         // Append form values
         + '<input type="hidden" name="attachment[' + index + '][name]" value="' + name + '" />'
         + '<input type="hidden" name="attachment[' + index + '][size]" value="' + size + '" />'
         + '<input type="hidden" name="attachment[' + index + '][' + fieldName + ']" value="' + file + '" />'
 
-        // Append progress bar template
-        + '<div class="upload-progress">'
-            + '<a class="remove" href=""><span class="glyphicon glyphicon-remove"></span></a>'
-            + '<span class="title">' + displayFilename + '</span>'
-            + '<span class="pull-right glyphicon glyphicon-ok"></span>'
+            + '<h6 class="title card-header">' + displayFilename + '</h6>'
+        + '<div class="upload-ready card-body pt-2 pb-0">'
+            + '<p class="text-right"><a class="btn btn-sm btn-outline-danger remove" href="#" role="button">Remove</a></p>'
         + '</div>'
 
     + '</div>');

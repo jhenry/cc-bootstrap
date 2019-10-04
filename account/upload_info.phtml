@@ -14,75 +14,82 @@ $message_type = setMessageType($message_type);
     <div class="message <?php echo $message_type ?: ''; ?>"><?php echo $message ?: ''; ?></div>
   </div>
 </div>
-<div class="row video-info-block">
+
+<div class="row">
   <div class="col">
-    <nav id="video-information-navbar" class="navbar navbar-light bg-light">
-      <ul class="nav nav-pills">
-        <li class="nav-item">
-          <a class="nav-link" href="#basic-information"><?php echo Language::getText('video_basic_tab'); ?></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#video-attachments"><?php echo Language::getText('video_attachments_tab'); ?></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#advanced-settings"><?php echo Language::getText('video_advanced_tab'); ?></a>
-        </li>
-      </ul>
-    </nav>
-    <div id="video-information-form">
-      <form action="<?=HOST?>/account/upload/info/" method="post">
+    <form action="<?=HOST?>/account/upload/info/" method="post" enctype="multipart/form-data">
+      <!-- BEGIN Basic Information Tab -->
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="target" id="basic-information"><?php echo Language::getText('video_basic_tab_header'); ?></h4>
 
-        <!-- BEGIN Basic Information Tab -->
-        <h4 class="target" id="basic-information"><?php echo Language::getText('video_basic_tab_header'); ?></h4>
-        <div class="form-row">
-          <div class="form-group col">
-            <label for="title"><?=Language::getText('title')?></label>
-            <input type="text" class="form-control <?=(isset ($Errors['title'])) ? ' is-invalid' : ''?>" name="title" id="title" placeholder="<?=Language::getText('title')?>" value="<?=(!empty($video->title)) ? $video->title : ''?>">
-          </div>
+          <label for="title"><?=Language::getText('title')?></label>
+          <input type="text" class="form-control <?=(isset ($Errors['title'])) ? ' is-invalid' : ''?>" name="title" id="title" placeholder="<?=Language::getText('title')?>" value="<?=(!empty($video->title)) ? $video->title : ''?>">
+
+          <label class="<?=(isset($errors['description'])) ? 'error' : ''?>" for="description"><?=Language::getText('description')?></label>
+          <textarea name="description" class="form-control" id="description" rows="3" cols="100"><?=(!empty($video->description)) ? $video->description : ''?></textarea>
+
+          <label for="tags"><?=Language::getText('tags')?></label>
+          <input type="text" class="form-control <?=(isset ($errors['tags'])) ? ' is-invalid' : ''?>" name="tags" id="tags" placeholder="i.e. a, comma, separated, list, of, tags" value="<?=(!empty($video->tags)) ? implode(', ', $video->tags) : ''?>">
+
+          <label for="category"><?=Language::getText('category')?></label>
+          <select class="custom-select <?=(isset ($errors['cat_id'])) ? ' is-invalid' : ''?>" id="category" name="cat_id">
+            <?php foreach ($categoryList as $category): ?>
+            <option<?=(!empty($video->categoryId) && $category->categoryId == $video->categoryId) ? ' selected="selected"' : ''?> value="<?=$category->categoryId?>"><?=$category->name?></option>
+            <?php endforeach; ?>
+          </select>
         </div>
-        <div class="form-row">
-          <div class="form-group col">
-            <label class="<?=(isset($errors['description'])) ? 'error' : ''?>" for="description"><?=Language::getText('description')?></label>
-            <textarea name="description"class="form-control" id="description" rows="3" cols="100"><?=(!empty($video->description)) ? $video->description : ''?></textarea>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col-md-6">
-            <label for="tags"><?=Language::getText('tags')?></label>
-            <input type="text" class="form-control <?=(isset ($errors['tags'])) ? ' is-invalid' : ''?>" name="tags" id="tags" placeholder="i.e. a, comma, separated, list, of, tags" value="<?=(!empty($video->tags)) ? implode(', ', $video->tags) : ''?>">
-          </div>
-          <div class="form-group col-md-6">
-            <label for="category"><?=Language::getText('category')?></label>
-            <select class="custom-select <?=(isset ($errors['cat_id'])) ? ' is-invalid' : ''?>" id="category" name="cat_id">
-              <?php foreach ($categoryList as $category): ?>
-              <option<?=(!empty($video->categoryId) && $category->categoryId == $video->categoryId) ? ' selected="selected"' : ''?> value="<?=$category->categoryId?>"><?=$category->name?></option>
+        <div class="form-group col-md-6">
+          <div id="video-attachments">
+            <?php if ($config->allowVideoAttachments): ?>
+            <!-- BEGIN Video Attachments Tab -->
+            <h4 class="target" id="video-attachments"><?php echo Language::getText('video_attachments_tab_header'); ?></h4>
+
+            <div class="attachments">
+              <?php $attachmentCount = 0; ?>
+              <?php foreach ($newFiles as $newFile): ?>
+              <div class="attachment card">
+                <?php echo attachmentItem( array( $newFile['name'], $newFile['size'], $newFile['temp'], $attachmentCount) ); ?>
+              </div>
+              <?php $attachmentCount++; ?>
               <?php endforeach; ?>
-            </select>
-          </div>
-        </div>
-        <!-- END Basic Information Tab -->
 
-        <h4 class="target" id="video-attachments"><?php echo Language::getText('video_attachments_tab_header'); ?></h4>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <h4 class="target" id="advanced-settings"><?php echo Language::getText('video_advanced_tab_header'); ?></h4>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-        <p>...</p>
-      </form>
-    </div>
+              <?php foreach ($newAttachmentFileIds as $fileId): ?>
+              <?php $file = \Functions::arrayColumnFilter($fileId, 'fileId', $userAttachments); ?>
+              <div class="attachment card existing-file" id="existing-file-<?php echo $fileId; ?>">
+                <?php echo attachmentItem( array( $file[0]->name, $file[0]->size, $file[0]->temp, $attachmentCount) ); ?>
+              </div>
+              <?php $attachmentCount++; ?>
+              <?php endforeach; ?>
+            </div>
+            <div class="attachment-form attachment-form-upload">
+
+              <h5><?php echo Language::getText('upload_new_attachment_header'); ?></h5>
+
+              <div class="custom-file ">
+                <input
+                  class="uploader custom-file-input form-control" 
+                  id="upload"
+                  type="file"
+                  name="attachment-upload"
+                  data-url="<?php echo BASE_URL; ?>/ajax/upload/"
+                  data-text="<?php echo Language::getText('browse_files_button'); ?>"
+                  data-limit="<?php echo $config->fileSizeLimit; ?>"
+                  data-type="library"
+                  />
+                  <label class="custom-file-label" for="upload">Choose file</label>
+              </div>
+            </div>
+
+          </div>
+                </div>
+          <?php endif; ?>
+          <h4 class="target" id="advanced-settings"><?php echo Language::getText('video_advanced_tab_header'); ?></h4>
+        </div>
+      <!-- END Attachment Section -->
+    </form>
   </div>
 </div>
+
+
 

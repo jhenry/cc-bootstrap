@@ -105,3 +105,24 @@ function setMessageType($message)
 	return $message_type;
     }
 }
+
+
+/**
+ * Show attachment list item
+ * @param array $fileInfo array containing name, size and temp path.
+ * @return string html for the attachment item
+ *
+ **/
+function attachmentItem($fileInfo, $attachmentCount)
+{
+	$attachedItem = '
+                        <input type="hidden" name="attachment[' . $attachmentCount . '][name]" value="' . $fileInfo['name'] . '" />
+                        <input type="hidden" name="attachment[' . $attachmentCount . '][size]" value="' . $fileInfo['size'] . '" />
+                        <input type="hidden" name="attachment[' . $attachmentCount . '][temp]" value="' . $fileInfo['temp'] . '" />
+
+                        <div class="upload-ready">
+                            <span class="title">' . $fileInfo['name'] . ' (' . \Functions::formatBytes($fileInfo['size'],0) . ')</span> <a class="btn btn-sm btn-outline-danger remove" href="#" role="button">Remove</a>
+                        </div>';
+
+	return $attachedItem;
+}
