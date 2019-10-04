@@ -39,10 +39,47 @@ $message_type = setMessageType($message_type);
             <?php endforeach; ?>
           </select>
         </div>
+      <!-- END Basic Information Tab -->
         <div class="form-group col-md-6">
+
+          <div id="advanced-settings" class="pb-4">
+            <h4 class="target" id="advanced-settings"><?php echo Language::getText('video_advanced_tab_header'); ?></h4>
+
+						<ul class="list-group">
+							<li class="list-group-item">
+								<div class="custom-control custom-switch">
+									<input type="checkbox" class="custom-control-input" value="1" id="disable_embed" name="disable_embed" <?=(!empty($video->disableEmbed)) ? 'checked="checked"' : ''?>>
+									<label class="custom-control-label" for="disable_embed"><?=Language::getText('disable_embed')?></label> (<?=Language::getText('disable_embed_description')?>)
+								</div>
+							</li>
+
+							<li class="list-group-item">
+								<div class="custom-control custom-switch">
+									<input type="checkbox" class="custom-control-input" value="1" id="gated" name="gated" <?=(!empty($video->gated)) ? 'checked="checked"' : ''?>>
+									<label class="custom-control-label" for="gated"><?=Language::getText('gated')?></label> (<?=Language::getText('gated_description')?>)
+								</div>
+							</li>
+
+							<li class="list-group-item">
+								<div class="custom-control custom-switch">
+									<input type="checkbox" class="custom-control-input" value="1" id="private_video" data-block="private_url" name="private" <?=(!empty($video->private)) ? 'checked="checked"' : ''?> data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="showPrivateLink">
+									<label class="custom-control-label" for="private_video"><?=Language::getText('private')?></label> (<?=Language::getText('private_description')?>)
+<div id="showPrivateLink" class="collapse" aria-labelledby="private_video" data-parent="#private_video">
+private url
+</div>
+								</div>
+							</li>
+							<li class="list-group-item">
+								<div class="custom-control custom-switch">
+									<input type="checkbox" class="custom-control-input" value="1" id="closeComments" name="closeComments" <?=(!empty($video->commentsClosed)) ? 'checked="checked"' : ''?>>
+									<label class="custom-control-label" for="closeComments"><?=Language::getText('closeComments')?></label> (<?=Language::getText('closeCommentsDescription')?>)
+								</div>
+							</li>
+          </div>
+            <!-- END Settings -->
+            <!-- BEGIN Attachments Section -->
           <div id="video-attachments">
             <?php if ($config->allowVideoAttachments): ?>
-            <!-- BEGIN Video Attachments Tab -->
             <h4 class="target" id="video-attachments"><?php echo Language::getText('video_attachments_tab_header'); ?></h4>
 
             <div class="attachments">
@@ -84,7 +121,6 @@ $message_type = setMessageType($message_type);
           </div>
                 </div>
           <?php endif; ?>
-          <h4 class="target" id="advanced-settings"><?php echo Language::getText('video_advanced_tab_header'); ?></h4>
         </div>
       <!-- END Attachment Section -->
     </form>
