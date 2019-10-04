@@ -120,8 +120,9 @@ function attachmentItem($fileInfo, $attachmentCount)
                         <input type="hidden" name="attachment[' . $attachmentCount . '][size]" value="' . $fileInfo['size'] . '" />
                         <input type="hidden" name="attachment[' . $attachmentCount . '][temp]" value="' . $fileInfo['temp'] . '" />
 
-                        <div class="upload-ready">
-                            <span class="title">' . $fileInfo['name'] . ' (' . \Functions::formatBytes($fileInfo['size'],0) . ')</span> <a class="btn btn-sm btn-outline-danger remove" href="#" role="button">Remove</a>
+                        <h6 class="title card-header">' . $fileInfo['name'] . ' (' . \Functions::formatBytes($fileInfo['size'],0) . ')</span> <a class="btn btn-sm btn-outline-danger remove" href="#" role="button">Remove</a>
+                        <div class="upload-ready card-body pt-2 pb-0">
+				<p class="text-right"><a class="btn btn-sm btn-outline-danger remove" href="#" role="button">Remove</a></p>
                         </div>';
 
 	return $attachedItem;

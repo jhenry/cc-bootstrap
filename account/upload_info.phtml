@@ -48,7 +48,7 @@ $message_type = setMessageType($message_type);
             <div class="attachments">
               <?php $attachmentCount = 0; ?>
               <?php foreach ($newFiles as $newFile): ?>
-              <div class="attachment card">
+              <div class="attachment card border-info mb-3">
                 <?php echo attachmentItem( array( $newFile['name'], $newFile['size'], $newFile['temp'], $attachmentCount) ); ?>
               </div>
               <?php $attachmentCount++; ?>
@@ -56,7 +56,7 @@ $message_type = setMessageType($message_type);
 
               <?php foreach ($newAttachmentFileIds as $fileId): ?>
               <?php $file = \Functions::arrayColumnFilter($fileId, 'fileId', $userAttachments); ?>
-              <div class="attachment card existing-file" id="existing-file-<?php echo $fileId; ?>">
+              <div class="attachment card border-info mb-3 existing-file" id="existing-file-<?php echo $fileId; ?>">
                 <?php echo attachmentItem( array( $file[0]->name, $file[0]->size, $file[0]->temp, $attachmentCount) ); ?>
               </div>
               <?php $attachmentCount++; ?>
@@ -66,7 +66,7 @@ $message_type = setMessageType($message_type);
 
               <h5><?php echo Language::getText('upload_new_attachment_header'); ?></h5>
 
-              <div class="custom-file ">
+              <div class="custom-file">
                 <input
                   class="uploader custom-file-input form-control" 
                   id="upload"
