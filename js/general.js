@@ -539,13 +539,16 @@ $(document).ready(function(){
 
 
     // Regenerate Private URL
-    $('#private_url a').click(function(){
+    $('button#regenerate').click(function(){
         $.ajax({
             type    : 'get',
             url     : cumulusClips.baseUrl + '/private/get/',
             success : function(responseData, textStatus, jqXHR) {
-                $('#private_url span').text(responseData);
-                $('#private_url input').val(responseData);
+		let old_value = $('#private_url').val();
+		let old_pattern = new RegExp(old_value, "g");
+		let new_url = $('#privateLink').val().replace(old_pattern, responseData);
+                $('#privateLink').val(new_url);
+                $('#private_url').val(responseData);
             }
         });
         return false;

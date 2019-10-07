@@ -67,10 +67,10 @@ $message_type = setMessageType($message_type);
 									<label class="custom-control-label" for="private_video"><?=Language::getText('private')?></label> (<?=Language::getText('private_description')?>)
 <div id="showPrivateLink" class="collapse" aria-labelledby="private_video">
   <label class="<?=(isset($errors['private_url'])) ? 'error' : ''?>"><?=Language::getText('private_url')?>:</label><br />
-  <input class="form-control" type="text" id="privateLink" value="<?=HOST?>/private/videos/<?=(!empty($video->privateUrl)) ? $video->privateUrl : $privateUrl?>" readonly>
-            <input type="hidden" name="private_url" value="<?=(!empty($video->privateUrl)) ? $video->privateUrl : $privateUrl?>" />
+  <input class="form-control" type="text" id="privateLink" value="<?=HOST?>/private/videos/<?=(!empty($video->privateUrl)) ? $video->privateUrl : $privateUrl?>/" readonly>
+            <input type="hidden" id="private_url" name="private_url" value="<?=(!empty($video->privateUrl)) ? $video->privateUrl : $privateUrl?>" />
             <p class="text-right pt-2">
-              <button type="button" class="btn btn-sm btn-outline-primary"><?=Language::getText('regenerate')?></button>
+              <button type="button" id="regenerate" class="btn btn-sm btn-outline-primary"><?=Language::getText('regenerate')?></button>
               <button type="button" class="btn btn-sm btn-outline-secondary btn-clipboard" data-clipboard-target="#privateLink">Copy to Clipboard</button>
             </p>
 </div>
