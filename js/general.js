@@ -636,7 +636,9 @@ $(document).ready(function(){
         // Update existing attachment list and set corresponding link as "unselected"
         if ($attachment.hasClass('existing-file')) {
             var fileId = $attachment.attr('id').replace(/^existing\-file\-/, '');
-            $('#select-existing-file-' + fileId).removeClass('selected');
+            $('#select-existing-file-' + fileId).removeClass('btn-outline-danger');
+            $('#select-existing-file-' + fileId).addClass('btn-outline-primary');
+            $('#select-existing-file-' + fileId).html('Add');
         }
 
         $attachment.remove();
@@ -685,8 +687,10 @@ $(document).ready(function(){
         var fileId = $(this).data('file');
 
         // Remove attachment if "unselecting" file
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
+        if ($(this).hasClass('btn-outline-danger')) {
+            $(this).removeClass('btn-outline-danger');
+            $(this).addClass('btn-outline-primary');
+            $(this).html('Add');
             $('#existing-file-' + fileId).remove();
             return;
         }
@@ -698,7 +702,8 @@ $(document).ready(function(){
         var $attachment = buildAttachmentCard(index, name, size, fileId);
 
         // Mark as selected
-        $(this).addClass('selected');
+        $(this).addClass('btn-outline-danger');
+        $(this).html('Remove');
 
         // Append attachment
         $('#video-attachments .attachments').append($attachment);

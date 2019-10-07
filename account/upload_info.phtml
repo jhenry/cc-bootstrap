@@ -40,51 +40,52 @@ $message_type = setMessageType($message_type);
             <?php endforeach; ?>
           </select>
         </div>
-      <!-- END Basic Information Tab -->
+        <!-- END Basic Information Tab -->
+        <!-- BEGIN Settings -->
         <div class="form-group col-md-6">
 
           <div id="advanced-settings" class="pb-4">
             <h4 class="target" id="advanced-settings"><?php echo Language::getText('video_advanced_tab_header'); ?></h4>
 
-						<ul class="list-group">
-							<li class="list-group-item">
-								<div class="custom-control custom-switch">
-									<input type="checkbox" class="custom-control-input" value="1" id="disable_embed" name="disable_embed" <?=(!empty($video->disableEmbed)) ? 'checked="checked"' : ''?>>
-									<label class="custom-control-label" for="disable_embed"><?=Language::getText('disable_embed')?></label> (<?=Language::getText('disable_embed_description')?>)
-								</div>
-							</li>
+            <ul class="list-group">
+              <li class="list-group-item">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" value="1" id="disable_embed" name="disable_embed" <?=(!empty($video->disableEmbed)) ? 'checked="checked"' : ''?>>
+                  <label class="custom-control-label" for="disable_embed"><?=Language::getText('disable_embed')?></label> (<?=Language::getText('disable_embed_description')?>)
+                </div>
+              </li>
 
-							<li class="list-group-item">
-								<div class="custom-control custom-switch">
-									<input type="checkbox" class="custom-control-input" value="1" id="gated" name="gated" <?=(!empty($video->gated)) ? 'checked="checked"' : ''?>>
-									<label class="custom-control-label" for="gated"><?=Language::getText('gated')?></label> (<?=Language::getText('gated_description')?>)
-								</div>
-							</li>
+              <li class="list-group-item">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" value="1" id="gated" name="gated" <?=(!empty($video->gated)) ? 'checked="checked"' : ''?>>
+                  <label class="custom-control-label" for="gated"><?=Language::getText('gated')?></label> (<?=Language::getText('gated_description')?>)
+                </div>
+              </li>
 
-							<li class="list-group-item">
-								<div class="custom-control custom-switch">
-									<input type="checkbox" class="custom-control-input" value="1" id="private_video" data-block="private_url" name="private" <?=(!empty($video->private)) ? 'checked="checked"' : ''?> data-toggle="collapse" data-target="#showPrivateLink" aria-expanded="false" aria-controls="showPrivateLink">
-									<label class="custom-control-label" for="private_video"><?=Language::getText('private')?></label> (<?=Language::getText('private_description')?>)
-<div id="showPrivateLink" class="collapse" aria-labelledby="private_video">
-  <label class="<?=(isset($errors['private_url'])) ? 'error' : ''?>"><?=Language::getText('private_url')?>:</label><br />
-  <input class="form-control" type="text" id="privateLink" value="<?=HOST?>/private/videos/<?=(!empty($video->privateUrl)) ? $video->privateUrl : $privateUrl?>/" readonly>
-            <input type="hidden" id="private_url" name="private_url" value="<?=(!empty($video->privateUrl)) ? $video->privateUrl : $privateUrl?>" />
-            <p class="text-right pt-2">
-              <button type="button" id="regenerate" class="btn btn-sm btn-outline-primary"><?=Language::getText('regenerate')?></button>
-              <button type="button" class="btn btn-sm btn-outline-secondary btn-clipboard" data-clipboard-target="#privateLink">Copy to Clipboard</button>
-            </p>
-</div>
-								</div>
-							</li>
-							<li class="list-group-item">
-								<div class="custom-control custom-switch">
-									<input type="checkbox" class="custom-control-input" value="1" id="closeComments" name="closeComments" <?=(!empty($video->commentsClosed)) ? 'checked="checked"' : ''?>>
-									<label class="custom-control-label" for="closeComments"><?=Language::getText('closeComments')?></label> (<?=Language::getText('closeCommentsDescription')?>)
-								</div>
-							</li>
+              <li class="list-group-item">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" value="1" id="private_video" data-block="private_url" name="private" <?=(!empty($video->private)) ? 'checked="checked"' : ''?> data-toggle="collapse" data-target="#showPrivateLink" aria-expanded="false" aria-controls="showPrivateLink">
+                  <label class="custom-control-label" for="private_video"><?=Language::getText('private')?></label> (<?=Language::getText('private_description')?>)
+                  <div id="showPrivateLink" class="collapse" aria-labelledby="private_video">
+                    <label class="<?=(isset($errors['private_url'])) ? 'error' : ''?>"><?=Language::getText('private_url')?>:</label><br />
+                    <input class="form-control" type="text" id="privateLink" value="<?=HOST?>/private/videos/<?=(!empty($video->privateUrl)) ? $video->privateUrl : $privateUrl?>/" readonly>
+                    <input type="hidden" id="private_url" name="private_url" value="<?=(!empty($video->privateUrl)) ? $video->privateUrl : $privateUrl?>" />
+                    <p class="text-right pt-2">
+                      <button type="button" id="regenerate" class="btn btn-sm btn-outline-primary"><?=Language::getText('regenerate')?></button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary btn-clipboard" data-clipboard-target="#privateLink">Copy to Clipboard</button>
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <li class="list-group-item">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" value="1" id="closeComments" name="closeComments" <?=(!empty($video->commentsClosed)) ? 'checked="checked"' : ''?>>
+                  <label class="custom-control-label" for="closeComments"><?=Language::getText('closeComments')?></label> (<?=Language::getText('closeCommentsDescription')?>)
+                </div>
+              </li>
           </div>
-            <!-- END Settings -->
-            <!-- BEGIN Attachments Section -->
+          <!-- END Settings -->
+          <!-- BEGIN Attachments Section -->
           <div id="video-attachments">
             <?php if ($config->allowVideoAttachments): ?>
             <h4 class="target" id="video-attachments"><?php echo Language::getText('video_attachments_tab_header'); ?></h4>
@@ -124,12 +125,32 @@ $message_type = setMessageType($message_type);
                   <label class="custom-file-label" for="upload">Choose file</label>
               </div>
             </div>
-
+            <?php if (!empty($userAttachments)): ?>
+<div class="attachment-form-existing mt-3">
+<h5><?php echo Language::getText('select_existing_attachment_header'); ?></h5>
+<p><?php echo Language::getText('select_existing_attachment_help'); ?></p>
+<ul class="list-group">
+                        <?php foreach ($userAttachments as $file): ?>
+                            <li class="list-group-item"><?php echo $file->name; ?> (<?php echo \Functions::formatBytes($file->filesize, 0); ?>) <a
+                                id="select-existing-file-<?php echo $file->fileId; ?>"
+                                class="float-right btn btn-sm <?php echo in_array($file->fileId, $newAttachmentFileIds) ? 'btn-outline-danger' : 'btn-outline-primary'; ?>"
+                                href=""
+                                data-file="<?php echo $file->fileId; ?>"
+                                data-size="<?php echo $file->filesize; ?>"
+                                title="<?php echo $file->name; ?>"
+                            ><?php echo in_array($file->fileId, $newAttachmentFileIds) ? 'Remove' : 'Add'; ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+</div>
+            <?php endif; ?>
           </div>
-                </div>
-          <?php endif; ?>
+        <?php endif; ?>
+        <!-- END Attachment Section -->
         </div>
-      <!-- END Attachment Section -->
+      </div>
+      <input type="hidden" name="submitted" value="TRUE" />
+      <input type="hidden" name="nonce" value="<?php echo $formNonce; ?>" />
+      <button type="submit" class="btn btn-primary"><?=Language::getText('upload_video_button')?></button>
     </form>
   </div>
 </div>
