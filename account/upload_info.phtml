@@ -39,12 +39,10 @@ $message_type = setMessageType($message_type);
             <option<?=(!empty($video->categoryId) && $category->categoryId == $video->categoryId) ? ' selected="selected"' : ''?> value="<?=$category->categoryId?>"><?=$category->name?></option>
             <?php endforeach; ?>
           </select>
-        </div>
-        <!-- END Basic Information Tab -->
-        <!-- BEGIN Settings -->
-        <div class="form-group col-md-6">
 
-          <div id="advanced-settings" class="pb-4">
+        <!-- END Basic Information -->
+        <!-- BEGIN Settings -->
+          <div id="advanced-settings" class="py-4">
             <h4 class="target" id="advanced-settings"><?php echo Language::getText('video_advanced_tab_header'); ?></h4>
 
             <ul class="list-group">
@@ -85,6 +83,9 @@ $message_type = setMessageType($message_type);
               </li>
           </div>
           <!-- END Settings -->
+        </div>
+        <div class="form-group col-md-6">
+
           <!-- BEGIN Attachments Section -->
           <div id="video-attachments">
             <?php if ($config->allowVideoAttachments): ?>
@@ -126,21 +127,21 @@ $message_type = setMessageType($message_type);
               </div>
             </div>
             <?php if (!empty($userAttachments)): ?>
-<div class="attachment-form-existing mt-3">
-<h5><?php echo Language::getText('select_existing_attachment_header'); ?></h5>
-<p><?php echo Language::getText('select_existing_attachment_help'); ?></p>
-<ul class="list-group">
-                        <?php foreach ($userAttachments as $file): ?>
-                            <li class="list-group-item"><?php echo $file->name; ?> (<?php echo \Functions::formatBytes($file->filesize, 0); ?>) <a
-                                id="select-existing-file-<?php echo $file->fileId; ?>"
-                                class="float-right btn btn-sm <?php echo in_array($file->fileId, $newAttachmentFileIds) ? 'btn-outline-danger' : 'btn-outline-primary'; ?>"
-                                href=""
-                                data-file="<?php echo $file->fileId; ?>"
-                                data-size="<?php echo $file->filesize; ?>"
-                                title="<?php echo $file->name; ?>"
-                            ><?php echo in_array($file->fileId, $newAttachmentFileIds) ? 'Remove' : 'Add'; ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
+            <div class="attachment-form-existing mt-3">
+              <h5><?php echo Language::getText('select_existing_attachment_header'); ?></h5>
+              <p><?php echo Language::getText('select_existing_attachment_help'); ?></p>
+              <ul class="list-group">
+                <?php foreach ($userAttachments as $file): ?>
+                <li class="list-group-item"><?php echo $file->name; ?> (<?php echo \Functions::formatBytes($file->filesize, 0); ?>) <a
+                    id="select-existing-file-<?php echo $file->fileId; ?>"
+                    class="float-right btn btn-sm <?php echo in_array($file->fileId, $newAttachmentFileIds) ? 'btn-outline-danger' : 'btn-outline-primary'; ?>"
+                    href=""
+                    data-file="<?php echo $file->fileId; ?>"
+                    data-size="<?php echo $file->filesize; ?>"
+                    title="<?php echo $file->name; ?>"
+                    ><?php echo in_array($file->fileId, $newAttachmentFileIds) ? 'Remove' : 'Add'; ?></a></li>
+                <?php endforeach; ?>
+              </ul>
 </div>
             <?php endif; ?>
           </div>
