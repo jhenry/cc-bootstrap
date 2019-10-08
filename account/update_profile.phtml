@@ -1,6 +1,8 @@
 <?php
 $this->SetLayout('account');
-$message_type = setMessageType($message_type);
+if( isset($message) ){
+  $message_type = setMessageType($message, $message_type);
+}
 ?>
 
 <div class="row">

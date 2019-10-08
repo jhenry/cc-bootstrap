@@ -113,12 +113,19 @@ function setMessageType($message, $message_type)
  * @return string html for the attachment item
  *
  **/
-function attachmentItem($fileInfo, $attachmentCount)
+function attachmentItem($fileInfo, $attachmentCount, $isNew)
 {
+	if($isNew) {
+		$file = "temp";
+	}
+	else {
+		$file = "file";
+	}
+
 	$attachedItem = '
                         <input type="hidden" name="attachment[' . $attachmentCount . '][name]" value="' . $fileInfo['name'] . '" />
                         <input type="hidden" name="attachment[' . $attachmentCount . '][size]" value="' . $fileInfo['size'] . '" />
-                        <input type="hidden" name="attachment[' . $attachmentCount . '][temp]" value="' . $fileInfo['temp'] . '" />
+                        <input type="hidden" name="attachment[' . $attachmentCount . '][' . $file . ']" value="' . $fileInfo[$file] . '" />
 
                         <div class="upload-ready">
 				<p><span class="filename-attached">' . $fileInfo['name'] . ' (' . \Functions::formatBytes($fileInfo['size'],0) . ')</span><a class="float-right btn btn-sm btn-outline-danger remove" href="#" role="button">Remove</a></p>

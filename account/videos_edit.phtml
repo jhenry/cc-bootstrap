@@ -6,13 +6,17 @@ $this->addJs($this->options->themeUrl . '/node_modules/clipboard/dist/clipboard.
 $this->addJs('general.js');
 $this->addJs('fileupload.js');
 $this->setLayout('account');
-$message_type = setMessageType($message_type);
+
+if( isset($message) ){
+  $message_type = setMessageType($message, $message_type);
+}
+
 ?>
 
 <div class="row">
   <div class="col">
     <h2><?=Language::getText('update_video_header')?></h2>
-    <div class="message <?php echo $message_type ?: ''; ?>"><?php echo $message ?: ''; ?></div>
+    <div class="alert message <?php echo $message_type ?: ''; ?>" role="alert"><?php echo $message ?: ''; ?></div>
   </div>
 </div>
 
@@ -94,7 +98,7 @@ $message_type = setMessageType($message_type);
               <?php $attachmentCount = 0; ?>
               <?php foreach ($newFiles as $newFile): ?>
               <li class="attachment list-group-item">
-                <?php echo attachmentItem( array( "name" => $newFile['name'], "size" => $newFile['size'], "temp" => $newFile['temp']), $attachmentCount ); ?>
+                <?php echo attachmentItem( array( "name" => $newFile['name'], "size" => $newFile['size'], "temp" => $newFile['temp']), $attachmentCount, true ); ?>
               </li>
               <?php $attachmentCount++; ?>
               <?php endforeach; ?>
@@ -102,7 +106,7 @@ $message_type = setMessageType($message_type);
               <?php foreach ($attachmentFileIds as $fileId): ?>
               <?php $file = \Functions::arrayColumnFilter($fileId, 'fileId', $userAttachments); ?>
               <li class="attachment list-group-item existing-file" id="existing-file-<?php echo $fileId; ?>">
-                <?php echo attachmentItem( array( "name" => $file[0]->name, "size" => $file[0]->filesize, "temp" => $file[0]->temp), $attachmentCount ); ?>
+                <?php echo attachmentItem( array( "name" => $file[0]->name, "size" => $file[0]->filesize, "file" => $file[0]->fileId), $attachmentCount, false ); ?>
               </li>
               <?php $attachmentCount++; ?>
               <?php endforeach; ?>
