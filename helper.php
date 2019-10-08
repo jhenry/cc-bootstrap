@@ -93,7 +93,7 @@ function videoCardBlock($viewFile, $video)
  * @return string bootstrap message type
  *
  **/
-function setMessageType($message)
+function setMessageType($message, $message_type)
 {
     if ( $message ){
         if ( $message_type == 'errors' ){
@@ -126,3 +126,29 @@ function attachmentItem($fileInfo, $attachmentCount)
 
 	return $attachedItem;
 }
+
+/**
+ * Get video processing/approval status
+ * @param string $status Flag for status state of the video.
+ * @return bool 
+ *
+ **/
+function isVideoPending($status)
+{
+	if (in_array($status, array(VideoMapper::PENDING_CONVERSION, 'processing', VideoMapper::PENDING_APPROVAL))){
+		return true;
+	}
+	else return false;
+}
+
+/**
+ * Retrieves full URL to an image to be used as the given video thumbnail
+ * @param Video $video The video to retrieve thumbnail image for
+ * @return string Returns URL to the thumbnail for a video
+ */
+function getVideoThumbnail(Video $video)
+{
+	$config = Registry::get('config');
+	return $config->thumbUrl . '/' . $video->filename . '.jpg';
+}
+
