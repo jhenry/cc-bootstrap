@@ -11,14 +11,14 @@ $message_type = setMessageType($message_type);
 
 <div class="row">
   <div class="col">
-    <h2><?=Language::getText('upload_header')?></h2>
+    <h2><?=Language::getText('update_video_header')?></h2>
     <div class="message <?php echo $message_type ?: ''; ?>"><?php echo $message ?: ''; ?></div>
   </div>
 </div>
 
 <div class="row">
   <div class="col">
-    <form action="<?=HOST?>/account/upload/info/" method="post" enctype="multipart/form-data">
+    <form action="<?=HOST?>/account/videos/edit/<?php echo $video->videoId; ?>/" method="post" enctype="multipart/form-data">
       <!-- BEGIN Basic Information Tab -->
       <div class="row">
         <div class="col-md-6">
@@ -27,7 +27,7 @@ $message_type = setMessageType($message_type);
           <label for="title"><?=Language::getText('title')?></label>
           <input type="text" class="form-control <?=(isset ($Errors['title'])) ? ' is-invalid' : ''?>" name="title" id="title" placeholder="<?=Language::getText('title')?>" value="<?=(!empty($video->title)) ? $video->title : ''?>">
 
-          <label class="<?=(isset($errors['description'])) ? 'error' : ''?>" for="description"><?=Language::getText('description')?></label>
+          <label class="<?=(isset($errors['description'])) ? 'is-invalid' : ''?>" for="description"><?=Language::getText('description')?></label>
           <textarea name="description" class="form-control" id="description" rows="3" cols="100"><?=(!empty($video->description)) ? $video->description : ''?></textarea>
 
           <label for="tags"><?=Language::getText('tags')?></label>
@@ -99,7 +99,7 @@ $message_type = setMessageType($message_type);
               <?php $attachmentCount++; ?>
               <?php endforeach; ?>
 
-              <?php foreach ($newAttachmentFileIds as $fileId): ?>
+              <?php foreach ($attachmentFileIds as $fileId): ?>
               <?php $file = \Functions::arrayColumnFilter($fileId, 'fileId', $userAttachments); ?>
               <li class="attachment list-group-item existing-file" id="existing-file-<?php echo $fileId; ?>">
                 <?php echo attachmentItem( array( "name" => $file[0]->name, "size" => $file[0]->filesize, "temp" => $file[0]->temp), $attachmentCount ); ?>
@@ -150,7 +150,7 @@ $message_type = setMessageType($message_type);
       </div>
       <input type="hidden" name="submitted" value="TRUE" />
       <input type="hidden" name="nonce" value="<?php echo $formNonce; ?>" />
-      <button type="submit" class="btn btn-primary"><?=Language::getText('upload_video_button')?></button>
+      <button type="submit" class="btn btn-primary"><?=Language::getText('update_video_button')?></button>
     </form>
   </div>
 </div>
