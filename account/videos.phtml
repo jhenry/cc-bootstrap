@@ -1,10 +1,6 @@
 <?php 
 $this->setLayout('account');
 
-if( isset($message) ){
-  $message_type = setMessageType($message, $message_type);
-}
-
 $columns = 3;
 $col_width = 12 / $columns ;
 $video_rows = array_chunk($userVideos, $columns);
@@ -13,7 +9,7 @@ $video_rows = array_chunk($userVideos, $columns);
 <div class="row">
   <div class="col">
     <h2><?=Language::getText('my_videos_header')?></h2>
-    <div class="message <?php echo $message_type ?: ''; ?>"><?php echo $message ?: ''; ?></div>
+    <?php ( isset($message) ) ? showAlertMessage($message, $message_type) : ''; ?>
   </div>
 </div>
 

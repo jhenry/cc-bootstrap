@@ -6,15 +6,12 @@ $this->addJs($this->options->themeUrl . '/node_modules/clipboard/dist/clipboard.
 $this->addJs('general.js');
 $this->addJs('fileupload.js');
 $this->setLayout('account');
-if( isset($message) ){
-  $message_type = setMessageType($message, $message_type);
-}
 ?>
 
 <div class="row">
   <div class="col">
     <h2><?=Language::getText('upload_header')?></h2>
-    <div role="alert" class="alert message <?php echo $message_type ?: ''; ?>"><?php echo $message ?: ''; ?></div>
+    <?php ( isset($message) ) ? showAlertMessage($message, $message_type) : ''; ?>
   </div>
 </div>
 

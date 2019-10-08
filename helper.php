@@ -93,20 +93,28 @@ function videoCardBlock($viewFile, $video)
  * @return string bootstrap message type
  *
  **/
-function setMessageType($message, $message_type)
+function setMessageType($message_type)
 {
-    if ( $message ){
-        if ( $message_type == 'errors' ){
-            $message_type = 'alert-danger';
-        }
-        if ( $message_type == 'success' ){
-            $message_type = 'alert-success';
-        }
+	if ( $message_type == 'errors' ){
+		$message_type = 'alert-danger';
+	}
+	if ( $message_type == 'success' ){
+		$message_type = 'alert-success';
+	}
 	return $message_type;
-    }
 }
 
-
+/**
+ * Display alert messaging.
+ * @param string $message_type
+ * @param string $message
+ *
+ **/
+function showAlertMessage($message, $message_type)
+{
+	$message_type = setMessageType($message_type);
+	echo '<div class="alert message ' . $message_type . '" role="alert">' . $message . '</div>';
+}
 /**
  * Show attachment list item
  * @param array $fileInfo array containing name, size and temp path.

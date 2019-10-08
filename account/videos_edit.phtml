@@ -6,17 +6,12 @@ $this->addJs($this->options->themeUrl . '/node_modules/clipboard/dist/clipboard.
 $this->addJs('general.js');
 $this->addJs('fileupload.js');
 $this->setLayout('account');
-
-if( isset($message) ){
-  $message_type = setMessageType($message, $message_type);
-}
-
 ?>
 
 <div class="row">
   <div class="col">
     <h2><?=Language::getText('update_video_header')?></h2>
-    <div class="alert message <?php echo $message_type ?: ''; ?>" role="alert"><?php echo $message ?: ''; ?></div>
+    <?php ( isset($message) ) ? showAlertMessage($message, $message_type) : ''; ?>
   </div>
 </div>
 
@@ -137,12 +132,12 @@ if( isset($message) ){
                 <?php foreach ($userAttachments as $file): ?>
                 <li class="list-group-item"><?php echo $file->name; ?> (<?php echo \Functions::formatBytes($file->filesize, 0); ?>) <a
                     id="select-existing-file-<?php echo $file->fileId; ?>"
-                    class="float-right btn btn-sm <?php echo in_array($file->fileId, $newAttachmentFileIds) ? 'btn-outline-danger' : 'btn-outline-primary'; ?>"
+                    class="float-right btn btn-sm <?php echo in_array($file->fileId, $attachmentFileIds) ? 'btn-outline-danger' : 'btn-outline-primary'; ?>"
                     href=""
                     data-file="<?php echo $file->fileId; ?>"
                     data-size="<?php echo $file->filesize; ?>"
                     title="<?php echo $file->name; ?>"
-                    ><?php echo in_array($file->fileId, $newAttachmentFileIds) ? 'Remove' : 'Add'; ?></a></li>
+                    ><?php echo in_array($file->fileId, $attachmentFileIds) ? 'Remove' : 'Add'; ?></a></li>
                 <?php endforeach; ?>
               </ul>
 </div>
