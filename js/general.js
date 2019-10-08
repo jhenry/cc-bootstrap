@@ -808,19 +808,18 @@ function buildAttachmentCard(index, name, size, file)
     displayFilename += ' (' + formatBytes(size, 0) + ')';
 
     // Build card
-    var $attachment = $('<div class="attachment card border-info mb-3">'
+    var $attachment = $('<li class="attachment list-group-item">'
 
         // Append form values
-        + '<input type="hidden" name="attachment[' + index + '][name]" value="' + name + '" />'
-        + '<input type="hidden" name="attachment[' + index + '][size]" value="' + size + '" />'
-        + '<input type="hidden" name="attachment[' + index + '][' + fieldName + ']" value="' + file + '" />'
 
-            + '<h6 class="title card-header">' + displayFilename + '</h6>'
-        + '<div class="upload-ready card-body pt-2 pb-0">'
-            + '<p class="text-right"><a class="btn btn-sm btn-outline-danger remove" href="#" role="button">Remove</a></p>'
-        + '</div>'
+        + '<div class="upload-ready">'
+		+ '<input type="hidden" name="attachment[' + index + '][name]" value="' + name + '" />'
+		+ '<input type="hidden" name="attachment[' + index + '][size]" value="' + size + '" />'
+		+ '<input type="hidden" name="attachment[' + index + '][' + fieldName + ']" value="' + file + '" />'
+		+ '<p><span class="filename-attached">' + displayFilename + '</span><a class="float-right btn btn-sm btn-outline-danger remove" href="#" role="button">Remove</a></p>'
+	+ '</div>'
 
-    + '</div>');
+    + '</li>');
 
     // Mark attachment as existing
     if (typeof file === 'number') {

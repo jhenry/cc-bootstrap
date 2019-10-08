@@ -22,7 +22,7 @@ $message_type = setMessageType($message_type);
       <!-- BEGIN Basic Information Tab -->
       <div class="row">
         <div class="col-md-6">
-          <h4 class="target" id="basic-information"><?php echo Language::getText('video_basic_tab_header'); ?></h4>
+          <h4 class="text-white bg-secondary p-2" id="basic-information"><?php echo Language::getText('video_basic_tab_header'); ?></h4>
 
           <label for="title"><?=Language::getText('title')?></label>
           <input type="text" class="form-control <?=(isset ($Errors['title'])) ? ' is-invalid' : ''?>" name="title" id="title" placeholder="<?=Language::getText('title')?>" value="<?=(!empty($video->title)) ? $video->title : ''?>">
@@ -43,7 +43,7 @@ $message_type = setMessageType($message_type);
         <!-- END Basic Information -->
         <!-- BEGIN Settings -->
           <div id="advanced-settings" class="py-4">
-            <h4 class="target" id="advanced-settings"><?php echo Language::getText('video_advanced_tab_header'); ?></h4>
+            <h4 class="text-white bg-secondary p-2" id="advanced-settings"><?php echo Language::getText('video_advanced_tab_header'); ?></h4>
 
             <ul class="list-group">
               <li class="list-group-item">
@@ -89,26 +89,25 @@ $message_type = setMessageType($message_type);
           <!-- BEGIN Attachments Section -->
           <div id="video-attachments">
             <?php if ($config->allowVideoAttachments): ?>
-            <h4 class="target" id="video-attachments"><?php echo Language::getText('video_attachments_tab_header'); ?></h4>
-
-            <div class="attachments">
+            <h4 class="text-white bg-secondary p-2" id="video-attachments"><?php echo Language::getText('video_attachments_tab_header'); ?></h4>
+            <ul class="attachments list-group">
               <?php $attachmentCount = 0; ?>
               <?php foreach ($newFiles as $newFile): ?>
-              <div class="attachment card border-info mb-3">
+              <li class="attachment list-group-item">
                 <?php echo attachmentItem( array( $newFile['name'], $newFile['size'], $newFile['temp'], $attachmentCount) ); ?>
-              </div>
+              </li>
               <?php $attachmentCount++; ?>
               <?php endforeach; ?>
 
               <?php foreach ($newAttachmentFileIds as $fileId): ?>
               <?php $file = \Functions::arrayColumnFilter($fileId, 'fileId', $userAttachments); ?>
-              <div class="attachment card border-info mb-3 existing-file" id="existing-file-<?php echo $fileId; ?>">
+              <li class="attachment list-group-item existing-file" id="existing-file-<?php echo $fileId; ?>">
                 <?php echo attachmentItem( array( $file[0]->name, $file[0]->size, $file[0]->temp, $attachmentCount) ); ?>
-              </div>
+              </li>
               <?php $attachmentCount++; ?>
               <?php endforeach; ?>
-            </div>
-            <div class="attachment-form attachment-form-upload">
+            </ul>
+            <div class="attachment-form attachment-form-upload pt-3">
 
               <h5><?php echo Language::getText('upload_new_attachment_header'); ?></h5>
 
