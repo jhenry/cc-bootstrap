@@ -41,3 +41,13 @@ footer p {
   height: 75px; 
   visibility: hidden; 
 }
+
+/* Floaty count badges on playlist cards */
+.playlist-count-badge {
+	position: absolute;
+	z-index: 1;
+	width: 100%;
+}
+}
+
+
