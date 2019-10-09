@@ -24,20 +24,43 @@ $video_rows = array_chunk($userVideos, $columns);
       <?php else: ?>
       <a href="<?=$this->getService('Video')->getUrl($video)?>/"><img alt="<?=$video->title?>" width="100%" height="225" src="<?=getVideoThumbnail($video);?>" /></a>
       <?php endif; ?>
-      <div class="card-body">
-        <p class="card-text"><strong><a href="<?=$this->getService('Video')->getUrl($video)?>/"><?=htmlspecialchars($video->title)?></a></strong>
-          <?php if (!isVideoPending($video->status)): ?>
-          <small class="float-right text-muted"><?=$video->duration?></small>
-          <?php endif; ?>
-          <br><?=$video->description?></p>
-        <div class="text-right">
-          <div class="btn-group btn-group-sm">
-            <a class="btn btn-outline-primary" href="<?=HOST?>/account/videos/edit/<?=$video->videoId?>/"><?=Language::getText('edit_video')?></a>
-            <a class="btn btn-outline-danger" data-node="confirm_delete_video" href="<?=HOST?>/account/videos/<?=$video->videoId?>/"><?=Language::getText('delete_video')?></a>
+			<div class="card-body">
+				<p class="card-text"><strong><a href="<?=$this->getService('Video')->getUrl($video)?>/"><?=htmlspecialchars($video->title)?></a></strong>
+					<?php if (!isVideoPending($video->status)): ?>
+					<small class="float-right text-muted"><?=$video->duration?></small>
+					<?php endif; ?>
+					<br><?=$video->description?></p>
+				<div class="text-right">
+					<div class="btn-group btn-group-sm">
+						<a class="btn btn-outline-primary" href="<?=HOST?>/account/videos/edit/<?=$video->videoId?>/"><?=Language::getText('edit_video')?></a>
+						<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#confirmDeletion">
+							<?=Language::getText('delete_video')?>
+						</button>
+					</div>
+				</div>
+				<!-- Begin Confirm Delete Modal -->
+				<div class="modal fade" id="confirmDeletion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="confirmDeleteHeader">Warning: File Deletion</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<p class="text-left">Are you sure you want to delete this file?  This action is permanent and cannot be undone. </p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+								<a class="btn btn-danger" data-node="confirm_delete_video" href="<?=HOST?>/account/videos/<?=$video->videoId?>/"><?=Language::getText('delete_video')?></a>
+							</div>
+						</div>
+					</div>
+				</div>
 
-          </div>
-        </div>
-      </div>
+				<!-- END Confirm Delete Modal -->
+			</div>
     </div>
   </div>
   <?php endforeach; ?>
