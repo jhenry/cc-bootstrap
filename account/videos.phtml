@@ -20,7 +20,7 @@ $video_rows = array_chunk($userVideos, $columns);
   <div class="col-md-<?= $col_width ?> video">
     <div class="card mb-4 shadow-sm">
       <?php if (isVideoPending($video->status)): ?>
-      <i class="far fa-file-video" alt="<?=Language::getText($video->status)?>"></i> 
+      <i class="far fa-file-video text-center py-5" style="font-size: 128px;"  alt="<?=Language::getText($video->status)?>"></i> 
       <?php else: ?>
       <a href="<?=$this->getService('Video')->getUrl($video)?>/"><img alt="<?=$video->title?>" width="100%" height="225" src="<?=getVideoThumbnail($video);?>" /></a>
       <?php endif; ?>
@@ -30,10 +30,11 @@ $video_rows = array_chunk($userVideos, $columns);
           <small class="float-right text-muted"><?=$video->duration?></small>
           <?php endif; ?>
           <br><?=$video->description?></p>
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="text-right">
           <div class="btn-group btn-group-sm">
             <a class="btn btn-outline-primary" href="<?=HOST?>/account/videos/edit/<?=$video->videoId?>/"><?=Language::getText('edit_video')?></a>
             <a class="btn btn-outline-danger" data-node="confirm_delete_video" href="<?=HOST?>/account/videos/<?=$video->videoId?>/"><?=Language::getText('delete_video')?></a>
+
           </div>
         </div>
       </div>
