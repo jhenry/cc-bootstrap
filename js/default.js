@@ -22,6 +22,22 @@ var cc = {
         this.executeAction(url, data, callback);
         return false;
     },
+	/**
+ * Display message sent from the server handler script for page actions
+ * @param boolean result The result of the requested action (true = Success, false = Error)
+ * @param string message The textual message for the result of the requested action
+ * @return void Message block is displayed and styled accordingly with message.
+ * If message block is already visible, then it is updated.
+ */
+	displayMessage: function displayMessage(result, message)
+{
+    var cssClass = (result === true) ? 'success' : 'errors';
+    var existingClass = ($('.message').hasClass('success')) ? 'success' : 'errors';
+    $('.message').show();
+    $('.message').html(message);
+    $('.message').removeClass(existingClass);
+    $('.message').addClass(cssClass);
+},
 
     /**
      * Send AJAX request to the action's server handler script
@@ -39,13 +55,39 @@ var cc = {
             dataType    : 'json',
             url         : url,
             success     : function(responseData, textStatus, jqXHR){
-                displayMessage(responseData.result, responseData.message);
+                this.displayMessage(responseData.result, responseData.message);
                 if (typeof callback != 'undefined') callback(responseData, textStatus, jqXHR);
             }
         });
     }
         
 };
+$('.addToPlaylist').on('click', function(event){
+	var link = $(this);
+	var action = $(this).data('action');
+	var url = cc.baseUrl+'/actions/playlist/';
+	var data = {
+		action: action,
+		video_id: $(this).data('video_id'),
+		playlist_id: $(this).data('playlist_id')
+	};
+	console.log('here');
+	//event.preventDefault();
+
+	var callback = function(response){
+		if (response.result) {
+			var nameAndCount = link.text().replace(/\([0-9]+\)/, '(' + response.other.count + ')');
+			link.text(nameAndCount);
+			link.toggleClass('added');
+			link.data('action', action === 'add' ? 'remove' : 'add');
+		} else {
+			window.scrollTo(0, 0);
+		}
+	};
+
+	cc.executeAjax(url, data, callback);
+	event.preventDefault();
+	});
 
 $( ".like" ).click(function() {
     cc.likeVideoRating();
@@ -87,3 +129,9 @@ clipboard.on('error', function(e) {
   hideTooltip(e.trigger);
 });
 
+
+
+
+// Add/remove video to playlist on play page
+/*
+	*/

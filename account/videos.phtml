@@ -32,6 +32,8 @@ $video_rows = array_chunk($userVideos, $columns);
 					<br><?=$video->description?></p>
 				<div class="text-right">
 					<div class="btn-group btn-group-sm">
+            <?php $playlistId = ($loggedInUser) ? $this->getService('Playlist')->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_WATCH_LATER)->playlistId : ''; ?>
+            <a data-playlist_id="<?=$playlistId?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $watchLaterListed ? 'remove' : 'add'; ?>" class="addToPlaylist btn btn-outline-secondary<?php echo $watchLaterListed ? ' added' : ''?>" href=""><?=Language::getText('watch_later')?></a>
 						<a class="btn btn-outline-primary" href="<?=HOST?>/account/videos/edit/<?=$video->videoId?>/"><?=Language::getText('edit_video')?></a>
 						<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#confirmDeletion">
 							<?=Language::getText('delete_video')?>
