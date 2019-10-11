@@ -13,13 +13,13 @@ $col_width = 12 / $columns ;
 </div>
 <div class="row">
 	<!-- Begin Favorites -->
-	<div class="col-md-4">
+	<div class="col-md-4 mb-4">
 		<div class="card ">
 			<div class="playlist-count-badge text-right p-2">
 				<span class="badge badge-info"><?=count($favoritesList->entries)?> <?=Language::GetText('videos')?></span>
 			</div>
 			<?php if (!empty($favoritesList->entries)): ?>
-			<img src="<?=getPlaylistThumbnail($favoritesList)?>" alt="Playlist thumbnail image."/>
+			<img src="<?=getPlaylistThumbnail($favoritesList)?>" class="playlist-card-thumb" alt="Playlist thumbnail image."/>
 			<?php else: ?>
 			<i class="fas fa-list-ul text-center py-4" style="font-size: 64px;" alt="Playlist thumbnail icon."></i>
 			<?php endif; ?>
@@ -37,13 +37,13 @@ $col_width = 12 / $columns ;
 
 
 	<!-- Begin Watch Later -->
-	<div class="col-md-4">
+	<div class="col-md-4 mb-4">
 		<div class="card">
 			<div class="playlist-count-badge text-right p-2">
 				<span class="badge badge-info"><?=count($watchLaterList->entries)?> <?=Language::GetText('videos')?></span>
 			</div>
 			<?php if (!empty($watchLaterList->entries)): ?>
-			<img src="<?=getPlaylistThumbnail($watchLaterList)?>" alt="Playlist thumbnail image."/>
+			<img src="<?=getPlaylistThumbnail($watchLaterList)?>" class="playlist-card-thumb" alt="Playlist thumbnail image."/>
 			<?php else: ?>
 			<i class="fas fa-list-ul text-center py-4" style="font-size: 64px;" alt="Playlist thumbnail icon."></i>
 			<?php endif; ?>
@@ -59,7 +59,7 @@ $col_width = 12 / $columns ;
 		</div>
 	</div>
 	<!-- Begin New Playlist Form -->
-	<div class="col-md-4">
+	<div class="col-md-4 mb-4">
 		<h4><?=Language::GetText('create_new_playlist')?></h4>
 		<form method="POST">
 			<div class="form-group playlist-name">
@@ -91,15 +91,15 @@ $col_width = 12 / $columns ;
 <?php if (count($userPlaylists) > 0): ?>
 <?php $playlist_rows = array_chunk($userPlaylists, $columns); ?>
 <?php foreach ($playlist_rows as $playlists): ?>
-<div class="row mt-4">
+<div class="row">
     <?php foreach ($playlists as $playlist): ?>
-      <div class="col-md-<?= $col_width ?> video">
+      <div class="col-md-<?= $col_width ?> video mb-4">
 		<div class="card">
 			<div class="playlist-count-badge text-right p-2">
 				<span class="badge badge-info"><?=count($playlist->entries)?> <?=Language::GetText('videos')?></span>
 			</div>
 			<?php if (!empty($playlist->entries)): ?>
-			<img src="<?=getPlaylistThumbnail($playlist)?>" alt="Playlist thumbnail image."/>
+			<img src="<?=getPlaylistThumbnail($playlist)?>" class="playlist-card-thumb" alt="Playlist thumbnail image."/>
 			<?php else: ?>
 			<i class="fas fa-list-ul text-center py-4" style="font-size: 64px;" alt="Playlist thumbnail icon."></i>
 			<?php endif; ?>

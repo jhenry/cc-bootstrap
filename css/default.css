@@ -48,6 +48,11 @@ footer p {
 	z-index: 1;
 	width: 100%;
 }
+/* Keep card image heights reasonable */
+.playlist-card-thumb {
+	max-height: 14rem;
 }
+
+
 
 
