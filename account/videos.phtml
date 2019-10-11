@@ -39,21 +39,34 @@ $video_rows = array_chunk($userVideos, $columns);
                 Playlists
               </button>
               <div class="dropdown-menu" aria-labelledby="playlists-dropdown-button">
-                <?php $watchLaterId = ($loggedInUser) ? $this->getService('Playlist')->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_WATCH_LATER)->playlistId : ''; ?>
-                <a data-playlist_id="<?=$watchLaterId?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $watchLaterListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $watchLaterListed ? ' added' : ''?>" href="#"><i class="far fa-bookmark text-success pl-1 pr-2" alt="Playlist thumbnail icon."></i><?=Language::getText('watch_later')?></a>
-
-                <?php $favoritesId = ($loggedInUser) ? $this->getService('Playlist')->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_FAVORITES)->playlistId : ''; ?>
-                <a data-playlist_id="<?=$favoritesId ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $watchLaterListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $watchLaterListed ? ' added' : ''?>" href="#"><i class="far fa-star text-warning pr-2" alt="Favorites thumbnail icon."></i><?=Language::getText('favorites')?></a>
                 <?php 
+                $playlistService = new PlaylistService();
+                $watchLater = ($loggedInUser) ? $playlistService->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_WATCH_LATER) : false;               
+
+                $watchLaterListed = isInPlaylist($video, $watchLater);
+                ?>
+                <a data-playlist_id="<?=$watchLater->playlistId?>" data-video_id="<?=$video->videoId?>" data-action="<?= ( $watchLaterListed ) ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist" href="#"><i class="fa-bookmark text-success pl-1 pr-2<?= ( $watchLaterListed ) ? ' fas' : ' far'; ?>" alt="Playlist thumbnail icon."></i><?=Language::getText('watch_later')?></a>
+
+                <?php 
+                
+                $favorites = ($loggedInUser) ? $playlistService->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_FAVORITES) : false;               
+
+                $favoritesListed = isInPlaylist($video, $favorites);
+                ?>
+                <a data-playlist_id="<?=$favorites->playlistId ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $favoritesListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $favoritesListed ? ' added' : ''?>" href="#"><i class="fa-star text-warning pr-2<?= ( $favoritesListed ) ? ' fas' : ' far'; ?>" alt="Favorites thumbnail icon."></i><?=Language::getText('favorites')?></a>
+
+                <?php
                 $playlistMapper = new PlaylistMapper();
-                $playlists = $playlistMapper->getUserPlaylists($loggedInUser->userId);
-                //print_r($playlists);
+                $playlists = $playlistMapper->getUserPlaylists($loggedInUser->userId); 
                 ?>
 
                 <?php foreach( $playlists as $playlist): ?>
                 <?php if( !($playlist->type == 'watch_later') && !($playlist->type == 'favorites') ): ?>
+<?php
 
-                <a data-playlist_id="<?= $playlist->playlistId; ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $watchLaterListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $watchLaterListed ? ' added' : ''?>" href="#"><?=$playlist->name?></a>
+                $isListed = isInPlaylist($video, $playlist);
+?>
+                <a data-playlist_id="<?= $playlist->playlistId; ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $isListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $isListed ? ' added' : ''?>" href="#"><i class="far pr-2<?= ( $isListed ) ? ' fa-check-square' : ' fa-square'; ?>" alt="Playlist selected thumbnail icon."></i><?=$playlist->name?></a>
                 <?php endif; ?>
                 <?php endforeach; ?>
               </div>

@@ -167,3 +167,9 @@ function getVideoThumbnail(Video $video)
 	return $config->thumbUrl . '/' . $video->filename . '.jpg';
 }
 
+function isInPlaylist($video, $playlist)
+{
+	$playlistService = new PlaylistService();
+	$playlistMapper = new PlaylistMapper();
+	return $playlistService->checkListing($video, $playlistMapper->getPlaylistById($playlist->playlistId));
+}
