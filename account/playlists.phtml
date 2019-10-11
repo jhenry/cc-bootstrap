@@ -111,12 +111,39 @@ $col_width = 12 / $columns ;
         <p class="card-text text-success"><i class="fas fa-lock-open" alt="Public/unlocked icon"></i> Public playlist.</p>
 				<?php endif; ?>
 				<div class="action-buttons text-right pt-3">
+          <button type="button" class="float-left btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#confirmDeletion-<?=$playlist->playlistId?>">
+							<?=Language::getText('delete_playlist')?>
+						</button>
 					<?php if (!empty($playlist->entries)): ?>
 					<a href="<?=$playlistService->getUrl($playlist)?>" class="btn btn-sm btn-outline-secondary px-2">Watch All</a>
 					<?php endif; ?>
 					<a href="<?=HOST?>/account/playlists/edit/<?=$playlist->playlistId?>/" class="btn btn-sm btn-outline-primary"><?=Language::GetText('edit_playlist')?></a>
 				</div>
 			</div>
+
+<!-- Begin Confirm Delete Modal -->
+				<div class="modal fade" id="confirmDeletion-<?=$playlist->playlistId?>" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteHeader-<?=$playlist->playlistId?>" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="confirmDeleteHeader-<?=$playlist->playlistId?>">Delete <?php echo htmlspecialchars($playlist->name); ?>?</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<p class="text-left">Are you sure you want to delete this playlist?  This action is permanent and cannot be undone. </p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <a class="btn btn-danger" role="button" data-node="confirm_delete_playlist" href="<?=HOST?>/account/playlists/?remove=<?=$playlist->playlistId?>"><?=Language::getText('delete_playlist')?></a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- END Confirm Delete Modal -->
+
 		</div>
 	
 			</div>
