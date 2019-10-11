@@ -62,11 +62,8 @@ $video_rows = array_chunk($userVideos, $columns);
 
                 <?php foreach( $playlists as $playlist): ?>
                 <?php if( !($playlist->type == 'watch_later') && !($playlist->type == 'favorites') ): ?>
-<?php
-
-                $isListed = isInPlaylist($video, $playlist);
-?>
-                <a data-playlist_id="<?= $playlist->playlistId; ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $isListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $isListed ? ' added' : ''?>" href="#"><i class="far pr-2<?= ( $isListed ) ? ' fa-check-square' : ' fa-square'; ?>" alt="Playlist selected thumbnail icon."></i><?=$playlist->name?></a>
+                <?php $isListed = isInPlaylist($video, $playlist); ?>
+                <a data-playlist_id="<?= $playlist->playlistId; ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $isListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $isListed ? ' added' : ''?>" href="#"><i class="far pr-2<?= ( $isListed ) ? ' fa-check-square' : ' fa-square'; ?>" alt="<?= ( $isListed ) ? 'Video is in playlist.' : 'Video not in this playlist.'; ?>"></i><?=$playlist->name?></a>
                 <?php endif; ?>
                 <?php endforeach; ?>
               </div>
