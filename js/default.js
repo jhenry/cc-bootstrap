@@ -23,21 +23,30 @@ var cc = {
         return false;
     },
 	/**
- * Display message sent from the server handler script for page actions
- * @param boolean result The result of the requested action (true = Success, false = Error)
- * @param string message The textual message for the result of the requested action
- * @return void Message block is displayed and styled accordingly with message.
- * If message block is already visible, then it is updated.
- */
-	displayMessage: function displayMessage(result, message)
-{
-    var cssClass = (result === true) ? 'success' : 'errors';
-    var existingClass = ($('.message').hasClass('success')) ? 'success' : 'errors';
-    $('.message').show();
-    $('.message').html(message);
-    $('.message').removeClass(existingClass);
-    $('.message').addClass(cssClass);
-},
+	 * Display message sent from the server handler script for page actions
+	 * @param boolean result The result of the requested action (true = Success, false = Error)
+	 * @param string message The textual message for the result of the requested action
+	 * @param bool/string The name of a container to append the message to;  Boolean false if using default.
+	 * @return void Message block is displayed and styled accordingly with message.
+	 * If message block is already visible, then it is updated.
+	 */
+	displayMessage: function (result, message, appendContainer = 'false')
+	{
+		if( (appendContainer) ) {
+			let messageContainer = $('<div></div>')
+				.addClass('message alert')
+				.html('<p>' + message + '</p>');
+
+			$(appendContainer).append(messageContainer);
+		}
+			var cssClass = (result === true) ? 'alert-success' : 'alert-danger';
+			var existingClass = ($('.message').hasClass('alert-success')) ? 'alert-success' : 'alert-danger';
+			$('.message').show();
+			$('.message').html(message);
+			$('.message').removeClass(existingClass);
+			$('.message').addClass(cssClass);
+				
+	},
 
     /**
      * Send AJAX request to the action's server handler script
@@ -55,7 +64,6 @@ var cc = {
             dataType    : 'json',
             url         : url,
             success     : function(responseData, textStatus, jqXHR){
-                this.displayMessage(responseData.result, responseData.message);
                 if (typeof callback != 'undefined') callback(responseData, textStatus, jqXHR);
             }
         });
@@ -71,10 +79,10 @@ $('.addToPlaylist').on('click', function(event){
 		video_id: $(this).data('video_id'),
 		playlist_id: $(this).data('playlist_id')
 	};
-	console.log('here');
-	//event.preventDefault();
-
 	var callback = function(response){
+
+                cc.displayMessage(response.result, response.message, 'header');
+
 		if (response.result) {
 			var nameAndCount = link.text().replace(/\([0-9]+\)/, '(' + response.other.count + ')');
 			link.text(nameAndCount);

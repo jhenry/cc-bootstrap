@@ -8,8 +8,10 @@ $video_rows = array_chunk($userVideos, $columns);
 
 <div class="row">
   <div class="col">
-    <h2><?=Language::getText('my_videos_header')?></h2>
-    <?php ( isset($message) ) ? showAlertMessage($message, $message_type) : ''; ?>
+    <header>
+      <h2><?=Language::getText('my_videos_header')?></h2>
+      <?php ( isset($message) ) ? showAlertMessage($message, $message_type) : ''; ?>
+    </header>
   </div>
 </div>
 
