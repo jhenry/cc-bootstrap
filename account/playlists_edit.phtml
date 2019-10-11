@@ -70,16 +70,16 @@ $video_rows = array_chunk($videoList, $columns);
 					<?php endif; ?>
 					<br><?=$video->description?></p>
 				<div class="text-right">
-						<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#confirmDeletion">
+						<button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#confirmDeletion-<?=$video->videoId?>">
 							<?=Language::getText('remove_playlist_video')?>
 						</button>
 				</div>
 				<!-- Begin Confirm Delete Modal -->
-				<div class="modal fade" id="confirmDeletion" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteHeader" aria-hidden="true">
+				<div class="modal fade" id="confirmDeletion-<?=$video->videoId?>" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteHeader-<?=$video->videoId?>" aria-hidden="true">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="confirmDeleteHeader">Warning: Removing item from playlist</h5>
+								<h5 class="modal-title" id="confirmDeleteHeader-<?=$video->videoId?>">Warning: Removing item from playlist</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
