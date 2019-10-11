@@ -40,10 +40,22 @@ $video_rows = array_chunk($userVideos, $columns);
               </button>
               <div class="dropdown-menu" aria-labelledby="playlists-dropdown-button">
                 <?php $watchLaterId = ($loggedInUser) ? $this->getService('Playlist')->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_WATCH_LATER)->playlistId : ''; ?>
-                <a data-playlist_id="<?=$watchLaterId?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $watchLaterListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $watchLaterListed ? ' added' : ''?>" href="#"><?=Language::getText('watch_later')?></a>
+                <a data-playlist_id="<?=$watchLaterId?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $watchLaterListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $watchLaterListed ? ' added' : ''?>" href="#"><i class="far fa-bookmark text-success pl-1 pr-2" alt="Playlist thumbnail icon."></i><?=Language::getText('watch_later')?></a>
 
                 <?php $favoritesId = ($loggedInUser) ? $this->getService('Playlist')->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_FAVORITES)->playlistId : ''; ?>
-                <a data-playlist_id="<?=$favoritesId ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $watchLaterListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $watchLaterListed ? ' added' : ''?>" href="#"><?=Language::getText('favorites')?></a>
+                <a data-playlist_id="<?=$favoritesId ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $watchLaterListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $watchLaterListed ? ' added' : ''?>" href="#"><i class="far fa-star text-warning pr-2" alt="Favorites thumbnail icon."></i><?=Language::getText('favorites')?></a>
+                <?php 
+                $playlistMapper = new PlaylistMapper();
+                $playlists = $playlistMapper->getUserPlaylists($loggedInUser->userId);
+                //print_r($playlists);
+                ?>
+
+                <?php foreach( $playlists as $playlist): ?>
+                <?php if( !($playlist->type == 'watch_later') && !($playlist->type == 'favorites') ): ?>
+
+                <a data-playlist_id="<?= $playlist->playlistId; ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $watchLaterListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist<?php echo $watchLaterListed ? ' added' : ''?>" href="#"><?=$playlist->name?></a>
+                <?php endif; ?>
+                <?php endforeach; ?>
               </div>
             </div>
           </div>
