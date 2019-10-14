@@ -84,9 +84,24 @@ $('.addToPlaylist').on('click', function(event){
                 cc.displayMessage(response.result, response.message, 'header');
 
 		if (response.result) {
-			var nameAndCount = link.text().replace(/\([0-9]+\)/, '(' + response.other.count + ')');
-			link.text(nameAndCount);
+			//var nameAndCount = link.text().replace(/\([0-9]+\)/, '(' + response.other.count + ')');
+			//link.text(nameAndCount);
+			link.find('.playlist-count').text(response.other.count);
 			link.toggleClass('added');
+				link.find('.playlist-icon').toggleClass('far');
+                                link.find('.playlist-icon').toggleClass('fas');
+			if(action === 'add') {
+				// If this is a custom (user) playlist, toggle the checkbox icon.
+				(link.hasClass("customPlaylist")) ? link.find('.playlist-icon').toggleClass('fa-check-square') : '' ;
+				(link.hasClass("customPlaylist")) ? link.find('.playlist-icon').toggleClass('fa-square') : '' ;
+				link.find('.playlist-icon').attr('alt', 'Video is in playlist:');
+				link.data('action', 'remove');
+			} else {
+				(link.hasClass("customPlaylist")) ? link.find('.playlist-icon').toggleClass('fa-check-square') : '' ;
+				(link.hasClass("customPlaylist")) ? link.find('.playlist-icon').toggleClass('fa-square') : '' ;
+				link.find('.playlist-icon').attr('alt', 'Video is not in playlist:');
+				link.data('action', 'add');
+			};
 			link.data('action', action === 'add' ? 'remove' : 'add');
 		} else {
 			window.scrollTo(0, 0);
