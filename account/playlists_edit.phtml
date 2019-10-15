@@ -6,7 +6,7 @@ $col_width = 12 / $columns ;
 ?>
 
 <div class="row">
-  <div class="col">
+  <div class="col header-secondary">
     <h2><?=Language::GetText('playlists_edit_header')?>: <?=$playlistService->getPlaylistName($playlist)?></h2>
     <p><a href="<?=HOST?>/account/playlists/"><?=Language::GetText('back_to_playlists')?></a></p>
     <?php ( isset($message) ) ? showAlertMessage($message, $message_type) : ''; ?>

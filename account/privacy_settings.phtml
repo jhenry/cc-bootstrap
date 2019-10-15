@@ -1,61 +1,60 @@
 <?php
 $this->SetLayout('account');
-$message_type = setMessageType($message_type);
 ?>
 
 <div class="row mb-4">
-    <div class="col">
+  <div class="col header-secondary">
     <h2>Privacy and Notification Settings</h2>
-    <div class="message "></div>
-    </div>
+    <?php ( isset($message) ) ? showAlertMessage($message, $message_type) : ''; ?>
+  </div>
 </div>
-        <form action="<?=HOST?>/account/privacy-settings/" method="post">
-<div class="row">
+<form action="<?=HOST?>/account/privacy-settings/" method="post">
+  <div class="row">
     <div class="col">
-		<div class="custom-control custom-switch">
-		  <input type="checkbox" class="custom-control-input" value="1" id="video_comment" name="video_comment"<?=($privacy->videoComment) ? ' checked' : ''?>>
-		  <label class="custom-control-label" for="video_comment"><?=Language::GetText('alert_comment')?></label>
-		</div>
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" value="1" id="video_comment" name="video_comment"<?=($privacy->videoComment) ? ' checked' : ''?>>
+        <label class="custom-control-label" for="video_comment"><?=Language::GetText('alert_comment')?></label>
+      </div>
     </div>
-</div>
-<div class="row">
+  </div>
+  <div class="row">
     <div class="col">
-		<div class="custom-control custom-switch">
-		  <input type="checkbox" class="custom-control-input" value="1" id="new_video" name="new_video"<?=($privacy->newVideo) ? ' checked' : ''?>>
-		  <label class="custom-control-label" for="new_video"><?=Language::GetText('alert_video')?></label>
-		</div>
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" value="1" id="new_video" name="new_video"<?=($privacy->newVideo) ? ' checked' : ''?>>
+        <label class="custom-control-label" for="new_video"><?=Language::GetText('alert_video')?></label>
+      </div>
     </div>
-</div>
-<div class="row">
+  </div>
+  <div class="row">
     <div class="col">
-		<div class="custom-control custom-switch">
-		  <input type="checkbox" class="custom-control-input" value="1" id="new_message" name="new_message"<?=($privacy->newMessage) ? ' checked' : ''?>>
-		  <label class="custom-control-label" for="new_message"><?=Language::GetText('alert_message')?></label>
-		</div>
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" value="1" id="new_message" name="new_message"<?=($privacy->newMessage) ? ' checked' : ''?>>
+        <label class="custom-control-label" for="new_message"><?=Language::GetText('alert_message')?></label>
+      </div>
     </div>
-</div>
-<div class="row">
+  </div>
+  <div class="row">
     <div class="col">
-		<div class="custom-control custom-switch">
-		  <input type="checkbox" class="custom-control-input" value="1" id="video_ready" name="video_ready"<?=($privacy->videoReady) ? ' checked' : ''?>>
-		  <label class="custom-control-label" for="video_ready"><?=Language::GetText('alert_video_ready')?></label>
-		</div>
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" value="1" id="video_ready" name="video_ready"<?=($privacy->videoReady) ? ' checked' : ''?>>
+        <label class="custom-control-label" for="video_ready"><?=Language::GetText('alert_video_ready')?></label>
+      </div>
     </div>
-</div>
-<div class="row">
+  </div>
+  <div class="row">
     <div class="col">
-		<div class="custom-control custom-switch">
-		  <input type="checkbox" class="custom-control-input" value="1" id="commentReply" name="commentReply"<?=($privacy->commentReply) ? ' checked' : ''?>>
-		  <label class="custom-control-label" for="commentReply"><?=Language::GetText('alert_comment_reply')?></label>
-		</div>
+      <div class="custom-control custom-switch">
+        <input type="checkbox" class="custom-control-input" value="1" id="commentReply" name="commentReply"<?=($privacy->commentReply) ? ' checked' : ''?>>
+        <label class="custom-control-label" for="commentReply"><?=Language::GetText('alert_comment_reply')?></label>
+      </div>
     </div>
-</div>
-	  <div class="row mt-4">
-	    <div class="col">
-		    <input type="hidden" value="yes" name="submitted">
-		    <input type="hidden" name="nonce" value="d5d8ac559d37dbdd40bd01047c1a6c26">
-		    <button class="btn btn-primary" type="submit" name="button" /><?=Language::GetText('privacy_settings_button')?></button>
-	    </div>
-	  </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
+      <input type="hidden" value="yes" name="submitted">
+      <input type="hidden" name="nonce" value="d5d8ac559d37dbdd40bd01047c1a6c26">
+      <button class="btn btn-primary" type="submit" name="button" /><?=Language::GetText('privacy_settings_button')?></button>
+    </div>
+  </div>
 
-          </form>
+</form>

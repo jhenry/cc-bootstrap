@@ -1,15 +1,13 @@
 <?php
-//$this->addJs($this->options->themeUrl . '/node_modules/blueimp-file-upload/js/vendor/jquery.ui.widget.js');
 $this->addJs($this->options->themeUrl . '/node_modules/blueimp-file-upload/js/jquery.iframe-transport.js');
 $this->addJs($this->options->themeUrl . '/node_modules/blueimp-file-upload/js/jquery.fileupload.js');
-$this->addJs($this->options->themeUrl . '/node_modules/clipboard/dist/clipboard.min.js');
 $this->addJs('general.js');
 $this->addJs('fileupload.js');
 $this->setLayout('account');
 ?>
 
 <div class="row">
-  <div class="col">
+  <div class="col header-secondary">
     <h2><?=Language::getText('update_video_header')?></h2>
     <?php ( isset($message) ) ? showAlertMessage($message, $message_type) : ''; ?>
   </div>
