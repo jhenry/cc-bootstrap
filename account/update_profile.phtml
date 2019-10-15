@@ -1,4 +1,8 @@
 <?php
+$this->addJs($this->options->themeUrl . '/node_modules/blueimp-file-upload/js/jquery.iframe-transport.js');
+$this->addJs($this->options->themeUrl . '/node_modules/blueimp-file-upload/js/jquery.fileupload.js');
+$this->addJs('general.js');
+$this->addJs('fileupload.js');
 $this->SetLayout('account');
 ?>
 
@@ -11,8 +15,8 @@ $this->SetLayout('account');
   </div>
 </div>
 <div class="row">
-  <div class="col">
-    <form>
+  <div class="col-md-8">
+    <form action="<?php echo BASE_URL; ?>/account/profile/" method="post">
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="first-name"><?=Language::getText('first_name')?></label>
@@ -52,25 +56,63 @@ $this->SetLayout('account');
   </div>
 </div>
 <div class="row">
-  <div class="col">
+  <div class="col-md-8">
     <div class="card mb-3">
       <div class="row no-gutters">
         <div class="col-md-4 pt-4">
-          <p class="text-center py-4"><i class="fas fa-user fa-lg" style="font-size: 128px;"></i></p>
-          <p class="text-center"><button data-type="subscribe" data-user="1" type="button" class="btn btn-outline-danger">Reset Avatar</button></p>
+          <?php $avatar = $this->getService('User')->getAvatarUrl($loggedInUser); ?>
+          <p class="text-center py-4">
+            <?php if($avatar): ?> 
+            <img alt="<?php echo Language::getText('current_avatar'); ?>" src="<?=$avatar?>">
+            <?php else: ?> 
+            <i class="fas fa-user fa-lg" alt="<?php echo Language::getText('current_avatar'); ?>" style="font-size: 128px;"></i></p>
+          <?php endif; ?> 
+          <p class="text-center"><a role="button"  data-toggle="modal" data-target="#confirmReset" href="" class="btn btn-outline-danger"><?php echo Language::getText('reset_avatar'); ?></a></p>
         </div>
+        <!-- Begin Confirm Delete Modal -->
+        <div class="modal fade" id="confirmReset" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteHeader" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteHeader">Warning: <?php echo Language::getText('reset_avatar'); ?>?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <p class="text-left">Are you sure you want to delete your avatar?</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a class="btn btn-danger" role="button" data-node="confirm_reset_avatar" href="<?php BASE_URL; ?>/account/profile/?action=reset"><?=Language::getText('reset_avatar')?></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- END Confirm Delete Modal -->
         <div class="col-md-8">
           <div class="card-body">
             <p class="card-text"><?php echo Language::getText('update_avatar_text'); ?></p>
-            <p class="card-text"></p>
-            <form action="<?php echo BASE_URL; ?>/account/profile/" method="post">
+            <form action="<?php echo BASE_URL; ?>/account/profile/" method="post" enctype="multipart/form-data">
               <div class="input-group mb-3">
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="inputGroupFile02">
-                  <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-                </div>
-                <div class="input-group-append">
-                  <button class="btn btn-outline-primary" type="submit">Upload</button>
+                  <input
+                    type="file"
+                    name="upload"
+                    id="avatarUploader"
+                    class="uploader custom-file-input"
+                    data-text="<?php echo Language::getText('browse_files_button'); ?>"
+                    data-url="<?php echo BASE_URL; ?>/ajax/upload/"
+                    data-type="image"
+                    data-limit="<?php echo $config->fileSizeLimit; ?>"
+                    data-extensions="<?php echo urlencode(json_encode($config->acceptedImageFormats)); ?>"
+                    data-auto-submit="true"
+                    />
+
+                    <input type="hidden" name="submitted_avatar" value="true" />
+                    <input type="hidden" name="nonce" value="<?php echo $formNonce; ?>" />
+                    <label class="custom-file-label" for="avatarUploader">Choose file</label>
                 </div>
               </div>
             </form>
