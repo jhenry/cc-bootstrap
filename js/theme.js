@@ -141,9 +141,6 @@ $( ".like" ).click(function() {
 	cc.likeVideoRating();
 });
 
-$(function(){
-	bsCustomFileInput.init();
-});
 
 // ClipboardJS
 var clipboard = new ClipboardJS('.btn-clipboard');

@@ -30,7 +30,7 @@
 
     <?php $this->block('header.phtml'); ?>
 
-    <div class="main py-5 bg-light">
+    <div class="main bg-light">
       <div class="account mx-4">
 
         <div class="row pt-3">
@@ -69,7 +69,7 @@
     
     <?php Plugin::triggerEvent('theme.body.bottom'); ?>
     <?php $this->writeJs(); ?>
-    <!-- Theme JS -->
-    <script src="<?=$this->options->themeUrl?>/js/default.js"></script>
+    <!-- Theme Specific JS -->
+    <script src="<?=$this->options->themeUrl?>/js/theme.js"></script>
   </body>
 </html>
