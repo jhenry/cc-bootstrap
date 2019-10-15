@@ -1,13 +1,13 @@
 <?php $avatar = $this->getService('User')->getAvatarUrl($member); ?>
-<div class="card mb-3">
+<div class="card mb-3 border-top-0 rounded-0">
   <div class="row no-gutters">
-    <div class="col-md-4">
+    <div class="col-md-4 text-center">
     <?php if($avatar): ?>
-        <img src="<?=$avatar_thumb;?>" class="card-img" alt="Avatar image for <?=$member->username?>">
+        <img src="<?=$avatar;?>" class="card-img w-75 h-75 p-2 my-3 img-thumbnail" alt="Avatar image for <?=$member->username?>">
     <?php else: ?>
-       <ion-icon class="card-img avatar" style="font-size: 128px;" name="person"></ion-icon> 
+    <i class="fas fa-user fa-lg py-3 mt-3" alt="<?php echo Language::getText('current_avatar'); ?>" style="font-size: 64px;"></i>
     <?php endif; ?>
-        <p class="text-center"><button data-type="<?=$subscribe_text?>" data-user="<?=$video->userId?>" type="button" class="btn btn-outline-primary">Follow <?=$member->username?></button></p>
+        <p class="text-center"><button data-type="<?=$subscribe_text?>" data-user="<?=$video->userId?>" type="button" class="btn btn-sm btn-outline-primary">Follow <?=$member->username?></button></p>
     </div>
     <div class="col-md-8">
       <div class="card-body">
