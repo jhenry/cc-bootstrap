@@ -65,7 +65,7 @@ function getVideoThumbUrl(Video $video)
         $url = CustomThumbs::thumb_url($video->videoId);
     }
     else {
-        $url = $config->thumbUrl . "/" . $featuredVideo->filename . ".jpg";
+        $url = $config->thumbUrl . "/" . $video->filename . ".jpg";
     }
 
     return $url;
