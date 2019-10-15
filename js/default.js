@@ -30,9 +30,11 @@ var cc = {
 	 * @return void Message block is displayed and styled accordingly with message.
 	 * If message block is already visible, then it is updated.
 	 */
-	displayMessage: function (result, message, appendContainer = 'false')
+	displayMessage: function (result, message, appendContainer = false)
 	{
-		if( (appendContainer) ) {
+		// if we were sent a parent element to put a message in,
+		// and the message element hasn't already been added to it
+		if( appendContainer && !$(appendContainer).find('.message').length ) {
 			let messageContainer = $('<div></div>')
 				.addClass('message alert')
 				.html('<p>' + message + '</p>');
@@ -81,7 +83,7 @@ $('.addToPlaylist').on('click', function(event){
 	};
 	var callback = function(response){
 
-                cc.displayMessage(response.result, response.message, 'header');
+                cc.displayMessage(response.result, response.message, '.header-secondary');
 
 		if (response.result) {
 			//var nameAndCount = link.text().replace(/\([0-9]+\)/, '(' + response.other.count + ')');
