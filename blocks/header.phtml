@@ -1,37 +1,48 @@
 <header>
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-  <a class="navbar-brand" href="<?=BASE_URL?>/"><i class="fas fa-cloud"></i> CumulusClips</a>
+    <a class="navbar-brand" href="<?=BASE_URL?>/"><i class="fas fa-cloud cc-icon"></i> CumulusClips</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="browseByDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Browse 
+          </a>
+          <div class="dropdown-menu" aria-labelledby="browseByDropdown">
+            <a class="dropdown-item" href="<?=HOST?>/browse/"><?=Language::GetText('videos')?></a> 
+            <a class="dropdown-item" href="<?=HOST?>/members/"><?=Language::GetText('members')?></a>
+          </div>
+        </li>
 
         <?php if ($loggedInUser): ?>
 
         <li class="nav-item">
-        <a class="nav-link" href="<?=HOST?>/account/"><?=Language::GetText('account')?></a>
+          <a class="nav-link" href="<?=BASE_URL?>/account/videos"><?=Language::GetText('my_videos')?></a>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="<?=HOST?>/members/<?=$loggedInUser->username?>/"><?=Language::GetText('view_my_profile')?></a>
+          <?php if ($config->enableUserUploads): ?>
+          <a class="nav-link" href="<?=HOST?>/account/upload/video/"><?=Language::GetText('upload')?></a> 
+          <?php endif; ?>
         </li>
         <li class="nav-item">
-        <a class="nav-link" href="<?=HOST?>/logout/"><?=Language::GetText('logout')?></a>
+          <a class="nav-link" href="<?=BASE_URL?>/logout/"><?=Language::GetText('logout')?></a>
         </li>
 
         <?php else: ?>
 
-         <li class="nav-item">
-             <a class="nav-link" href="<?=HOST?>/login/"><?=Language::GetText('login')?></a>
-         </li>
-         <li class="nav-item">
-             <a class="nav-link" href="<?=HOST?>/register/"><?=Language::GetText('register')?></a>
-         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?=HOST?>/login/"><?=Language::GetText('login')?></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?=HOST?>/register/"><?=Language::GetText('register')?></a>
+        </li>
 
         <?php endif; ?>
 
       </ul>
-          <form class="form-inline mt-2 mt-md-0" action="<?=HOST?>/search/" method="post">
+      <form class="form-inline mt-2 mt-md-0" action="<?=HOST?>/search/" method="post">
         <input class="form-control mr-sm-2" type="text" name="keyword" placeholder="Search" aria-label="Search">
         <input type="hidden" name="submitted_search" value="TRUE" />
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
