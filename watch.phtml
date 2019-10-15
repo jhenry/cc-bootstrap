@@ -2,8 +2,8 @@
 $this->addMeta('videoId', $video->videoId);
 $this->addMeta('theme', $this->options->themeUrl);
 $this->addMeta('loggedIn', (boolean) $loggedInUser);
-$this->addCss('video-js.css');
-$this->addJs('video.plugin.js');
+$this->addCss($this->options->themeUrl . '/node_modules/video.js/dist/video-js.css');
+$this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.js');
 ?>
 
 
@@ -33,7 +33,7 @@ $this->addJs('video.plugin.js');
             <?php else: ?>
                 <!-- BEGIN VIDEO -->
                 <div id="player">
-                    <video class="video-js vjs-default-skin" style="background-color: black;" data-setup='{ "controls": true, "autoplay": false, "preload": "auto" }' width="100%" height="337" poster="<?=getVideoThumbUrl($video)?>">
+                    <video class="video-js" style="background-color: black;" controls preload='auto' data-setup='{ "autoplay": false }' width="100%" height="337" poster="<?=getVideoThumbUrl($video)?>">
                         <source src="<?=$config->h264Url?>/<?=$video->filename?>.mp4" type="video/mp4" />
                         <?php if ($webmEncodingEnabled): ?>
                             <source src="<?=$config->webmUrl?>/<?=$video->filename?>.webm" type="video/webm" />
@@ -53,8 +53,8 @@ $this->addJs('video.plugin.js');
                 </div>
                 <div class="col-md-6">
                     <p class="text-right">
-                        <a class="like rating" href="" data-rating="1"><ion-icon size="large" name="thumbs-up"></ion-icon></a> <span class="likes">(<?=$rating->likes?>)</span>  
-                        <a class="dislike rating" href="" data-rating="0"><ion-icon size="large" name="thumbs-down"></ion-icon></a> (<span class="dislike"><?=$rating->dislikes?></span>) </p>
+                        <a class="like rating btn btn-sm btn-primary" href="" data-rating="1" role="button"><i class="far fa-thumbs-up"></i> <span class="likes badge badge-light"><?=$rating->likes?></span> </a> 
+                        <a class="dislike rating" href="" data-rating="0"><i class="far fa-thumbs-down"></i></a> (<span class="dislike"><?=$rating->dislikes?></span>) </p>
                 </div>
             </div>
             <!-- END ACTIONS -->
