@@ -7,21 +7,6 @@ var cc = {
 	//if on the watch page?
 	videoId:  $('meta[name="videoId"]').attr('content'),
 
-	// On like click 
-	likeVideoRating: function () {
-		console.log( "This was liked!" );
-		url = baseUrl+'/actions/rate/';
-		data = {video_id: videoId, rating: 1};
-		callback = function(responseData) {
-			if (responseData.result === true) {
-				$('.actions .left .like').text(responseData.other.likes);
-				$('.actions .left .dislike').text(responseData.other.dislikes);
-			}
-			window.scrollTo(0, 0);
-		}
-		this.executeAction(url, data, callback);
-		return false;
-	},
 	/**
 	 * Display message sent from the server handler script for page actions
 	 * @param boolean result The result of the requested action (true = Success, false = Error)
@@ -100,6 +85,19 @@ var cc = {
 			window.scrollTo(0, 0);
 		}
 	},
+	
+	// after like click 
+	showRatingUpdate: function (responseData, element) {
+			this.displayMessage(responseData.result, responseData.message, '.header-secondary');
+			if (responseData.result === true) {
+				//update likes and toggle class
+				$('.like .likes').text(responseData.other.likes);
+				element.find('i').toggleClass('far');
+				element.find('i').toggleClass('fas');
+				$('.actions .left .dislike').text(responseData.other.dislikes);
+			}
+			window.scrollTo(0, 0);
+	},
 
 	toggleCustomPlaylistIcons: function(link){
 		if( link.hasClass("customPlaylist") ) { 
@@ -169,7 +167,16 @@ $('form#createNewPlaylist').submit(function(event){
     });
 
 $( ".like" ).click(function() {
-	cc.likeVideoRating();
+		url = cc.baseUrl + '/actions/rate/';
+		data = {
+			video_id: $(this).data('video_id'), 
+			rating: $(this).data('rating')
+		};
+		callback = function(responseData) {
+			cc.showRatingUpdate(responseData, $(this));
+		}
+		cc.executeAjax(url, data, callback);
+		event.preventDefault();
 });
 
 
