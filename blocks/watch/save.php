@@ -3,7 +3,7 @@
 <div class="row p-3 justify-content-between">
     <div class="col-md-4">
 	<h5 class="pb-2"><?=Language::getText('add_to')?></h5>
-	<div class="list-group">
+	<div id="currentPlaylists" class="list-group">
 		<?php 
 		$playlistService = new PlaylistService();
 		$watchLater = ($loggedInUser) ? $playlistService->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_WATCH_LATER) : false;               
@@ -35,7 +35,7 @@
 		<form id="createNewPlaylist">
 			<div class="form-group playlist-name">
 				<label for="playlistName"><?=Language::GetText('playlist_name')?>:</label>
-				<input type="text" class="form-control" name="name" id="playlistName" placeholder="<?=Language::GetText('playlist_name')?>">
+				<input type="text" class="form-control" name="playlist_name" id="playlistName" placeholder="<?=Language::GetText('playlist_name')?>">
 			</div>
 			<div class="form-group visibility">
 				<span class="pr-2">
@@ -49,7 +49,7 @@
 
 				</div> 
 			<input type="hidden" name="action" value="create" />
-                        <input type="hidden" name="video_id" value="<?=$video->videoId?>" />
+                        <input type="hidden" id="video_id" name="video_id" value="<?=$video->videoId?>" />
 			</div>
 			<p class="text-right">
 				<button class="btn btn-outline-primary" type="submit"><?=Language::GetText('create_playlist_button')?></button>

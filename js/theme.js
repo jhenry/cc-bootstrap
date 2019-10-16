@@ -137,6 +137,22 @@ $('.addToPlaylist').on('click', function(event){
 
 	});
 
+$('form#createNewPlaylist').submit(function(event){
+            var createPlaylistForm = $(this);
+            var data = $(this).serialize();
+            var url = cc.baseUrl + '/actions/playlist/';
+	var video_id = createPlaylistForm.find('#video_id').val();
+            var callback = function(createPlaylistResponse){
+		cc.displayMessage(createPlaylistResponse.result, createPlaylistResponse.message, '.header-secondary');
+		    var newButton = '<button data-playlist_id="' + createPlaylistResponse.other.playlistId + '" data-video_id="'+ video_id +'" data-action="remove" class="list-group-item btn btn-outline-primary text-left addToPlaylist customPlaylist" href="#"><i class="playlist-icon pr-2 fas fa-check-square" alt="Video is in this playlist."></i>' + createPlaylistResponse.other.name + ' <span class="badge badge-info playlist-count">' + createPlaylistResponse.other.count + '</span><span class="sr-only"> videos in playlist.</span></button>';
+                $('#currentPlaylists').append(newButton);
+                createPlaylistForm.find('input[type="text"]').val('');
+                createPlaylistForm.find('#visibility-public').prop( "checked", true );
+            };
+            cc.executeAjax(url, data, callback);
+            event.preventDefault();
+        });
+
 $( ".like" ).click(function() {
 	cc.likeVideoRating();
 });
