@@ -10,14 +10,14 @@ $this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.j
     <div class="container">
 
       <div class="row pt-3">
-          <div class="col">
+          <div class="col header-secondary">
             <h1 class="my-3"><?php echo htmlspecialchars($video->title); ?></h1>
+            <?php ( isset($message) ) ? showAlertMessage($message, $message_type) : ''; ?>
           </div>
       </div>
     
       <div class="row">
         <div class="col-md-8">
-            <div class="message"></div>
             <?php if ($video->gated && !$loggedInUser): ?>
                 <div id="player-gated">
                 <img width="100%" height="337" src="<?=getVideoThumbUrl($video)?>" alt="<?=htmlspecialchars($video->title);?>" />

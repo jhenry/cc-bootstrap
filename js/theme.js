@@ -153,6 +153,21 @@ $('form#createNewPlaylist').submit(function(event){
             event.preventDefault();
         });
 
+// Attach flag action to flag links / buttons
+    $('.report-content').on('click', function(){
+        var url = cc.baseUrl + '/actions/flag/';
+        var data = {
+		type: $(this).data('type'), 
+		id: $(this).data('id')
+	};
+            var callback = function(response){
+		cc.displayMessage(response.result, response.message, '.header-secondary');
+            };
+        cc.executeAjax(url, data, callback);
+	    window.scrollTo(0, 0);
+	    event.preventDefault();
+    });
+
 $( ".like" ).click(function() {
 	cc.likeVideoRating();
 });
