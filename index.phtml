@@ -14,10 +14,14 @@
 <?php $recently_featured = array_slice($featured, 0, 3);?>
     <?php foreach ($recently_featured as $key => $featuredVideo): ?>
     <div class="carousel-item<?= ($key==0) ? ' active' : '';?>">
-      <img class="d-block w-100" src="<?=getVideoThumbUrl($featuredVideo);?>" alt="Click to view <?=$featuredVideo->title;?>">
-      <div class="carousel-caption d-none d-md-block w-100" style="left:0; right: 0; background-color: rgba(50,50, 50, 0.5);">
-    <h4><?=$featuredVideo->title;?></h4>
-    <p><?=mb_strimwidth($featuredVideo->description, 0, 200, '...');?></p>
+      <a class="video-url" href="<?=$this->getService('Video')->getUrl($featuredVideo)?>">
+        <img class="d-block w-100" src="<?=getVideoThumbUrl($featuredVideo);?>" alt="Click to view <?=$featuredVideo->title;?>">
+      </a>
+        <div class="carousel-caption d-none d-md-block w-100" style="left:0; right: 0; background-color: rgba(50,50, 50, 0.5);">
+      <a class="video-url text-white" href="<?=$this->getService('Video')->getUrl($featuredVideo)?>">
+        <h4><?=$featuredVideo->title;?></h4>
+        <p><?=mb_strimwidth($featuredVideo->description, 0, 200, '...');?></p>
+      </a>
   </div>
     </div>
     <?php endforeach; ?>
