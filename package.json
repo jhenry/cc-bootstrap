@@ -4,10 +4,11 @@
   "description": "A basic bootstrap 4 theme for the CumulusClips video CMS.",
   "main": "index.php",
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "blueimp-file-upload": "^10.2.0",
     "clipboard": "^2.0.4",
-    "video.js": "^7.6.5",
-    "jquery-ui-dist": "^1.12.1"
+    "jquery-ui-dist": "^1.12.1",
+    "video.js": "^7.6.5"
   },
   "devDependencies": {},
   "scripts": {
