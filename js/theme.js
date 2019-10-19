@@ -128,7 +128,32 @@ var cc = {
 		$('#pagination').find('a').addClass('page-link');
 		$('#pagination').find('strong').addClass('page-link');
 		$('#pagination').find('strong').parent().addClass('active');
+	},
+        // Callback for AJAX call - Update button if the action (subscribe / unsubscribe) was successful
+	subscribe: function(responseData, subscribeButton, subscribeType) {
+		this.displayMessage(responseData.result, responseData.message, '.header-secondary');
+            if (responseData.result === true) {
+                subscribeButton.text(responseData.other);
+                if (subscribeType == 'subscribe') {
+                    subscribeButton.data('type','unsubscribe');
+                } else if (subscribeType == 'unsubscribe') {
+                    subscribeButton.data('type','subscribe');
+                }
+            }
+            window.scrollTo(0, 0);
+	},
+	/*
+	 * Create and add an add to playlist button.
+	 * 
+	 */
+	createPlaylist: function(createPlaylistResponse, createPlaylistForm, video_id) {
+		this.displayMessage(createPlaylistResponse.result, createPlaylistResponse.message, '.header-secondary');
+		var newButton = '<button data-playlist_id="' + createPlaylistResponse.other.playlistId + '" data-video_id="'+ video_id +'" data-action="remove" class="dropdown-item btn btn-outline-primary text-left addToPlaylist customPlaylist" href="#"><i class="playlist-icon pr-2 fas fa-check-square" alt="Video is in this playlist."></i>' + createPlaylistResponse.other.name + ' <span class="badge badge-info playlist-count">' + createPlaylistResponse.other.count + '</span><span class="sr-only"> videos in playlist.</span></button>';
 
+		// Add the button to the dropdown and clear the form.
+                $('.playlist-buttons').append(newButton);
+                createPlaylistForm.find('input[type="text"]').val('');
+                createPlaylistForm.find('#visibility-public').prop( "checked", true );
 	}
         
 };
@@ -143,42 +168,50 @@ $('.addToPlaylist').on('click', function(event){
 		playlist_id: $(this).data('playlist_id')
 	};
 	var callback = function(response){ cc.savedToPlaylist(response, link, action) };
-
 	cc.executeAjax(url, data, callback);
 	event.preventDefault();
-
 	});
 
+// Attach Subscribe & Unsubscribe action to buttons
+$('.subscribe').click(function(){
+	var subscribeType = $(this).data('type');
+	var url = cc.baseUrl+'/actions/subscribe/';
+	var data = {type: subscribeType, user: $(this).data('user')};
+	var subscribeButton = $(this);
+	var callback = function(responseData) {
+		cc.subscribe(responseData, subscribeButton, subscribeType);
+	}
+        cc.executeAjax(url, data, callback);
+	event.preventDefault();
+    });
+
+// Attach add new playlist actions to forms on watch page.
 $('form#createNewPlaylist').submit(function(event){
-            var createPlaylistForm = $(this);
-            var data = $(this).serialize();
-            var url = cc.baseUrl + '/actions/playlist/';
+	var createPlaylistForm = $(this);
+	var data = $(this).serialize();
+	var url = cc.baseUrl + '/actions/playlist/';
 	var video_id = createPlaylistForm.find('#video_id').val();
-            var callback = function(createPlaylistResponse){
-		cc.displayMessage(createPlaylistResponse.result, createPlaylistResponse.message, '.header-secondary');
-		    var newButton = '<button data-playlist_id="' + createPlaylistResponse.other.playlistId + '" data-video_id="'+ video_id +'" data-action="remove" class="list-group-item btn btn-outline-primary text-left addToPlaylist customPlaylist" href="#"><i class="playlist-icon pr-2 fas fa-check-square" alt="Video is in this playlist."></i>' + createPlaylistResponse.other.name + ' <span class="badge badge-info playlist-count">' + createPlaylistResponse.other.count + '</span><span class="sr-only"> videos in playlist.</span></button>';
-                $('#currentPlaylists').append(newButton);
-                createPlaylistForm.find('input[type="text"]').val('');
-                createPlaylistForm.find('#visibility-public').prop( "checked", true );
-            };
-            cc.executeAjax(url, data, callback);
-            event.preventDefault();
+	var callback = function(createPlaylistResponse){
+		cc.createPlaylist(createPlaylistResponse, createPlaylistForm, video_id);
+	};
+	cc.executeAjax(url, data, callback);
+	event.preventDefault();
         });
 
 // Attach flag action to flag links / buttons
-    $('.report-content').on('click', function(){
-        var url = cc.baseUrl + '/actions/flag/';
-        var data = {
+$('.report-content').on('click', function(){
+	var url = cc.baseUrl + '/actions/flag/';
+	var data = {
 		type: $(this).data('type'), 
 		id: $(this).data('id')
 	};
-            var callback = function(response){
+	var callback = function(response){
 		cc.displayMessage(response.result, response.message, '.header-secondary');
-            };
-        cc.executeAjax(url, data, callback);
-	    window.scrollTo(0, 0);
-	    event.preventDefault();
-    });
+	};
+	cc.executeAjax(url, data, callback);
+	window.scrollTo(0, 0);
+	event.preventDefault();
+});
 
 $( ".like" ).click(function() {
 		url = cc.baseUrl + '/actions/rate/';

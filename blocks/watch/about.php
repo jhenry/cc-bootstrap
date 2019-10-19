@@ -7,7 +7,7 @@
     <?php else: ?>
     <i class="fas fa-user fa-lg py-3 mt-3" alt="<?php echo Language::getText('current_avatar'); ?>" style="font-size: 64px;"></i>
     <?php endif; ?>
-        <p class="text-center"><button data-type="<?=$subscribe_text?>" data-user="<?=$video->userId?>" type="button" class="btn btn-sm btn-outline-primary">Follow <?=$member->username?></button></p>
+        <p class="text-center"><button data-type="<?=$subscribe_text?>" data-user="<?=$video->userId?>" type="button" class="subscribe btn btn-sm btn-outline-primary">Follow <?=$member->username?></button></p>
     </div>
     <div class="col-md-8">
       <div class="card-body">
