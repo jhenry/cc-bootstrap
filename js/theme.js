@@ -122,7 +122,7 @@ var cc = {
 	 * Generated HTML is in core application files.
 	 */
 	paginate: function() {
-		$('#pagination').addClass('pagination');
+		$('#pagination').addClass('pagination justify-content-center');
 		$('#pagination').wrap('<nav aria-label="page navigation"></nav>');
 		$('#pagination').find('li').addClass('page-item');
 		$('#pagination').find('a').addClass('page-link');
