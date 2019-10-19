@@ -115,6 +115,20 @@ var cc = {
 		setTimeout(function() {
 			$(btn).tooltip('hide');
 		}, 1000);
+	}, 
+
+	/*
+	 * Add pagination styles to the appropriate DOM elements.  
+	 * Generated HTML is in core application files.
+	 */
+	paginate: function() {
+		$('#pagination').addClass('pagination');
+		$('#pagination').wrap('<nav aria-label="page navigation"></nav>');
+		$('#pagination').find('li').addClass('page-item');
+		$('#pagination').find('a').addClass('page-link');
+		$('#pagination').find('strong').addClass('page-link');
+		$('#pagination').find('strong').parent().addClass('active');
+
 	}
         
 };
@@ -179,6 +193,7 @@ $( ".like" ).click(function() {
 		event.preventDefault();
 });
 
+cc.paginate();
 
 // ClipboardJS
 var clipboard = new ClipboardJS('.btn-clipboard');
