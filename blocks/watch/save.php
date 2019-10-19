@@ -3,32 +3,11 @@
 <div class="row p-3 justify-content-between">
     <div class="col-md-4">
 	<h5 class="pb-2"><?=Language::getText('add_to')?></h5>
-	<div id="currentPlaylists" class="list-group">
-		<?php 
-		$playlistService = new PlaylistService();
-		$watchLater = ($loggedInUser) ? $playlistService->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_WATCH_LATER) : false;               
-		$watchLaterCount = sizeof($watchLater->entries);
-		$watchLaterListed = isInPlaylist($video, $watchLater);
-		?>
-		<button data-playlist_id="<?=$watchLater->playlistId?>" data-video_id="<?=$video->videoId?>" data-action="<?= ( $watchLaterListed ) ? 'remove' : 'add'; ?>" class="list-group-item btn btn-outline-primary text-left addToPlaylist watch-later" href="#"><i class="playlist-icon fa-bookmark text-success pl-1 pr-2<?= ( $watchLaterListed ) ? ' fas' : ' far'; ?>" alt="<?= ( $watchLaterListed ) ? ' Video is in playlist: ' : ' Video is not in playlist:'; ?>"></i><?=Language::getText('watch_later')?> <span class="badge badge-info playlist-count"><?= $watchLaterCount; ?></span><span class="sr-only"> videos in playlist.</span></button>
+            <div class="button-actions">
+	    <?php include $this->getFallbackPath("blocks/playlist-buttons.phtml"); ?>
+            </div>
 
-<?php 
-                
-                $favorites = ($loggedInUser) ? $playlistService->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_FAVORITES) : false;               
-                $favoritesCount = sizeof($watchLater->entries);
-                $favoritesListed = isInPlaylist($video, $favorites);
-                ?>
-                <button data-playlist_id="<?=$favorites->playlistId ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $favoritesListed ? 'remove' : 'add'; ?>" class="list-group-item btn btn-outline-primary text-left addToPlaylist favorites<?php echo $favoritesListed ? ' added' : ''?>" href="#"><i class="playlist-icon fa-star text-warning pr-2<?= ( $favoritesListed ) ? ' fas' : ' far'; ?>" alt="<?= ( $isListed ) ? 'Video is in playlist.' : 'Video not in this playlist.'; ?>"></i><?=Language::getText('favorites')?> <span class="badge badge-info playlist-count"><?= $favoritesCount; ?></span><span class="sr-only"> videos in playlist.</span></button>
-
-
-    <?php if (count($userPlaylists) > 0): ?>
-	<?php foreach ($userPlaylists as $playlist): ?>
-<?php $isListed = isInPlaylist($video, $playlist); ?>
-                <button data-playlist_id="<?= $playlist->playlistId; ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $isListed ? 'remove' : 'add'; ?>" class="list-group-item btn btn-outline-primary text-left addToPlaylist customPlaylist<?php echo $isListed ? ' added' : ''?>" href="#"><i class="playlist-icon pr-2<?= ( $isListed ) ? ' fas fa-check-square' : ' far fa-square'; ?>" alt="<?= ( $isListed ) ? 'Video is in playlist.' : 'Video not in this playlist.'; ?>"></i><?=$playlist->name?> <span class="badge badge-info playlist-count"><?= sizeof($playlist->entries); ?></span><span class="sr-only"> videos in playlist.</span></button>
-                
-	<?php endforeach; ?>
-    <?php endif; ?>
-	</div>
+	<div id="currentPlaylists" class="list-group"></div>
     </div>
     <div class="col-md-6">
 <h5><?=Language::GetText('create_new_playlist')?></h5>
