@@ -99,14 +99,14 @@ $this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.j
             <!-- BEGIN COMMENTS SECTION -->        
 <?php if ($video->commentsClosed): ?>
             <div id="comments-closed" class="row">
-                <div class="col">
+                <div class="col alert alert-info">
                     <p class="commentMessage"><?=Language::getText('comments_closed')?></p>
                 </div>
             </div>
         <?php else: ?>
 
             <div id="comments-form-block" class="row">
-                <div class="col">
+                <div id="comments" class="col">
                     <h3><?=Language::getText('comments_header')?></h3>
                     <?php include 'blocks/watch/comments_form.php'; ?>    
                 </div>

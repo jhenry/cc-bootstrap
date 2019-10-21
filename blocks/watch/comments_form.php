@@ -3,14 +3,16 @@
             <?php if ($loggedInUser): ?>
                 <!-- BEGIN COMMENTS FORM -->
 
-                    <form>
+                    <form action="" method="post">
                       <div class="form-group">
                             <label for="comment_box">Add Comments</label>
                             <textarea class="form-control" id="comment_box" name="comments" rows="3" placeholder="<?=Language::getText('comments')?>"></textarea>
                       </div>
                         <input type="hidden" name="videoId" value="<?=$video->videoId?>" />
                         <input type="hidden" name="parentCommentId" value="" />
-                        <button type="submit" class="btn btn-primary"><?=Language::getText('comments_button')?></button>
+			<div class="text-right">
+				<button type="submit" class="btn btn-primary"><?=Language::getText('comments_button')?></button>
+			</div>
                     </form>
     
                 <!-- END COMMENTS FORM -->
