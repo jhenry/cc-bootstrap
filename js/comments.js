@@ -28,9 +28,45 @@ var comments = {
 			}
 		}
 	},
+
+	/**
+	 * Generates comment card dom structure and content to be appended to comment list on play page
+	 * @param object cardData The CommentCard object for the comment being appended
+	 * @return object the jQuery object for the newly filled comment card element
+	 */	
+	buildCard: function(cardData) {
+		var card = this.cardTemplate;
+		card.attr('data-comment', cardData.comment.commentId);
+	
+		this.buildCardAvatar(card, cardData);
+		this.buildCardAuthorLink(card, cardData);
+		this.buildCardDate(card, cardData);
+
+	},
+	// Set the comment date text
+	buildCardDate: function(card, cardData) {
+		let commentDate = new Date(cardData.comment.dateCreated.split(' ')[0]);
+		monthPadding = (String(commentDate.getMonth()+1).length === 1) ? '0' : '';
+		datePadding = (String(commentDate.getDate()).length === 1) ? '0' : '';
+		card.find('.commentDate').text(monthPadding + (commentDate.getMonth()+1) + '/' + datePadding + commentDate.getDate() + '/' + commentDate.getFullYear());
+	},
+
+	// Set link for the comment author's member page.
+	buildCardAuthorLink: function(card, cardData) {
+		let memberUrl = cc.baseUrl + '/members/' + cardData.author.username;
+		card.find('.authorUrl').attr('href', memberUrl).text(cardData.author.username);
+	},
+
+	// Set an avatar if the user has uploaded one.
+	buildCardAvatar: function(card, cardData) {
+		if (cardData.avatar !== null) {
+			card.find('.card-img').attr('src', cardData.avatar).toggle('.d-none');
+			card.find('.default-avatar').toggle('.d-none');
+		}
+	},
 	
 	// Apply indent class
-	indent: function (card, cardElement, parentComment) {
+	indent: function(card, cardElement, parentComment) {
 		var indentClass;
 		if (parentComment.hasClass('commentIndentTriple') || parentComment.hasClass('commentIndentDouble')) {
 			indentClass = 'commentIndentTriple';
