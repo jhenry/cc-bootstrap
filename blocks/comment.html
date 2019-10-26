@@ -1,0 +1,21 @@
+<div class="card mb-3 comment" data-comment="">
+	<div class="row no-gutters">
+		<div class="col-md-4">
+			<i class="default-avatar fas fa-user fa-lg py-3 mt-3" alt="<?php echo Language::getText('current_avatar'); ?>" style="font-size: 64px;"></i>
+			<img src="" class="d-none card-img" alt="Avatar image/photo of user.">
+			<p class="card-text commentAuthor"><a class="authorUrl" href=""></a></p>
+			<p class="card-text commentDate"></p>
+		</div>
+		<div class="col-md-8">
+			<div class="card-body">
+				<p class="card-text"></p>
+				<p class="card-text commentReply"></p>
+				<p class="card-text commentAction">
+					<a class="reply" href=""></a>
+					<a class="flag" data-type="comment" data-id="<?=$commentCard->comment->commentId?>" href=""></a>
+				</p>
+				<p class="card-text comment-text"></p>
+			</div>
+		</div>
+	</div>
+</div>
