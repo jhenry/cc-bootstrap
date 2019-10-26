@@ -1,9 +1,7 @@
-            <p class="totals"><span><?=$commentCount?></span> <?=Language::getText('comments_total')?></p>
-
             <?php if ($loggedInUser): ?>
                 <!-- BEGIN COMMENTS FORM -->
 
-                    <form action="" method="post">
+                    <form id="addComment" action="" method="post">
                       <div class="form-group">
                             <label for="comment_box">Add Comments</label>
                             <textarea class="form-control" id="comment_box" name="comments" rows="3" placeholder="<?=Language::getText('comments')?>"></textarea>

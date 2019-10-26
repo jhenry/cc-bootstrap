@@ -31,13 +31,13 @@
         </div>
 <?php endforeach; ?>
                 <?php else: ?>
-                    <p><?=Language::getText('no_comments')?></p>
+                    <div id="no-comments" class="mt-4 alert alert-info"><?=Language::getText('no_comments')?></div>
                 <?php endif; ?>
 
-<!-- BEGIN COMMENTS LIST -->
 
 <?php if ($commentCount > 5): ?>
         <div class="loadMoreComments">
             <a href="" class="button" data-loading_text="<?=Language::getText('loading')?>"><?=Language::getText('load_more')?></a>
         </div>
 <?php endif; ?>
+<!-- END COMMENTS LIST -->

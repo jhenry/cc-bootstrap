@@ -3,8 +3,6 @@ var cc = {
 	baseUrl: $('meta[name="baseUrl"]').attr('content'),
 	themeUrl: $('meta[name="themeUrl"]').attr('content'),
 	loggedIn: $('meta[name="loggedIn"]').attr('content'),
-
-	//if on the watch page?
 	videoId:  $('meta[name="videoId"]').attr('content'),
 
 	/**
@@ -157,6 +155,7 @@ var cc = {
 	}
         
 };
+
 
 $('.addToPlaylist').on('click', function(event){
 	var link = $(this);

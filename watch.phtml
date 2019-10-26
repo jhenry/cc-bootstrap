@@ -2,8 +2,9 @@
 $this->addMeta('videoId', $video->videoId);
 $this->addMeta('theme', $this->options->themeUrl);
 $this->addMeta('loggedIn', (boolean) $loggedInUser);
-$this->addCss($this->options->themeUrl . '/node_modules/video.js/dist/video-js.css');
-$this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.js');
+//$this->addCss($this->options->themeUrl . '/node_modules/video.js/dist/video-js.css');
+//$this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.js');
+//$this->addJs($this->options->themeUrl . '/js/general.js');
 ?>
 
 
@@ -105,9 +106,11 @@ $this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.j
             </div>
         <?php else: ?>
 
-            <div id="comments-form-block" class="row">
-                <div id="comments" class="col">
-                    <h3><?=Language::getText('comments_header')?></h3>
+            <div id="comments" class="row comments-form-block">
+                <div class="col commentForm">
+                  <h3 class="d-inline-block"><?=Language::getText('comments_header')?> </h3>
+                  <span id="comment-count" class="badge badge-info align-top "><?=$commentCount?></span> <span class="sr-only"><?=Language::getText('comments_total')?></span>
+
                     <?php include 'blocks/watch/comments_form.php'; ?>    
                 </div>
             </div>

@@ -382,9 +382,8 @@ $(document).ready(function(){
             event.preventDefault();
         });
 
-
         // Submit 'comment form' and attach new comment to thread
-        $('#comments').on('submit', 'form', function(){
+        $("#addComment").on("submit", function(event){
             var url = cumulusClips.baseUrl+'/actions/comment/add/';
             var commentForm = $(this).parent();
             var callback = function(responseData) {
@@ -431,7 +430,6 @@ $(document).ready(function(){
             executeAction(url, $(this).serialize(), callback);
             return false;
         });
-
 
         // Expand collapsed comment form was activated
         $('#comments .commentForm').focusin(function(){
