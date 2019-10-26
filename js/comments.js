@@ -41,7 +41,13 @@ var comments = {
 		this.buildCardAvatar(card, cardData);
 		this.buildCardAuthorLink(card, cardData);
 		this.buildCardDate(card, cardData);
+		this.buildCardActions(card, cardData);
 
+	},
+	// Fill in action links
+	buildCardActions: function(card, cardData) {
+		card.find('.commentAction .reply').text(this.replyText);
+		card.find('.flag').text(this.reportAbuseText).attr('data-id', cardData.comment.commentId);
 	},
 	// Set the comment date text
 	buildCardDate: function(card, cardData) {
