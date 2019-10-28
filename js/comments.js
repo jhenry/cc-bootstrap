@@ -42,7 +42,14 @@ var comments = {
 		this.buildCardAuthorLink(card, cardData);
 		this.buildCardDate(card, cardData);
 		this.buildCardActions(card, cardData);
+		this.buildCardReplyTo(card, cardData);
+		this.buildCardBodyText(card, cardData);
 
+		return card;
+	},
+	// Add text to comment card
+	buildCardBodyText: function(card, cardData) {
+		card.find('.comment-text').text(cardData.comment.comments);
 	},
 	// Fill in action links
 	buildCardActions: function(card, cardData) {
@@ -71,6 +78,20 @@ var comments = {
 		}
 	},
 	
+	// Fill in the Reply To: User text
+	buildCardReplyTo: function(card, cardData) {
+		if (cardData.comment.parentId !== 0) {
+			card.find('.commentReply').text(cumulusClips.replyToText + ' ');
+			let anchor = {
+				href: cc.baseUrl + '/members/' + cardData.parentAuthor.username,
+				text: text(cardData.parentAuthor.username)
+			};
+			let parentAuthorText = $('<a>', anchor);
+			card.find('.commentReply').append(parentAuthorText);
+		} else {
+			card.find('.commentReply').remove();
+		}
+	},
 	// Apply indent class
 	indent: function(card, cardElement, parentComment) {
 		var indentClass;
@@ -94,9 +115,8 @@ var comments = {
 
 // Submit 'comment form' and attach new comment to thread
 $('#addComment').submit(function(event){
-	var url = cc.baseUrl+'/actions/comment/add/';
+	var url = cc.baseUrl + '/actions/comment/add/';
 	var commentForm = $(this);
-
 	var callback = function(responseData) {
 		comments.showNew(responseData, commentForm);
 	}
