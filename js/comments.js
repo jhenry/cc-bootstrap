@@ -3,21 +3,29 @@ var comments = {
         lastCommentId : $('.commentList > div:last-child').data('comment'),
         commentCount : Number($('#comments .totals span').text()),
         loadMoreComments : (this.commentCount > 5) ? true : false,
-	cardTemplate: null,
-	setupCardTemplate: getCardTemplate(),
-	getCardTemplate: function() {
-		templateRetrieved = false;
-		let templateUrl = cc.themeUrl + '/blocks/comment.html';
-		$.get(templateUrl, function(responseData){
-			this.cardTemplate = responseData;
-			templateRetrieved = true;
-		});
+	cardTemplate: this.getCardTemplate(cc.themeUrl + '/blocks/comment.html'),
 
-		return templateRetrieved;
-	},
-	setLocalizedText: function() {
+	// Set comment/watch specific text localizations.
+	replyToText: this.localizeText('reply_to'),
+	replyText: this.localizeText('reply'),
+	reportAbuse: this.localizeText('report_abuse'),
+	logInToPostText: this.localizeText('error_comment_login'),
 	
+	// Retrieve an HTML template for the comment card structure.
+	getCardTemplate: function(templateUrl) {
+		var template = null;
+		$.get(templateUrl, function(responseData){ template = responseData; });
+		return template;
 	},
+
+	// Get the localized text for the specified node.
+	localizeText: function(nodeLabel) {
+		var localizedText = null
+		cc.getLocalizedText( function(responseData){ localizedText = responseData; }, nodeLabel);	
+		return localizedText;
+	},
+
+	// Show a new comment after it is posted.
 	showNew: function(responseData, commentForm) {
 		this.resetCommentForms(commentForm);
 		// Append new comment if auto-approve comments is on
