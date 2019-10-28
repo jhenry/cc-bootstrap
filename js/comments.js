@@ -3,8 +3,21 @@ var comments = {
         lastCommentId : $('.commentList > div:last-child').data('comment'),
         commentCount : Number($('#comments .totals span').text()),
         loadMoreComments : (this.commentCount > 5) ? true : false,
-	$.get(cc.themeUrl + '/blocks/comment.html', function(responseData, textStatus, jqXHR){this.cardTemplate = responseData;});
+	cardTemplate: null,
+	setupCardTemplate: getCardTemplate(),
+	getCardTemplate: function() {
+		templateRetrieved = false;
+		let templateUrl = cc.themeUrl + '/blocks/comment.html';
+		$.get(templateUrl, function(responseData){
+			this.cardTemplate = responseData;
+			templateRetrieved = true;
+		});
 
+		return templateRetrieved;
+	},
+	setLocalizedText: function() {
+	
+	},
 	showNew: function(responseData, commentForm) {
 		this.resetCommentForms(commentForm);
 		// Append new comment if auto-approve comments is on

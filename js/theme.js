@@ -53,6 +53,22 @@ var cc = {
 		});
 	},
 	/**
+	 * Retrieve localised string via AJAX
+	 * @param function callback Code to be executed once AJAX call to retrieve text is complete
+	 * @param string node Name of term node in language file to retrieve
+	 * @param json replacements (Optional) List of key/value replacements in JSON format
+	 * @return void Requested string, with any replacements made, is passed to callback
+	 * for any futher behaviour
+	 */
+	getLocalizedText: function(callback, node, replacements) {
+		$.ajax({
+			type        : 'POST',
+			url         : cumulusClips.baseUrl+'/language/get/',
+			data        : {node:node, replacements:replacements},
+			success     : callback
+		});
+	},
+	/**
 	 * Update playlist icons and messaging when saving videos to playlists.
 	 * @param obj response from server
 	 * @param jQuery object containing the dom anchor for the playlist that was clicked
