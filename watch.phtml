@@ -5,6 +5,7 @@ $this->addMeta('loggedIn', (boolean) $loggedInUser);
 //$this->addCss($this->options->themeUrl . '/node_modules/video.js/dist/video-js.css');
 //$this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.js');
 //$this->addJs($this->options->themeUrl . '/js/general.js');
+$this->addJs($this->options->themeUrl . '/js/comments.js');
 ?>
 
 
@@ -114,8 +115,8 @@ $this->addMeta('loggedIn', (boolean) $loggedInUser);
                     <?php include 'blocks/watch/comments_form.php'; ?>    
                 </div>
             </div>
-            <div id="comments-list-block" class="row">
-                <div class="col">
+            <div class="row">
+                <div id="comments-list-block" class="col">
                     <?php include 'blocks/watch/comments_list.php'; ?>    
                 </div>
             </div>

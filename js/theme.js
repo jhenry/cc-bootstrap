@@ -63,7 +63,7 @@ var cc = {
 	getLocalizedText: function(callback, node, replacements) {
 		$.ajax({
 			type        : 'POST',
-			url         : cumulusClips.baseUrl+'/language/get/',
+			url         : this.baseUrl+'/language/get/',
 			data        : {node:node, replacements:replacements},
 			success     : callback
 		});

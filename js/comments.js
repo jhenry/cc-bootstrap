@@ -1,29 +1,56 @@
+class Comment {
+	constructor(){
+		this.lastCommentId = $('.commentList > div:last-child').data('comment');
+		this.commentCount = Number($('#comments .totals span').text());
+		this.loadMoreComments = (this.commentCount > 5) ? true : false;
+		this.setupCardTemplate(cc.themeUrl + '/blocks/comment.html');
+		this.cardTemplate = $('#comments-list-block .template'); 
+
+		// Set comment/watch specific text localizations.
+		// TODO: move these server-side (i.e. via loggedInUser on watch page.)
+		this.localizeText('reply_to');
+		this.localizeText('reply');
+		this.localizeText('report_abuse');
+		this.replyToText = $('meta[name="reply_to"]').attr('content');
+		//this.replyText =
+		//	this.reportAbuse
+
+
+		//this.logInToPostText = this.localizeText('error_comment_login');
+		//console.log($('#comments-list-block').data());
+	}
+	// Retrieve an HTML template for the comment card structure.
+	setupCardTemplate(templateUrl) {
+		let callback = function(response) { $('#comments-list-block').append(response); }; 
+		$.get(templateUrl).done(callback);
+	}
+	
+	// Get the localized text for the specified node.
+	localizeText(container, nodeLabel) {
+		let callback = function(responseData){ 
+			let meta = $('<meta>').attr({
+				name: nodeLabel,
+				value: responseData
+			});
+			$('head').append(meta);
+		};
+		cc.getLocalizedText(callback , nodeLabel);	
+	}
+	
+}
+
+var comment = new Comment();
+
+//console.log(comment.templateHTML);
 
 var comments = {
         lastCommentId : $('.commentList > div:last-child').data('comment'),
         commentCount : Number($('#comments .totals span').text()),
         loadMoreComments : (this.commentCount > 5) ? true : false,
-	cardTemplate: this.getCardTemplate(cc.themeUrl + '/blocks/comment.html'),
 
-	// Set comment/watch specific text localizations.
-	replyToText: this.localizeText('reply_to'),
-	replyText: this.localizeText('reply'),
-	reportAbuse: this.localizeText('report_abuse'),
-	logInToPostText: this.localizeText('error_comment_login'),
 	
-	// Retrieve an HTML template for the comment card structure.
-	getCardTemplate: function(templateUrl) {
-		var template = null;
-		$.get(templateUrl, function(responseData){ template = responseData; });
-		return template;
-	},
 
-	// Get the localized text for the specified node.
-	localizeText: function(nodeLabel) {
-		var localizedText = null
-		cc.getLocalizedText( function(responseData){ localizedText = responseData; }, nodeLabel);	
-		return localizedText;
-	},
+	
 
 	// Show a new comment after it is posted.
 	showNew: function(responseData, commentForm) {
@@ -144,4 +171,5 @@ $('#addComment').submit(function(event){
 
 	cc.executeAjax(url, $(this).serialize(), callback);
 	event.preventDefault();
-}
+});
+
