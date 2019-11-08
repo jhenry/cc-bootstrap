@@ -1,42 +1,21 @@
 class Comment {
 	constructor(){
-		this.lastCommentId = $('.commentList > div:last-child').data('comment');
+		this.replyToText = $('meta[name="reply_to"]').attr('content');
+		this.replyText = $('meta[name="reply"]').attr('content');
+		this.reportAbuseText = $('meta[name="report_abuse"]').attr('content');
+
+		this.lastCommentId = $('#comments-list-block > div:last-child').data('comment');
 		this.commentCount = Number($('#comments .totals span').text());
 		this.loadMoreComments = (this.commentCount > 5) ? true : false;
-		this.setupCardTemplate(cc.themeUrl + '/blocks/comment.html');
+		this.setUpCardTemplate(cc.themeUrl + '/blocks/comment.html');
 		this.cardTemplate = $('#comments-list-block .template'); 
-
-		// Set comment/watch specific text localizations.
-		// TODO: move these server-side (i.e. via loggedInUser on watch page.)
-		this.localizeText('reply_to');
-		this.localizeText('reply');
-		this.localizeText('report_abuse');
-		this.replyToText = $('meta[name="reply_to"]').attr('content');
-		//this.replyText =
-		//	this.reportAbuse
-
-
-		//this.logInToPostText = this.localizeText('error_comment_login');
-		//console.log($('#comments-list-block').data());
 	}
 	// Retrieve an HTML template for the comment card structure.
-	setupCardTemplate(templateUrl) {
-		let callback = function(response) { $('#comments-list-block').append(response); }; 
+	setUpCardTemplate(templateUrl) {
+		let callback = response => $('#comments-list-block').append(response); 
 		$.get(templateUrl).done(callback);
 	}
-	
-	// Get the localized text for the specified node.
-	localizeText(container, nodeLabel) {
-		let callback = function(responseData){ 
-			let meta = $('<meta>').attr({
-				name: nodeLabel,
-				value: responseData
-			});
-			$('head').append(meta);
-		};
-		cc.getLocalizedText(callback , nodeLabel);	
-	}
-	
+
 }
 
 var comment = new Comment();
