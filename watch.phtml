@@ -2,6 +2,12 @@
 $this->addMeta('videoId', $video->videoId);
 $this->addMeta('theme', $this->options->themeUrl);
 $this->addMeta('loggedIn', (boolean) $loggedInUser);
+
+if ($loggedInUser && !$video->commentsClosed) {
+  $this->addMeta('reply_to', Language::getText('reply_to'));
+  $this->addMeta('reply', Language::getText('reply'));
+  $this->addMeta('report_abuse', Language::getText('report_abuse'));
+}
 //$this->addCss($this->options->themeUrl . '/node_modules/video.js/dist/video-js.css');
 //$this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.js');
 //$this->addJs($this->options->themeUrl . '/js/general.js');
