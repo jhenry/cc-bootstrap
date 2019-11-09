@@ -90,9 +90,10 @@ class Comment {
 
 	// Set an avatar if the user has uploaded one.
 	buildCardAvatar(card, cardData) {
-		if (cardData.avatar !== null) {
-			card.find('.card-img').attr('src', cardData.avatar).toggle('.d-none');
-			card.find('.default-avatar').toggle('.d-none');
+		if (cardData.author.avatar !== null) {
+			card.find('.card-img').attr('src', cardData.avatar);
+			card.find('.default-avatar').toggleClass('d-none');
+			card.find('.authorUrl').toggleClass('d-none');
 		}
 	}
 	
@@ -124,10 +125,11 @@ class Comment {
 	}
 
 	// stub
-	resetCommentForms() {
+	resetCommentForms(commentForm) {
 		// if it's a reply, remove the reply form
 
 		// clear out top-level form
+		commentForm.find("#comment_box").val('');
 	}
 
 }
