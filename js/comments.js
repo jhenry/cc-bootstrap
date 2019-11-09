@@ -144,6 +144,7 @@ $('#comments').on("submit", "form", function(event){
 	var commentForm = $(this);
 	var callback = function(responseData) {
 		let comment = new Comment();
+		comment.setUpCardTemplate();
 		comment.appendNew(responseData, commentForm);
 	}
 
