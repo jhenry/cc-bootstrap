@@ -120,12 +120,22 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
                   <span id="comment-count" class="badge badge-info align-top "><?=$commentCount?></span> <span class="sr-only"><?=Language::getText('comments_total')?></span>
 
                     <?php include 'blocks/watch/comments_form.php'; ?>    
+                    <div class="comment-alerts"></div>
                 </div>
             </div>
             <div class="row comment-stream mt-4">
                 <div id="comments-list-block" class="col">
                     <?php include 'blocks/watch/comments_list.php'; ?>    
                 </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <?php if ($commentCount > 5): ?>
+                <div class="loadMoreComments">
+                  <button href="" class="btn btn-outline-primary btn-lg btn-block" data-loading_text="<?=Language::getText('loading')?>"><i class="fas fa-caret-down pr-3"></i> <?=Language::getText('load_more')?> <i class="fas fa-caret-down pl-3"></i></button>
+                </div>
+                <?php endif; ?>
+              </div>
             </div>
  <?php endif; ?>
         </div>

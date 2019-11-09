@@ -37,9 +37,4 @@
                 <?php endif; ?>
 
 
-<?php if ($commentCount > 5): ?>
-        <div class="loadMoreComments">
-            <a href="" class="button" data-loading_text="<?=Language::getText('loading')?>"><?=Language::getText('load_more')?></a>
-        </div>
-<?php endif; ?>
 <!-- END COMMENTS LIST -->
