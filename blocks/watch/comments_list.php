@@ -4,27 +4,29 @@
     <?php foreach ($commentCardList as $commentCard): ?>
         <?php $commentIndentClass = getCommentIndentClass($commentCard->comment); ?>
 <div class="card mb-3 comment <?=$commentIndentClass?>" data-comment="<?=$commentCard->comment->commentId?>">
-              <div class="row no-gutters">
-                  <div class="col-md-4">
+              <div class="row">
+                  <div class="col-md-3 text-center">
                         <?php if($avatar): ?>
-                            <img src="<?=$avatar_thumb;?>" class="card-img" alt="Avatar image for <?=$member->username?>">
+                            <img src="<?=$avatar;?>" class="card-img w-75 p-2 my-3 img-thumbnail" alt="Avatar image for <?=$member->username?>">
                         <?php else: ?>
-                           <ion-icon class="card-img avatar" style="font-size: 64px;" name="person"></ion-icon>
+			    <i class="fas fa-user fa-lg py-3 mt-3" alt="<?php echo Language::getText('current_avatar'); ?>" style="font-size: 64px;"></i>
                         <?php endif; ?>
-                            <p class="card-text commentAuthor"><a href="<?=getUserProfileLink($commentCard->author)?>"><?=$commentCard->author->username?></a></p>
-                            <p class="card-text commentDate"><?=date('m/d/Y', strtotime($commentCard->comment->dateCreated))?></p>
                  </div>
              <div class="col-md-8">
                    <div class="card-body">
-                       <p class="card-text"><?=nl2br($commentCard->comment->comments)?></p>
+			
+                            <p class="card-text comment-meta font-weight-light font-italic text-muted">Posted by <span class="commentAuthor"><a href="<?=getUserProfileLink($commentCard->author)?>"><?=$commentCard->author->username?></a></span> on <span class="commentDate"><?=date('m/d/Y', strtotime($commentCard->comment->dateCreated))?></span>
                         <?php if ($commentCard->comment->parentId != 0): ?>
-                            <p class="card-text commentReply"><?=Language::getText('reply_to')?> <a href="<?=getUserProfileLink($commentCard->parentAuthor)?>"><?=$commentCard->parentAuthor->username?></a></p>
+                            <span class="commentReply"><?=Language::getText('reply_to')?> <a href="<?=getUserProfileLink($commentCard->parentAuthor)?>"><?=$commentCard->parentAuthor->username?></a></p>
                         <?php endif; ?>
-                                    <p class="card-text commentAction">
-                                        <a class="reply" href=""><?=Language::getText('reply')?></a>
-                                        <a class="flag" data-type="comment" data-id="<?=$commentCard->comment->commentId?>" href=""><?=Language::getText('report_abuse')?></a>
-                                    </p>
-                        <p>n</p>
+
+</p>
+                            
+                       <p class="comment-body card-text"><?=nl2br($commentCard->comment->comments)?></p>
+<div class="commentAction text-right">
+  <button type="button" class="reply btn btn-sm btn-outline-secondary"><?=Language::getText('reply')?></button>
+  <button type="button" class="flag report_abuse btn btn-sm btn-outline-danger" data-type="comment" data-id="<?=$commentCard->comment->commentId?>"><?=Language::getText('report_abuse')?></button>
+</div>
               </div>
             </div>
           </div>

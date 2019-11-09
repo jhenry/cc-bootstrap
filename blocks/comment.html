@@ -1,20 +1,17 @@
 <div class="card mb-3 comment d-none template" data-comment="">
 	<div class="row no-gutters">
-		<div class="col-md-4">
-			<i class="default-avatar fas fa-user fa-lg py-3 mt-3" alt="<?php echo Language::getText('current_avatar'); ?>" style="font-size: 64px;"></i>
-			<img src="" class="d-none card-img" alt="Avatar image/photo of user.">
-			<p class="card-text commentAuthor"><a class="authorUrl" href=""></a></p>
-			<p class="card-text commentDate"></p>
+		<div class="col-md-3">
+			<i class="default-avatar fas fa-user fa-lg py-3 mt-3" alt="Default avatar image." style="font-size: 64px;"></i>
+			<img src="" class="d-none card-img w-75 p-2 my-3 img-thumbnail" alt="Avatar image/photo of ">
 		</div>
 		<div class="col-md-8">
 			<div class="card-body">
-				<p class="card-text"></p>
-				<p class="card-text commentReply reply_to"></p>
-				<p class="card-text commentAction">
-					<a class="reply" href=""></a>
-					<a class="flag report_abuse" data-type="comment" data-id="" href=""></a>
-				</p>
+				<p class="card-text comment-meta font-weight-light font-italic">Posted by <span class="commentAuthor"><a href=""></a></span> on <span class="commentDate"></span> <span class="commentReply reply_to"></span></p>
 				<p class="card-text comment-text"></p>
+				<div class="commentAction text-right">
+					<button type="button" class="reply btn btn-sm btn-outline-secondary"><?=Language::getText('reply')?></button>
+					<button type="button" class="flag report_abuse btn btn-sm btn-outline-danger" data-type="comment" data-id="<?=$commentCard->comment->commentId?>"><?=Language::getText('report_abuse')?></button>
+				</div>
 			</div>
 		</div>
 	</div>
