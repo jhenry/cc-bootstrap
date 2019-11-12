@@ -7,7 +7,7 @@ class Comment {
 		this.templateUrl = cc.themeUrl + '/blocks/comment.html';
 
 		this.lastCommentId = $('#comments-list-block > div:last-child').data('comment');
-		this.commentCount = Number($('#comments .totals span').text());
+		this.commentCount = Number($('#comment-count').text());
 		this.loadMoreComments = (this.commentCount > 5) ? true : false;
 		this.cardTemplate = $("#comments-list-block .template"); 
 	}
@@ -34,7 +34,6 @@ class Comment {
 			cardElement.toggleClass('d-none');
 			cardElement.toggleClass('template');
 
-
 			// Append comment to list
 			if (cardData.comment.parentId !== 0) {
 				let parentComment = $('[data-comment="' + cardData.comment.parentId + '"]');
@@ -46,13 +45,49 @@ class Comment {
 		}
 	}
 
+	// Load more comments into comment stream
+	updateLoadingButton(loadingButton) {
+			let loadingText = loadingButton.data('loading_text');
+			let loadMoreText = loadingButton.html();
+
+			// Hide load more button if no more comments are available
+                        if ($('#comments-list-block .comment').length < this.commentCount) {
+                            this.loadMoreComments = true;
+                            $('.loadMoreComments button').text(loadMoreText);
+                        } else {
+                            this.loadMoreComments = false;
+                            $('.loadMoreComments').remove();
+                        }
+	
+	}
+
+	insertMoreCards(responseData) {
+		let lastCommentKey = responseData.other.commentCardList.length-1;
+		this.lastCommentId = responseData.other.commentCardList[lastCommentKey].comment.commentId;
+		for(let key in responseData.other.commentCardList) {
+			let card = responseData.other.commentCardList[key];
+			let cardId = card.comment.commentId;
+			$("#comments-list-block").find(`div[data-comment=${cardId}]`).remove();
+			let cardElement = this.buildCard(card);
+
+			let parentId = card.comment.parentId;
+			if (parentId !== 0) {
+				let parentCard = $(`[data-comment="${parentId}"]`);
+				this.indent(card, cardElement, parentCard);
+			}
+			cardElement.removeClass("d-none");
+			cardElement.removeClass("template");
+			cardElement.appendTo("#comments-list-block");
+		}
+	}
+
 	/**
 	 * Generates comment card dom structure and content 
 	 * @param object cardData The CommentCard object for the comment being appended
 	 * @return object the jQuery object for the newly filled comment card element
 	 */	
 	buildCard(cardData) {
-		let card = this.cardTemplate;
+		let card = this.cardTemplate.clone();
 		card.attr('data-comment', cardData.comment.commentId);
 
 		this.buildCardAvatar(card, cardData);
@@ -150,5 +185,21 @@ $('#comments').on("submit", "form", function(event){
 
 	cc.executeAjax(url, $(this).serialize(), callback);
 	event.preventDefault();
+});
+
+$('.loadMoreComments button').on('click', function(event){
+		if (comment.loadMoreComments) {
+			let data = {
+				videoId: cc.videoId, 
+				lastCommentId: comment.lastCommentId, 
+				limit: 5
+			};
+			$.get(cc.baseUrl + '/actions/comments/get/', data, null,'json').done(function(responseData) { 
+				let comment = new Comment();
+				comment.setUpCardTemplate();
+				comment.insertMoreCards(responseData); 
+			});
+		}
+	event.preventDefault;
 });
 
