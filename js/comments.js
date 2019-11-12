@@ -9,12 +9,14 @@ class Comment {
 		this.lastCommentId = $('#comments-list-block > div:last-child').data('comment');
 		this.commentCount = Number($('#comment-count').text());
 		this.loadMoreComments = (this.commentCount > 5) ? true : false;
-		this.cardTemplate = $("#comments-list-block .template"); 
+		this.cardTemplate = $(".comment-stream .template"); 
 	}
 	// Retrieve an HTML template for the comment card structure.
 	setUpCardTemplate() {
-		let callback = response => $('#comments-list-block').append(response); 
+		if(!this.cardTemplate.length){
+		let callback = response => $('.comment-stream').append(response); 
 		$.get(this.templateUrl).done(callback);
+		}
 	}
 	
 	appendNew(responseData, commentForm) {
@@ -53,7 +55,7 @@ class Comment {
 			// Hide load more button if no more comments are available
                         if ($('#comments-list-block .comment').length < this.commentCount) {
                             this.loadMoreComments = true;
-                            $('.loadMoreComments button').text(loadMoreText);
+                            $('.loadMoreComments button').html(loadMoreText);
                         } else {
                             this.loadMoreComments = false;
                             $('.loadMoreComments').remove();
@@ -64,6 +66,7 @@ class Comment {
 	insertMoreCards(responseData) {
 		let lastCommentKey = responseData.other.commentCardList.length-1;
 		this.lastCommentId = responseData.other.commentCardList[lastCommentKey].comment.commentId;
+		console.log(`lastkey: ${lastCommentKey}, lastId: ${this.lastCommentId}`);
 		for(let key in responseData.other.commentCardList) {
 			let card = responseData.other.commentCardList[key];
 			let cardId = card.comment.commentId;
@@ -199,6 +202,7 @@ $('.loadMoreComments button').on('click', function(event){
 				comment.setUpCardTemplate();
 				comment.insertMoreCards(responseData); 
 			});
+			comment.updateLoadingButton($(this));
 		}
 	event.preventDefault;
 });
