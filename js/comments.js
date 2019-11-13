@@ -5,6 +5,7 @@ class Comment {
 		this.reportAbuseText = $('meta[name="report_abuse"]').attr('content');
 
 		this.templateUrl = cc.themeUrl + '/blocks/comment.html';
+		this.requestUrl = cc.baseUrl + '/actions/comments/get/';
 
 		this.lastCommentId = this.getLastCommentId(); 
 		this.commentCount = Number($('#comment-count').text());
@@ -52,27 +53,29 @@ class Comment {
 		}
 	}
 
-	// Load more comments into comment stream
-	updateLoadingButton(loadingButton) {
-		let loadingText = loadingButton.data('loading_text');
+	// Set load more button to "loading..."
+	startLoadingButton(loadingButton) {
 		let loadMoreText = loadingButton.html();
+		let loadingText = loadingButton.data('loading_text');
+		loadingButton.html(loadingText);
+
+		return loadMoreText
+	}
+	finishLoadingButton(loadMoreText){
 		let visibleCards = $('#comments-list-block .comment').length;
 
 		// Hide load more button if no more comments are available
-		if (visibleCards < this.commentCount) {
+		if (visibleCards < comment.commentCount) {
 			this.loadMoreComments = true;
 			$('.loadMoreComments button').html(loadMoreText);
 		} else {
 			this.loadMoreComments = false;
 			$('.loadMoreComments').remove();
 		}
-	
 	}
-
 	insertMoreCards(responseData) {
 		let lastCommentKey = responseData.other.commentCardList.length-1;
 		this.lastCommentId = responseData.other.commentCardList[lastCommentKey].comment.commentId;
-		//console.log(`lastKey: ${lastCommentKey}, id: ${this.lastCommentId}`);
 		for(let key in responseData.other.commentCardList) {
 			let card = responseData.other.commentCardList[key];
 			let cardId = card.comment.commentId;
@@ -88,6 +91,11 @@ class Comment {
 			cardElement.removeClass("template");
 			cardElement.appendTo("#comments-list-block");
 		}
+	}
+
+	// Handle reply form setup when user clicks a reply button
+	insertReplyForm(parentComment){
+
 	}
 
 	/**
@@ -197,19 +205,25 @@ $('#comments').on("submit", "form", function(event){
 });
 
 $('.loadMoreComments button').on('click', function(event){
-	comment.updateLoadingButton($(this));
-		if (comment.loadMoreComments) {
-			let data = {
-				videoId: cc.videoId, 
-				lastCommentId: comment.getLastCommentId(), 
-				limit: 5
-			};
-			$.get(cc.baseUrl + '/actions/comments/get/', data, null,'json').done(function(responseData) { 
-				let comment = new Comment();
-				comment.setUpCardTemplate();
-				comment.insertMoreCards(responseData); 
-			});
+	if (comment.loadMoreComments) {
+		let loadMoreText = comment.startLoadingButton($(this));
+		let data = {
+			videoId: cc.videoId, 
+			lastCommentId: comment.getLastCommentId(), 
+			limit: 5
+		};
+		let callback = function(responseData) { 
+			let comment = new Comment();
+			comment.setUpCardTemplate();
+			comment.insertMoreCards(responseData); 
+			comment.finishLoadingButton(loadMoreText);
 		}
+		$.get(comment.requestUrl, data, callback,'json');//.done(callback);
+	}
 	event.preventDefault;
+});
+	
+$(".commentAction .reply").click( function(event){
+
 });
 
