@@ -204,7 +204,7 @@ let comment = new Comment();
 comment.setUpCardTemplate();
 
 // Submit 'comment form' and attach new comment to thread
-$('#comments').on("submit", "form", function(event){
+$('.comments-actionable').on("submit", "form", function(event){
 	var url = cc.baseUrl + '/actions/comment/add/';
 	var commentForm = $(this);
 	var callback = function(responseData) {

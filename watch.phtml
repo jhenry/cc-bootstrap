@@ -114,7 +114,7 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
             </div>
         <?php else: ?>
 
-            <div id="comments" class="row comments-form-block">
+            <div id="comments" class="row comments-form-block comments-actionable">
                 <div class="col commentForm">
                   
                   <div class="comment-form-head">
@@ -127,7 +127,7 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
                 </div>
             </div>
             <div class="row comment-stream mt-4">
-                <div id="comments-list-block" class="col">
+                <div id="comments-list-block" class="col comments-actionable">
                     <?php include 'blocks/watch/comments_list.php'; ?>    
                 </div>
             </div>
