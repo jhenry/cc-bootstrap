@@ -3,13 +3,14 @@
 
                     <form id="addComment" action="" method="post">
                       <div class="form-group">
-                            <label for="comment_box">Add Comments</label>
-                            <textarea class="form-control" id="comment_box" name="comments" rows="3" placeholder="<?=Language::getText('comments')?>"></textarea>
+		        <label class="d-block"><span class="comment-label-text">Add Comments</span>
+				<textarea class="form-control comment-box" name="comments" rows="3" placeholder="<?=Language::getText('comments')?>"></textarea>
+			</label>
                       </div>
                         <input type="hidden" name="videoId" value="<?=$video->videoId?>" />
                         <input type="hidden" name="parentCommentId" value="" />
-			<div class="text-right">
-				<button type="submit" class="btn btn-primary"><?=Language::getText('comments_button')?></button>
+			<div class="form-actions text-right mb-4">
+				<button type="submit" class="btn btn-primary submit-comment"><?=Language::getText('comments_button')?></button>
 			</div>
                     </form>
     

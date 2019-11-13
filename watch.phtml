@@ -116,8 +116,11 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
 
             <div id="comments" class="row comments-form-block">
                 <div class="col commentForm">
-                  <h3 class="d-inline-block"><?=Language::getText('comments_header')?> </h3>
-                  <span id="comment-count" class="badge badge-info align-top "><?=$commentCount?></span> <span class="sr-only"><?=Language::getText('comments_total')?></span>
+                  
+                  <div class="comment-form-head">
+                    <h3 class="d-inline-block"><?=Language::getText('comments_header')?> </h3>
+                    <span id="comment-count" class="badge badge-info align-top "><?=$commentCount?></span> <span class="sr-only"><?=Language::getText('comments_total')?></span>
+                  </div>
 
                     <?php include 'blocks/watch/comments_form.php'; ?>    
                     <div class="comment-alerts"></div>
