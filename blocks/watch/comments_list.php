@@ -25,7 +25,7 @@
                        <p class="comment-body card-text"><?=nl2br($commentCard->comment->comments)?></p>
 <div class="commentAction text-right">
   <button type="button" class="reply btn btn-sm btn-outline-secondary"><?=Language::getText('reply')?></button>
-  <button type="button" class="flag report_abuse btn btn-sm btn-outline-danger" data-type="comment" data-id="<?=$commentCard->comment->commentId?>"><?=Language::getText('report_abuse')?></button>
+  <button type="button" class="flag report_abuse report-content btn btn-sm btn-outline-danger" data-type="comment" data-id="<?=$commentCard->comment->commentId?>"><?=Language::getText('report_abuse')?></button>
 </div>
               </div>
             </div>

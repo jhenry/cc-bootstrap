@@ -94,21 +94,23 @@ class Comment {
 	}
 
 	// Handle reply form setup when user clicks a reply button
+	// TODO: Indent reply form to match parent.
 	insertReplyForm(parentCommentNode){
 		let commentForm = $('#comments > .commentForm');
-                this.resetCommentForms(commentForm);
-                $('.commentReplyForm').remove();
-                let parentComment = parentCommentNode;
-                let replyForm = commentForm.clone();
+		this.resetCommentForms(commentForm);
+		$('.commentReplyForm').remove();
+		let parentComment = parentCommentNode;
+		let replyForm = commentForm.clone();
 		let parentAuthor = parentComment.find(".commentAuthor a").html();
+
+		// Clean up and re-use cloned comment form
 		replyForm.find(".comment-form-head").remove();
 		replyForm.find(".comment-label-text").text(`${this.replyToText} ${parentAuthor}`);
 		replyForm.find(".form-actions button").text('Post Reply');
-
-                replyForm.addClass('commentReplyForm');
-                parentComment.after(replyForm);
-                replyForm.find('input[name="parentCommentId"]').val(parentComment.data('comment'));
-                replyForm.find('textarea').focus().val('');
+		replyForm.addClass('commentReplyForm');
+		parentComment.after(replyForm);
+		replyForm.find('input[name="parentCommentId"]').val(parentComment.data('comment'));
+		replyForm.find('textarea').focus().val('');
 	}
 
 	/**
