@@ -165,10 +165,10 @@ class Comment {
 	// Fill in the Reply To: User text
 	buildCardReplyTo(card, cardData) {
 		if (cardData.comment.parentId !== 0) {
-			card.find('.commentReply').text(cumulusClips.replyToText + ' ');
+			card.find('.commentReply').text(this.replyToText + ' ');
 			let anchor = {
 				href: cc.baseUrl + '/members/' + cardData.parentAuthor.username,
-				text: text(cardData.parentAuthor.username)
+				text: cardData.parentAuthor.username
 			};
 			let parentAuthorText = $('<a>', anchor);
 			card.find('.commentReply').append(parentAuthorText);

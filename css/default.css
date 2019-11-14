@@ -22,11 +22,21 @@
 	z-index: 1;
 	width: 100%;
 }
+
 /* Keep card image heights reasonable */
 .playlist-card-thumb {
 	max-height: 14rem;
 }
 
-
+/* Comment reply indentation. */
+.commentIndent {
+	margin-left: 3rem;
+}
+.commentIndentDouble {
+	margin-left: 6rem;
+}
+.commentIndentTriple {
+	margin-left: 9rem;
+}
 
 
