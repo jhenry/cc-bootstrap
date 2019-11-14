@@ -213,6 +213,7 @@ $('.comments-actionable').on("submit", "form", function(event){
 		let comment = new Comment();
 		comment.setUpCardTemplate();
 		comment.appendNew(responseData, commentForm);
+		cc.displayMessage(responseData.result, responseData.message, '.comment-form-head');
 	}
 
 	cc.executeAjax(url, $(this).serialize(), callback);
@@ -238,7 +239,7 @@ $('.loadMoreComments button').on('click', function(event){
 	event.preventDefault;
 });
 	
-$(".commentAction .reply").click( function(event){
+$(".comments-actionable").on('click', '.reply', function(event){
 	comment.insertReplyForm($(this).parents('.comment'));
 });
 
