@@ -214,7 +214,7 @@ $('form#createNewPlaylist').submit(function(event){
         });
 
 // Attach flag action to flag links / buttons
-$('.report-content').on('click', function(){
+$('.report-abuse-container').on('click', '.report-content' , function(){
 	var url = cc.baseUrl + '/actions/flag/';
 	var data = {
 		type: $(this).data('type'), 

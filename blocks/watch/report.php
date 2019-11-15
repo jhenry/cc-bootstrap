@@ -1,5 +1,5 @@
 <?php $videoService = $this->getService('Video'); ?>
-<div class="row p-3">
+<div class="report-abuse-container row p-3">
         <div class="col-md-3 text-right">
 <button type="button" data-type="video" data-id="<?=$video->videoId?>" class="btn btn-danger report-content">Report This</button>
         </div>
