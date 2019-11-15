@@ -158,9 +158,9 @@ class Comment {
 	// Set an avatar if the user has uploaded one.
 	buildCardAvatar(card, cardData) {
 		if (cardData.author.avatar !== null) {
-			card.find('.card-img').attr('src', cardData.avatar);
+			card.find('.authorAvatar').attr('src', cardData.avatar);
 			card.find('.default-avatar').toggleClass('d-none');
-			card.find('.authorUrl').toggleClass('d-none');
+			card.find('.authorAvatar').toggleClass('d-none');
 		}
 	}
 	
