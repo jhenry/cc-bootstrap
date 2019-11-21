@@ -7,7 +7,9 @@
         <?= $this->getService('Playlist')->getPlaylistName($playlist) ?>
       </div>
     </div>
-    <img class="card-img-top" src="<?= getPlaylistThumbnail($playlist) ?>" alt="">
+    <div class="d-flex bg-dark justify-content-center">
+      <img class="card-img-top" style="max-height: 195px; width: auto;" src="<?= getPlaylistThumbnail($playlist) ?>" alt="">
+    </div>
     <div class="card-body">
       <div class="card-title">
         <p class="playlist-author card-text">
@@ -25,9 +27,11 @@
           $videoThumbUrl = $videoService->getUrl($playlistVideo) . "/?playlist=" . $playlist->playlistId;
           ($playlistVideo->videoId == $video->videoId) ? $isCurrentVideo = true : false;  ?>
         <li class="media border-top <?= ($isCurrentVideo) ? ' shadow' : null; ?>">
-          <a href="<?= $videoThumbUrl ?>">
-            <img class="mr-3 playlist-mini-thumb" style="height: 6vw; width: 6vw;" src="<?= getVideoThumbUrl($playlistVideo); ?>" alt="">
-          </a>
+          <div class="d-flex bg-dark justify-content-center mr-2" style="width:128px;">
+            <a href="<?= $videoThumbUrl ?>">
+              <img class="playlist-mini-thumb" style="max-width: 128px; height: 86px;" src="<?= getVideoThumbUrl($playlistVideo); ?>" alt="">
+            </a>
+          </div>
           <div class="media-body">
             <p class="mt-0 mb-1">
               <?php if ($isCurrentVideo) : ?>
