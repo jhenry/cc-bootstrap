@@ -9,8 +9,8 @@ $this->addMeta('report_abuse', Language::getText('report_abuse'));
 if ($loggedInUser && !$video->commentsClosed) {
     $this->addMeta('reply', Language::getText('reply'));
 }
-//$this->addCss($this->options->themeUrl . '/node_modules/video.js/dist/video-js.css');
-//$this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.js');
+$this->addCss($this->options->themeUrl . '/node_modules/video.js/dist/video-js.css');
+$this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.js');
 //$this->addJs($this->options->themeUrl . '/js/general.js');
 $this->addJs($this->options->themeUrl . '/js/comments.js');
 ?>
@@ -39,8 +39,8 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
 
             <?php else : ?>
                 <!-- BEGIN VIDEO -->
-                <div id="player">
-                    <video class="video-js" style="background-color: black;" controls preload='auto' data-setup='{ "autoplay": false }' width="100%" height="auto" poster="<?= getVideoThumbUrl($video) ?>">
+                <div id="player" class="mb-1">
+                    <video class="video-js vjs-big-play-centered" controls preload="auto" data-setup='{ "autoplay": false, "fluid": true, "aspectRatio": "16:9"}' poster="<?= getVideoThumbUrl($video) ?>">
                         <source src="<?= $config->h264Url ?>/<?= $video->filename ?>.mp4" type="video/mp4" />
                         <?php if ($webmEncodingEnabled) : ?>
                             <source src="<?= $config->webmUrl ?>/<?= $video->filename ?>.webm" type="video/webm" />
