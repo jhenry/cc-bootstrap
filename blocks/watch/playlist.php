@@ -1,4 +1,4 @@
-<h3>Playlist</h3>
+<h3>More In This Playlist</h3>
 <?php $playlistAuthor = $this->getMapper('User')->getUserById($playlist->userId); ?>
 <div id="playlistVideos">
 

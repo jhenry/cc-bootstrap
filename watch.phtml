@@ -16,20 +16,18 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
 ?>
 
 
-<div class="container">
+<div class="container-fluid">
 
-    <div class="row pt-3">
-        <div class="col header-secondary">
-            <h1 class="my-3"><?php echo htmlspecialchars($video->title); ?></h1>
-            <?php (isset($message)) ? showAlertMessage($message, $message_type) : ''; ?>
-        </div>
-    </div>
 
-    <div class="row justify-content-between">
-        <div class="col-md-7">
+    <div class="row pt-5">
+        <div class="col-md-8">
+                <div class="header-secondary">
+                    <h1 class="video-title"><?php echo htmlspecialchars($video->title); ?></h1>
+                    <?php (isset($message)) ? showAlertMessage($message, $message_type) : ''; ?>
+                </div>
             <?php if ($video->gated && !$loggedInUser) : ?>
                 <div id="player-gated">
-                    <img width="100%" height="337" src="<?= getVideoThumbUrl($video) ?>" alt="<?= htmlspecialchars($video->title); ?>" />
+                    <img width="100%" height="auto" src="<?= getVideoThumbUrl($video) ?>" alt="<?= htmlspecialchars($video->title); ?>" />
                     <div>
                         <p><?= Language::getText('gated_video') ?></p>
                         <a href="<?= HOST ?>/login/?redirect=<?= urlencode($this->getService('Video')->getUrl($video)) ?>" class="button_small"><?= Language::getText('login') ?></a>
@@ -42,7 +40,7 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
             <?php else : ?>
                 <!-- BEGIN VIDEO -->
                 <div id="player">
-                    <video class="video-js" style="background-color: black;" controls preload='auto' data-setup='{ "autoplay": false }' width="100%" height="337" poster="<?= getVideoThumbUrl($video) ?>">
+                    <video class="video-js" style="background-color: black;" controls preload='auto' data-setup='{ "autoplay": false }' width="100%" height="auto" poster="<?= getVideoThumbUrl($video) ?>">
                         <source src="<?= $config->h264Url ?>/<?= $video->filename ?>.mp4" type="video/mp4" />
                         <?php if ($webmEncodingEnabled) : ?>
                             <source src="<?= $config->webmUrl ?>/<?= $video->filename ?>.webm" type="video/webm" />
@@ -143,7 +141,7 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
             <?php endif; ?>
         </div>
         <!-- END COMMENTS SECTION -->
-        <aside class="col-md-4">
+        <aside class="col-md-4 pt-3">
             <!-- BEGIN RELATED VIDEOS -->
             <?php if ($playlist) : ?>
                 <?php include 'blocks/watch/playlist.php'; ?>
