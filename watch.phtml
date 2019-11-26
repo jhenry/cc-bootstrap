@@ -21,10 +21,10 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
 
     <div class="row pt-5">
         <div class="col-md-8">
-                <div class="header-secondary">
-                    <h1 class="video-title"><?php echo htmlspecialchars($video->title); ?></h1>
-                    <?php (isset($message)) ? showAlertMessage($message, $message_type) : ''; ?>
-                </div>
+            <div class="header-secondary">
+                <h1 class="video-title"><?php echo htmlspecialchars($video->title); ?></h1>
+                <?php (isset($message)) ? showAlertMessage($message, $message_type) : ''; ?>
+            </div>
             <?php if ($video->gated && !$loggedInUser) : ?>
                 <div id="player-gated">
                     <img width="100%" height="auto" src="<?= getVideoThumbUrl($video) ?>" alt="<?= htmlspecialchars($video->title); ?>" />
@@ -158,16 +158,17 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
                             <?php foreach ($relatedVideos as $relatedVideo) : ?>
                                 <?php $relatedVideoUrl = $videoService->getUrl($relatedVideo);  ?>
                                 <li class="media my-2">
-                                    <div class="d-flex bg-dark justify-content-center mr-2" style="width:128px;">
-                                        <a href="<?= $relatedVideoUrl  ?>">
+                                    <div class="related-thumb-container d-flex bg-dark justify-content-center mr-2">
+                                        <a href="<?= $relatedVideoUrl  ?>" class="related-thumb-link">
                                             <img class="related-mini-thumb" style="max-width: 128px; height: 86px;" src="<?= getVideoThumbUrl($relatedVideo); ?>" alt="">
                                         </a>
+                                        <?php sscanf($relatedVideo->duration, "%d:%d:%d", $hours, $minutes, $seconds); ?>
+                                        <small class="duration bg-dark text-light px-1" aria-label="<?=expand_duration($relatedVideo->duration);?>"><?= $relatedVideo->duration ?></small>
                                     </div>
                                     <div class="media-body">
                                         <p class="mt-0 mb-1">
                                             <a href="<?= $relatedVideoUrl ?>"><?php echo htmlspecialchars($relatedVideo->title); ?></a>
                                         </p>
-                                        <small class="duration"><?= $relatedVideo->duration ?></small>
                                     </div>
                                 </li>
                             <?php endforeach; ?>

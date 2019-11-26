@@ -173,3 +173,16 @@ function isInPlaylist($video, $playlist)
 	$playlistMapper = new PlaylistMapper();
 	return $playlistService->checkListing($video, $playlistMapper->getPlaylistById($playlist->playlistId));
 }
+
+function expand_duration($duration)
+{
+    if(substr_count($duration, ":") == 1) {
+        sscanf($duration, "%d:%d", $minutes, $seconds);
+        return $minutes . " Minutes, "  . $seconds . " Seconds";
+    } else {
+        sscanf($duration, "%d:%d:%d", $hours, $minutes, $seconds);
+        return $hours . " Hours, " . $minutes . " Minutes, "  . $seconds . " Seconds";
+    }
+
+
+}

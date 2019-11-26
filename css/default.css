@@ -39,4 +39,19 @@
 	margin-left: 9rem;
 }
 
+/* Duration overlay. */
+.duration {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+}
+
+.related-thumb-container {
+	width: 128px;
+	position: relative;
+}
+.related-thumb-link{
+	position: relative;
+}
+
 
