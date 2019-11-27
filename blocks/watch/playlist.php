@@ -4,20 +4,16 @@
 
   <div class="card">
     <div class="card-img-overlay p-0" style="max-height: 100px;">
-      <div class="playlist-title card-title h5 p-2" style="background-color: rgba(255,255, 255, 0.8);">
-        <?= $this->getService('Playlist')->getPlaylistName($playlist) ?>
+      <div class="playlist-title card-title p-2" style="background-color: rgba(255,255, 255, 0.8);">
+        <span class="h5"><?= $this->getService('Playlist')->getPlaylistName($playlist) ?></span>
+        <small class="badge bg-info text-light px-1 float-right"><?= count($playlist->entries) ?> <?= Language::GetText('videos') ?></small>
+      <p class="playlist-author card-text">
+        A Playlist <?= Language::getText('by') ?>: <a href="<?= HOST ?>/members/<?= $playlistAuthor->username ?>/"><?= $playlistAuthor->username ?></a>
+      </p>
       </div>
     </div>
     <div class="d-flex bg-dark justify-content-center">
       <img class="card-img-top" style="max-height: 195px; width: auto;" src="<?= getPlaylistThumbnail($playlist) ?>" alt="">
-    </div>
-    <div class="card-body">
-      <div class="card-title">
-        <p class="playlist-author card-text">
-          A Playlist <?= Language::getText('by') ?>: <a href="<?= HOST ?>/members/<?= $playlistAuthor->username ?>/"><?= $playlistAuthor->username ?></a>
-        </p>
-      </div>
-      <p class="card-text small"><?= count($playlist->entries) ?> <?= Language::GetText('videos') ?></p>
     </div>
     <ul class="list-unstyled mb-0">
       <?php $videoService = $this->getService('Video'); ?>
