@@ -163,7 +163,7 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
                                             <img class="related-mini-thumb" style="max-width: 128px; height: 86px;" src="<?= getVideoThumbUrl($relatedVideo); ?>" alt="">
                                         </a>
                                         <?php sscanf($relatedVideo->duration, "%d:%d:%d", $hours, $minutes, $seconds); ?>
-                                        <small class="duration bg-dark text-light px-1" aria-label="<?=expand_duration($relatedVideo->duration);?>"><?= $relatedVideo->duration ?></small>
+                                        <small class="duration bg-dark text-light px-1" aria-label="<?= durationInWords($relatedVideo->duration); ?>"><?= $relatedVideo->duration ?></small>
                                     </div>
                                     <div class="media-body">
                                         <p class="mt-0 mb-1">

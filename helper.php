@@ -174,7 +174,7 @@ function isInPlaylist($video, $playlist)
 	return $playlistService->checkListing($video, $playlistMapper->getPlaylistById($playlist->playlistId));
 }
 
-function expand_duration($duration)
+function durationInWords($duration)
 {
     if(substr_count($duration, ":") == 1) {
         sscanf($duration, "%d:%d", $minutes, $seconds);
