@@ -9,16 +9,18 @@
                             <?php foreach ($relatedVideos as $relatedVideo) : ?>
                                 <?php $relatedVideoUrl = $videoService->getUrl($relatedVideo);  ?>
                                 <li class="media my-2">
-                                    <div class="related-thumb-container d-flex bg-dark justify-content-center mr-2">
                                         <a href="<?= $relatedVideoUrl  ?>" class="related-thumb-link">
-                                            <img class="related-mini-thumb" style="max-width: 128px; height: 86px;" src="<?= getVideoThumbUrl($relatedVideo); ?>" alt="">
-                                        </a>
-                                        <?php sscanf($relatedVideo->duration, "%d:%d:%d", $hours, $minutes, $seconds); ?>
+                                    <div class="related-thumb-container d-flex bg-dark justify-content-center mr-2">
+                                            <img class="related-mini-thumb" src="<?= getVideoThumbUrl($relatedVideo); ?>" alt="">
                                         <small class="duration bg-dark text-light px-1" aria-label="<?= durationInWords($relatedVideo->duration); ?>"><?= $relatedVideo->duration ?></small>
                                     </div>
+                                        </a>
                                     <div class="media-body">
                                         <p class="mt-0 mb-1">
                                             <a href="<?= $relatedVideoUrl ?>"><?php echo htmlspecialchars($relatedVideo->title); ?></a>
+                                        </p>
+                                        <p class="video-author small">
+                                            <?= Language::getText('by') ?>: <a href="<?= HOST ?>/members/<?= $relatedVideo->username ?>/"><?= $relatedVideo->username ?></a>
                                         </p>
                                     </div>
                                 </li>

@@ -53,5 +53,22 @@
 .related-thumb-link{
 	position: relative;
 }
+.playlist-mini-thumb, .related-mini-thumb {
+	max-width: 128px; 
+	height: 86px;
+}
+
+.playlist-card-topper{
+	max-height: 195px; 
+	width: auto;
+}
+
+#playlistVideos .card .card-img-overlay {
+	max-height: 100px;
+}
+
+#playlistVideos .card .card-img-overlay .playlist-title {
+	background-color: rgba(255,255, 255, 0.8);
+}
 
 
