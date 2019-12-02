@@ -45,28 +45,55 @@ $col_width = 12 / $columns;
       </div>
     </div>
     <div class="col-md-4">
-      <h2><?= Language::GetText('playlists') ?> <?= Language::GetText('by') ?> <?= $member->username ?></h2>
-
+      <!-- BEGIN Member's Playlists -->
+      <div id="member-playlists" class="tab_block">
+        <h2><?= Language::GetText('playlists') ?> <?= Language::GetText('by') ?> <?= $member->username ?></h2>
+        <?php if ($playlistCount > 0) : ?>
+          <ul class="playlist-list list-unstyled">
+            <?php $playlistService = new PlaylistService(); ?>
+            <?php foreach ($playlist_list as $playlist) : ?>
+              <li class="playlist media mt-1">
+                <?php if (!empty($playlist->entries)) : ?>
+                  <a href="<?= $playlistService->getUrl($playlist) ?>">
+<div class="related-thumb-container bg-dark text-center">
+                    <img class="playlist-mini-thumb" src="<?= getPlaylistThumbnail($playlist) ?>" />
+</div>
+                  </a>
+                  <div class="media-body ml-2">
+<p class="h6 my-0">
+                    <a href="<?= $playlistService->getUrl($playlist) ?>"><?php echo htmlspecialchars($playlist->name); ?></a>
+</p>
+                    <p class="video-count small"><?= count($playlist->entries) ?> <?= Language::GetText('videos') ?></p>
+                  </div>
+                <?php endif; ?>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        <?php else : ?>
+          <p class="alert alert-info"><?= Language::GetText('no_member_playlists') ?></p>
+        <?php endif; ?>
+      </div>
+      <!-- END Member's Playlists -->
     </div>
   </div>
 
   <!-- BEGIN Member's Videos -->
   <div id="member-videos">
-        <h2 class="pt-3"><?= Language::GetText('videos') ?> <?= Language::GetText('by') ?> <?= $member->username ?></h2>
-        <?php if ($videoCount > 0) : ?>
-          <?php $video_rows = array_chunk($videoList, $columns); ?>
+    <h2 class="pt-3"><?= Language::GetText('videos') ?> <?= Language::GetText('by') ?> <?= $member->username ?></h2>
+    <?php if ($videoCount > 0) : ?>
+      <?php $video_rows = array_chunk($videoList, $columns); ?>
 
-          <?php foreach ($video_rows as $videos) : ?>
-            <div class="row pt-4">
-              <?php foreach ($videos as $video) : ?>
-                <div class="col-<?= $col_width ?> video">
-                  <?php $this->repeatingBlock('video.phtml', array($video)); ?>
-                </div>
-              <?php endforeach; ?>
+      <?php foreach ($video_rows as $videos) : ?>
+        <div class="row pt-4">
+          <?php foreach ($videos as $video) : ?>
+            <div class="col-<?= $col_width ?> video">
+              <?php $this->repeatingBlock('video.phtml', array($video)); ?>
             </div>
           <?php endforeach; ?>
-        <?php else : ?>
-          <p><strong><?= Language::GetText('no_member_videos') ?></strong></p>
-        <?php endif; ?>
-      </div>
-      <!-- END Member's Videos -->
+        </div>
+      <?php endforeach; ?>
+    <?php else : ?>
+      <p><strong><?= Language::GetText('no_member_videos') ?></strong></p>
+    <?php endif; ?>
+  </div>
+  <!-- END Member's Videos -->
