@@ -1,0 +1,72 @@
+<?php
+$this->addMeta('videoCount', $videoCount);
+$this->addMeta('playlistCount', $playlistCount);
+$this->addMeta('thumbUrl', $config->thumbUrl);
+if (!empty($watchLaterPlaylistId)) $this->addMeta('watchLaterPlaylistId', $watchLaterPlaylistId);
+$columns = 3;
+$col_width = 12 / $columns;
+?>
+
+<div class="container">
+  <div class="header-secondary pt-4">
+    <h1 class="profile-head">Member Profile</h1>
+    <?php (isset($message)) ? showAlertMessage($message, $message_type) : ''; ?>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="media bg-white p-3 border">
+        <?php $avatar = $this->getService('User')->getAvatarUrl($member); ?>
+        <?php if ($avatar) : ?>
+          <img src="<?= $avatar; ?>" class="img-thumbnail" alt="">
+        <?php else : ?>
+          <i class="fas fa-user fa-lg default-avatar" alt="" style="font-size: 64px;"></i>
+        <?php endif; ?>
+        <div class="media-body ml-2">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item h4"><?= $member->username ?></li>
+            <li class="list-group-item"><?= Language::GetText('joined') ?>: <?= date('m/d/Y', strtotime($member->dateCreated)) ?></li>
+            <li class="list-group-item"><?= Language::GetText('profile_views') ?>:</strong>&nbsp; <?= $member->views ?></li>
+            <li class="list-group-item"><?= Language::GetText('subscribers') ?>:</strong>&nbsp; <?php echo $sub_count[0]; ?></li>
+            <?php if (!empty($member->website)) : ?>
+              <li class="list-group-item"><?= Language::GetText('website') ?>: <a href="<?= $member->website ?>" target="_blank" rel="nofollow"><?= Functions::CutOff($member->website, 40); ?></a></li>
+              <p><?php echo nl2br(htmlspecialchars($member->aboutMe)); ?></p>
+            <?php endif; ?>
+            <?php if (!empty($member->aboutMe)) : ?>
+              <li class="list-group-item"><?php echo nl2br(htmlspecialchars($member->aboutMe)); ?></li>
+            <?php endif; ?>
+          </ul>
+          <div class="profile-actions pl-3">
+            <button type="button" class="btn btn-primary btn-sm">Subscribe</button>
+            <button type="button" class="btn btn-primary btn-sm">Send</button>
+            <button type="button" class="btn btn-danger btn-sm">Send</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <h2><?= Language::GetText('playlists') ?> <?= Language::GetText('by') ?> <?= $member->username ?></h2>
+
+    </div>
+  </div>
+
+  <!-- BEGIN Member's Videos -->
+  <div id="member-videos">
+        <h2 class="pt-3"><?= Language::GetText('videos') ?> <?= Language::GetText('by') ?> <?= $member->username ?></h2>
+        <?php if ($videoCount > 0) : ?>
+          <?php $video_rows = array_chunk($videoList, $columns); ?>
+
+          <?php foreach ($video_rows as $videos) : ?>
+            <div class="row pt-4">
+              <?php foreach ($videos as $video) : ?>
+                <div class="col-<?= $col_width ?> video">
+                  <?php $this->repeatingBlock('video.phtml', array($video)); ?>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          <?php endforeach; ?>
+        <?php else : ?>
+          <p><strong><?= Language::GetText('no_member_videos') ?></strong></p>
+        <?php endif; ?>
+      </div>
+      <!-- END Member's Videos -->
