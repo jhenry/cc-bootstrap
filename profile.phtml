@@ -1,8 +1,16 @@
 <?php
+$this->addMeta('videos', Language::GetText('videos'));
+$this->addMeta('watch_all', Language::GetText('watch_all'));
+$this->addMeta('watch_later', Language::GetText('watch_later'));
 $this->addMeta('videoCount', $videoCount);
 $this->addMeta('playlistCount', $playlistCount);
 $this->addMeta('thumbUrl', $config->thumbUrl);
+
 if (!empty($watchLaterPlaylistId)) $this->addMeta('watchLaterPlaylistId', $watchLaterPlaylistId);
+
+$this->addJs($this->options->themeUrl . '/node_modules/jsrender/jsrender.min.js');
+$this->addJs($this->options->themeUrl . '/js/profile.js');
+
 $columns = 3;
 $col_width = 12 / $columns;
 ?>
@@ -45,7 +53,7 @@ $col_width = 12 / $columns;
       </div>
     </div>
     <div class="col-md-4">
-      <!-- BEGIN Member's Playlists -->
+      <!-- BEGIN Members Playlists -->
       <div id="member-playlists" class="tab_block">
         <h2><?= Language::GetText('playlists') ?> <?= Language::GetText('by') ?> <?= $member->username ?></h2>
         <?php if ($playlistCount > 0) : ?>
@@ -55,14 +63,14 @@ $col_width = 12 / $columns;
               <li class="playlist media mt-1">
                 <?php if (!empty($playlist->entries)) : ?>
                   <a href="<?= $playlistService->getUrl($playlist) ?>">
-<div class="related-thumb-container bg-dark text-center">
-                    <img class="playlist-mini-thumb" src="<?= getPlaylistThumbnail($playlist) ?>" />
-</div>
+                    <div class="related-thumb-container bg-dark text-center">
+                      <img class="playlist-mini-thumb" src="<?= getPlaylistThumbnail($playlist) ?>" />
+                    </div>
                   </a>
                   <div class="media-body ml-2">
-<p class="h6 my-0">
-                    <a href="<?= $playlistService->getUrl($playlist) ?>"><?php echo htmlspecialchars($playlist->name); ?></a>
-</p>
+                    <p class="h6 my-0">
+                      <a href="<?= $playlistService->getUrl($playlist) ?>"><?php echo htmlspecialchars($playlist->name); ?></a>
+                    </p>
                     <p class="video-count small"><?= count($playlist->entries) ?> <?= Language::GetText('videos') ?></p>
                   </div>
                 <?php endif; ?>
@@ -73,27 +81,41 @@ $col_width = 12 / $columns;
           <p class="alert alert-info"><?= Language::GetText('no_member_playlists') ?></p>
         <?php endif; ?>
       </div>
-      <!-- END Member's Playlists -->
+      <!-- END Member Playlists -->
     </div>
   </div>
 
-  <!-- BEGIN Member's Videos -->
+  <!-- BEGIN Member Videos -->
   <div id="member-videos">
     <h2 class="pt-3"><?= Language::GetText('videos') ?> <?= Language::GetText('by') ?> <?= $member->username ?></h2>
-    <?php if ($videoCount > 0) : ?>
-      <?php $video_rows = array_chunk($videoList, $columns); ?>
+    <div id="videos_list">
+      <?php if ($videoCount > 0) : ?>
+        <?php $video_rows = array_chunk($videoList, $columns); ?>
 
-      <?php foreach ($video_rows as $videos) : ?>
-        <div class="row pt-4">
-          <?php foreach ($videos as $video) : ?>
-            <div class="col-<?= $col_width ?> video">
-              <?php $this->repeatingBlock('video.phtml', array($video)); ?>
-            </div>
-          <?php endforeach; ?>
+        <?php foreach ($video_rows as $videos) : ?>
+          <div class="row pt-4">
+            <?php foreach ($videos as $video) : ?>
+              <div class="col-md-<?= $col_width ?> video">
+                <?php $this->repeatingBlock('video.phtml', array($video)); ?>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        <?php endforeach; ?>
+    </div>
+    <?php if ($videoCount > 9) : ?>
+
+      <?php readfile('templates/video_card.html', true); ?>
+
+      <div class="row">
+        <div class="col">
+          <div class="loadMoreVideos">
+            <button href="" class="btn btn-outline-primary btn-lg btn-block" data-user="<?= $member->userId ?>" data-limit="9" data-loading_text="<?= Language::getText('loading') ?>"><i class="fas fa-caret-down pr-3"></i> <?= Language::getText('load_more') ?> <i class="fas fa-caret-down pl-3"></i></button>
+          </div>
         </div>
-      <?php endforeach; ?>
-    <?php else : ?>
-      <p><strong><?= Language::GetText('no_member_videos') ?></strong></p>
+      </div>
     <?php endif; ?>
+  <?php else : ?>
+    <p><strong><?= Language::GetText('no_member_videos') ?></strong></p>
+  <?php endif; ?>
   </div>
-  <!-- END Member's Videos -->
+  <!-- END Member Videos -->
