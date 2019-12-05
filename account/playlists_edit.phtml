@@ -29,7 +29,7 @@ $col_width = 12 / $columns ;
 				<div class="form-check form-check-inline">
 					<input type="radio" class="form-check-input" value="public" id="visibility-public" name="visibility" <?=($playlist->public) ? 'checked' : ''?>>
 					<label class="form-check-label pr-2" for="visibility-public"><?=Language::GetText('public')?></label> 
-					<input type="radio" class="form-check-input" value="private" id="visibility-private" name="visibility" <?=($playlist->private) ? 'checked' : ''?>>
+					<input type="radio" class="form-check-input" value="private" id="visibility-private" name="visibility" <?=(!$playlist->public) ? 'checked' : ''?>>
 					<label class="form-check-label" for="visibility-private"><?=Language::GetText('private')?></label> 
 
 				</div>
