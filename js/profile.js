@@ -10,6 +10,8 @@ class Profile {
     this.watchLaterPlaylistId = $('meta[name="watchLaterPlaylistId"]').attr('content')
 
     this.videoRequestUrl = cc.baseUrl + '/members/videos'
+    this.playlistRequestUrl = cc.baseUrl + '/members/playlists'
+    this.videoListUrl = cc.baseUrl + '/api/video/list/'
   }
 
   chunker(arr, chunkSize) {
@@ -20,6 +22,25 @@ class Profile {
     }
     
     return sets
+  }
+
+  
+
+  loadMorePlaylists (playlistList) {
+
+    for (const playlist of playlistList) {
+      playlist.videoCount = playlist.entries.length
+      playlist.videosText = this.videosText
+
+      if (playlist.entries.length) {
+        playlist.videoThumbId = playlist.entries[0].videoId
+      }
+
+      const template = $.templates('#playlist-mini-card-template')
+      const renderedCard = template.render(playlist)
+      $('.playlist-list').append(renderedCard)
+    }
+    this.getPlaylistThumbs(playlistList)
   }
 
   loadVideoGrid(videoList) {
@@ -67,6 +88,32 @@ class Profile {
     return fullDuration
   }
 
+/**
+ * Get a list of thumbnails for a given set of playlists.
+ * @param object playlistList The list of playlists to get thumbs for.
+ * @return array List of thumbs associated with each playlist.
+ */
+  getPlaylistThumbs (playlistList) {
+    let thumbnailVideos = []
+    for (const playlist of playlistList) {
+      if (playlist.entries.length) {
+        // Playlists use the thumb of the first video.
+        thumbnailVideos.push(playlist.entries[0].videoId)
+      }
+    }
+    const videoIds = { list: thumbnailVideos.join(',') }
+    const callback = function (thumbUrl) {
+      return function(response, textStatus, jqXHR) {
+        for (let video of response.data) {
+          const url = thumbUrl + '/' + video.filename + '.jpg'
+          $('.thumb-' + video.videoId).attr('src', url)
+        }
+      }
+    }
+    $.get (this.videoListUrl, videoIds, callback(this.thumbUrl), 'json')
+
+  }
+
   /**
  * Retrieve the full URL to a video
  * @param object video The video whose URL is being retrieved
@@ -108,6 +155,28 @@ $('#member-videos').on('click', '.loadMoreVideos button', function (event) {
 
       // Remove load more button if we're out of videos to load
       if ($('#videos_list .video').length === profile.videoCount) {
+        loadMoreButton.remove()
+      }
+    }
+  })
+  event.preventDefault()
+})
+
+$('#member-playlists').on('click', '.loadMorePlaylists button', function (event) {
+  const loadMoreButton = $(this)
+  const userId = loadMoreButton.data('user')
+  const retrieveOffset = $('.playlist-list .playlist').length
+  const retrieveLimit = Number(loadMoreButton.data('limit'))
+  $.ajax({
+    url: profile.playlistRequestUrl,
+    data: { userId: userId, start: retrieveOffset, limit: retrieveLimit },
+    dataType: 'json',
+    success: function (responseData, textStatus, jqXHR) {
+      // Append video cards
+      profile.loadMorePlaylists(responseData.data.playlistList)
+
+      // Remove load more button if we're out of videos to load
+      if ($('#playlist-list .playlist').length === profile.playlistCount) {
         loadMoreButton.remove()
       }
     }

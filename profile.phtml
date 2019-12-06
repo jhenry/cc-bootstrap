@@ -55,7 +55,7 @@ $col_width = 12 / $columns;
     </div>
     <div class="col-md-4">
       <!-- BEGIN Members Playlists -->
-      <div id="member-playlists" class="tab_block">
+      <div id="member-playlists" class="tab_block px-2">
         <h2><?= Language::GetText('playlists') ?> <?= Language::GetText('by') ?> <?= $member->username ?></h2>
         <?php if ($playlistCount > 0) : ?>
           <ul class="playlist-list list-unstyled">
@@ -78,6 +78,14 @@ $col_width = 12 / $columns;
               </li>
             <?php endforeach; ?>
           </ul>
+          <?php if ($playlistCount > 9) : ?>
+
+            <?php readfile('templates/playlist_mini_card.html', true); ?>
+
+                <div class="loadMorePlaylists">
+                  <button href="" class="btn btn-outline-primary btn-lg btn-block" data-user="<?= $member->userId ?>" data-limit="9" data-loading_text="<?= Language::getText('loading') ?>"><i class="fas fa-caret-down pr-3"></i> <?= Language::getText('load_more') ?> <i class="fas fa-caret-down pl-3"></i></button>
+            </div>
+          <?php endif; ?>
         <?php else : ?>
           <p class="alert alert-info"><?= Language::GetText('no_member_playlists') ?></p>
         <?php endif; ?>
@@ -116,7 +124,11 @@ $col_width = 12 / $columns;
       </div>
     <?php endif; ?>
   <?php else : ?>
-    <p><strong><?= Language::GetText('no_member_videos') ?></strong></p>
+    <div class="row py-3">
+      <div class="col-md-8">
+        <p class="alert alert-info"><?= Language::GetText('no_member_videos') ?></p>
+      </div>
+    </div>
   <?php endif; ?>
   </div>
   <!-- END Member Videos -->
