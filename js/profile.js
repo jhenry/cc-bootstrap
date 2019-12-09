@@ -24,10 +24,7 @@ class Profile {
     return sets
   }
 
-  
-
   loadMorePlaylists (playlistList) {
-
     for (const playlist of playlistList) {
       playlist.videoCount = playlist.entries.length
       playlist.videosText = this.videosText
@@ -38,18 +35,10 @@ class Profile {
         const profile = this
         $.get (this.videoListUrl, videoIds, this.buildPlaylistMeta(profile, playlist), 'json')
       }
-
-      
     }
-    // this.getPlaylistMeta(playlistList)
-  //   $('.playlist-link').each(function(i, obj) {
-  //     const url = $(obj).attr('href') + $(obj).data('playlistid')
-  //     console.log(obj)
-  //     $(obj).attr('href', url)
-  // })
   }
 
-  loadVideoGrid(videoList) {
+  loadVideoGrid (videoList) {
     const columns = 3
     const columnWidth = 12 / columns
     const videoRows = this.chunker(videoList, columns)
@@ -75,7 +64,6 @@ class Profile {
     video.truncatedDescription = this.truncateDescription(video.description)
     video.durationInWords = moment.duration(this.formatDuration(video.duration)).humanize()
     video.memberBaseUrl = cc.baseUrl + '/members/'
-
     return video
   }
 
@@ -94,49 +82,17 @@ class Profile {
     return fullDuration
   }
 
-/**
- * Build and place thumbnails and URLs for a given set of playlists.
- * @param object playlistList The list of playlists to get thumbs for.
- */
-  getPlaylistMeta (playlistList) {
-    const videoIds = this.getVideoIds(playlistList) 
-    // Send it a temporary version of the class, because a-synch.
-    const profile = this
-    $.get (this.videoListUrl, videoIds, this.buildPlaylistMeta(profile), 'json')
-
-  }
-
   buildPlaylistMeta (profile, playlist) {
     return function (response, textStatus, jqXHR) {
       for (let video of response.data) {
-        const fullThumbUrl = profile.thumbUrl + '/' + video.filename + '.jpg'
-        const playlistUrl = profile.getVideoUrl(video) + '?playlist=' + playlist.playlistId
-        playlist.thumbUrl = fullThumbUrl
-        playlist.url = playlistUrl
+        playlist.thumbUrl = profile.thumbUrl + '/' + video.filename + '.jpg'
+        playlist.url = profile.getVideoUrl(video) + '?playlist=' + playlist.playlistId
+
         const template = $.templates('#playlist-mini-card-template')
         const renderedCard = template.render(playlist)
         $('.playlist-list').append(renderedCard)
-        // $('.thumb-' + video.videoId).attr('src', fullThumbUrl)
-        // $('.video-url-' + video.videoId).attr('href', playlistUrl)
       }
     }
-  }
-
-/**
-* Build a list of video id's for a playlist
-* @param object playlistList a playlist object containing a list of the videos
-* @return object an object ready to send to the list video endpoint 
-*/
-  getVideoIds (playlistList) {
-    const thumbnailVideos = []
-    for (const playlist of playlistList) {
-      if (playlist.entries.length) {
-        // Playlists use the thumb of the first video.
-        thumbnailVideos.push(playlist.entries[0].videoId)
-      }
-    }
-    const videoIds = { list: thumbnailVideos.join(',') }
-    return videoIds
   }
 
 /**
