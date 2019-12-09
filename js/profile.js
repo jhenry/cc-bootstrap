@@ -34,13 +34,19 @@ class Profile {
 
       if (playlist.entries.length) {
         playlist.videoThumbId = playlist.entries[0].videoId
+        const videoIds = { list: playlist.videoThumbId }
+        const profile = this
+        $.get (this.videoListUrl, videoIds, this.buildPlaylistMeta(profile, playlist), 'json')
       }
 
-      const template = $.templates('#playlist-mini-card-template')
-      const renderedCard = template.render(playlist)
-      $('.playlist-list').append(renderedCard)
+      
     }
-    this.getPlaylistThumbs(playlistList)
+    // this.getPlaylistMeta(playlistList)
+  //   $('.playlist-link').each(function(i, obj) {
+  //     const url = $(obj).attr('href') + $(obj).data('playlistid')
+  //     console.log(obj)
+  //     $(obj).attr('href', url)
+  // })
   }
 
   loadVideoGrid(videoList) {
@@ -89,12 +95,40 @@ class Profile {
   }
 
 /**
- * Get a list of thumbnails for a given set of playlists.
+ * Build and place thumbnails and URLs for a given set of playlists.
  * @param object playlistList The list of playlists to get thumbs for.
- * @return array List of thumbs associated with each playlist.
  */
-  getPlaylistThumbs (playlistList) {
-    let thumbnailVideos = []
+  getPlaylistMeta (playlistList) {
+    const videoIds = this.getVideoIds(playlistList) 
+    // Send it a temporary version of the class, because a-synch.
+    const profile = this
+    $.get (this.videoListUrl, videoIds, this.buildPlaylistMeta(profile), 'json')
+
+  }
+
+  buildPlaylistMeta (profile, playlist) {
+    return function (response, textStatus, jqXHR) {
+      for (let video of response.data) {
+        const fullThumbUrl = profile.thumbUrl + '/' + video.filename + '.jpg'
+        const playlistUrl = profile.getVideoUrl(video) + '?playlist=' + playlist.playlistId
+        playlist.thumbUrl = fullThumbUrl
+        playlist.url = playlistUrl
+        const template = $.templates('#playlist-mini-card-template')
+        const renderedCard = template.render(playlist)
+        $('.playlist-list').append(renderedCard)
+        // $('.thumb-' + video.videoId).attr('src', fullThumbUrl)
+        // $('.video-url-' + video.videoId).attr('href', playlistUrl)
+      }
+    }
+  }
+
+/**
+* Build a list of video id's for a playlist
+* @param object playlistList a playlist object containing a list of the videos
+* @return object an object ready to send to the list video endpoint 
+*/
+  getVideoIds (playlistList) {
+    const thumbnailVideos = []
     for (const playlist of playlistList) {
       if (playlist.entries.length) {
         // Playlists use the thumb of the first video.
@@ -102,24 +136,15 @@ class Profile {
       }
     }
     const videoIds = { list: thumbnailVideos.join(',') }
-    const callback = function (thumbUrl) {
-      return function(response, textStatus, jqXHR) {
-        for (let video of response.data) {
-          const url = thumbUrl + '/' + video.filename + '.jpg'
-          $('.thumb-' + video.videoId).attr('src', url)
-        }
-      }
-    }
-    $.get (this.videoListUrl, videoIds, callback(this.thumbUrl), 'json')
-
+    return videoIds
   }
 
-  /**
- * Retrieve the full URL to a video
- * @param object video The video whose URL is being retrieved
- * @return string Returns the complete URL to given video
- */
-  getVideoUrl(video) {
+/**
+* Retrieve the full URL to a video
+* @param object video The video whose URL is being retrieved
+* @return string Returns the complete URL to given video
+*/
+  getVideoUrl (video) {
     let url = cc.baseUrl
     url += '/watch/' + video.videoId + '/'
     url += this.generateSlug(video.title) + '/'
@@ -131,7 +156,7 @@ class Profile {
    * @param string stringToConvert The string to convert into a URL slug
    * @return string Returns a string with non alphanum characters converted to hyphens.
    */
-  generateSlug(stringToConvert) {
+  generateSlug (stringToConvert) {
     let slug = stringToConvert.replace(/[^a-z0-9]+/ig, '-')
     slug = slug.replace(/^-|-$/g, '').toLowerCase()
     return slug

@@ -1,15 +1,15 @@
 <script id="playlist-mini-card-template" type="text/x-jsrender">
 <li class="playlist media mt-1">
-    <a href="<?= $playlistService->getUrl($playlist) ?>">
+    <a data-playlistId="{{:playlistId}}" class="playlist-link video-url-{{:videoThumbId}}" href="{{:url}}">
       <div class="related-thumb-container bg-dark text-center">
-        <img class="playlist-mini-thumb thumb-{{:videoThumbId}}" src="<?= getPlaylistThumbnail($playlist) ?>" />
+        <img class="playlist-mini-thumb thumb-{{:videoThumbId}}" src="{{:thumbUrl}}" />
       </div>
     </a>
     <div class="media-body ml-2">
       <p class="h6 my-0">
-        <a href="<?= $playlistService->getUrl($playlist) ?>">{{:name}}</a>
+        <a data-playlistId="{{:playlistId}}" class="playlist-link video-url-{{:videoThumbId}}" href="{{:url}}">{{:name}}</a>
       </p>
-      <p class="video-count small">{{:videoCount}} <?= Language::GetText('videos') ?></p>
+      <p class="video-count small">{{:videoCount}} {{:videosText}}</p>
     </div>
 </li>
 </script>
