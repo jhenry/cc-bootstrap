@@ -35,6 +35,11 @@ class Profile {
         const profile = this
         $.get (this.videoListUrl, videoIds, this.buildPlaylistMeta(profile, playlist), 'json')
       }
+      else {
+        const template = $.templates('#playlist-mini-card-template')
+        const renderedCard = template.render(playlist)
+        // TODO: replace img element with playlist FA icon
+      }
     }
   }
 
@@ -156,8 +161,11 @@ $('#member-playlists').on('click', '.loadMorePlaylists button', function (event)
       // Append video cards
       profile.loadMorePlaylists(responseData.data.playlistList)
 
+console.log($('.playlist-list .playlist').length)
+console.log(profile.playlistCount)
+console.log($('.playlist-list .playlist').length === profile.playlistCount)
       // Remove load more button if we're out of videos to load
-      if ($('#playlist-list .playlist').length === profile.playlistCount) {
+      if ($('.playlist-list .playlist').length === profile.playlistCount) {
         loadMoreButton.remove()
       }
     }
