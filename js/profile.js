@@ -161,9 +161,7 @@ $('#member-playlists').on('click', '.loadMorePlaylists button', function (event)
       // Append video cards
       profile.loadMorePlaylists(responseData.data.playlistList)
 
-console.log($('.playlist-list .playlist').length)
-console.log(profile.playlistCount)
-console.log($('.playlist-list .playlist').length === profile.playlistCount)
+      // TODO: Fix.
       // Remove load more button if we're out of videos to load
       if ($('.playlist-list .playlist').length === profile.playlistCount) {
         loadMoreButton.remove()
