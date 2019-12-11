@@ -8,7 +8,7 @@ $message_type = setMessageType($message_type);
     <div class="col">
     <h2><?=Language::GetText('message_send_header')?></h2>
     <?php if ($message): ?>
-       <div class="message <?=$message_type?>"><?=$message?></div>
+      <?php ( isset($message) ) ? showAlertMessage($message, $message_type) : ''; ?>
    <?php endif; ?>
     </div>
 </div>
