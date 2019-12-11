@@ -48,7 +48,7 @@ $col_width = 12 / $columns;
               <li class="list-group-item"><?php echo nl2br(htmlspecialchars($member->aboutMe)); ?></li>
             <?php endif; ?>
           </ul>
-          <div class="profile-actions pl-3">
+          <div class="profile-actions pl-3 mt-3">
             <button type="button" data-user="<?= $member->userId ?>" data-type="<?= $subscribe_text ?>" class="subscribe btn btn-primary btn-sm"><?= Language::GetText($subscribe_text) ?></button>
 
             <a class="btn btn-primary btn-sm" href="<?= BASE_URL ?>/account/message/send/<?= $member->username ?>/"><?= Language::GetText('send_message') ?></a>
