@@ -18,12 +18,12 @@ $col_width = 12 / $columns;
 
 <div class="container">
 
-<div class="row">
-  <div class="col-md-8 header-secondary pt-4">
-    <h1 class="profile-head">Member Profile</h1>
-    <?php (isset($message)) ? showAlertMessage($message, $message_type) : ''; ?>
+  <div class="row">
+    <div class="col-md-8 header-secondary pt-4">
+      <h1 class="profile-head">Member Profile</h1>
+      <?php (isset($message)) ? showAlertMessage($message, $message_type) : ''; ?>
+    </div>
   </div>
-</div>
 
   <div class="row">
     <div class="col-md-8">
@@ -49,13 +49,17 @@ $col_width = 12 / $columns;
             <?php endif; ?>
           </ul>
           <div class="profile-actions pl-3 mt-3">
-            <button type="button" data-user="<?= $member->userId ?>" data-type="<?= $subscribe_text ?>" class="subscribe btn btn-primary btn-sm"><?= Language::GetText($subscribe_text) ?></button>
+            <button type="button" data-user="<?= $member->userId ?>" data-type="<?= $subscribe_text ?>" class="subscribe btn btn-outline-primary btn-sm"><?= Language::GetText($subscribe_text) ?></button>
 
-            <a class="btn btn-primary btn-sm" href="<?= BASE_URL ?>/account/message/send/<?= $member->username ?>/"><?= Language::GetText('send_message') ?></a>
+            <a class="btn btn-outline-primary btn-sm" href="<?= BASE_URL ?>/account/message/send/<?= $member->username ?>/"><?= Language::GetText('send_message') ?></a>
 
-<span class="report-abuse-container">
-            <button type="button" data-type="user" data-id="<?= $member->userId ?>" class="flag report-content btn btn-danger btn-sm"><?= Language::GetText('report_abuse') ?></button>
-</span>
+            <?php if ($loggedInUser->userId == $member->userId) : ?>
+              <a class="btn btn-outline-primary btn-sm" href="<?php echo BASE_URL; ?>/account/profile/"><?= Language::GetText('update_profile') ?></a>
+            <?php else : ?>
+              <span class="report-abuse-container">
+                <button type="button" data-type="user" data-id="<?= $member->userId ?>" class="flag report-content btn btn-danger btn-sm"><?= Language::GetText('report_abuse') ?></button>
+              </span>
+            <?php endif; ?>
           </div>
         </div>
       </div>
