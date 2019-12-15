@@ -26,7 +26,6 @@ class Comment {
   }
 
   appendNew (responseData, commentForm) {
-    this.resetCommentForms(commentForm)
     // Append new comment if auto-approve comments is on
     if (responseData.other.autoApprove === true) {
       let cardData = responseData.other.commentCard
@@ -35,8 +34,9 @@ class Comment {
       // Remove 'no comments' message if present 
       $('#no-comments').remove()
 
-      // Update comment count text
+      // Update comment count text and property
       $('#comment-count').text(responseData.other.commentCount)
+      this.commentCount = responseData.other.commentCount
 
       // Un-hide and remove .template class
       cardElement.toggleClass('d-none')
@@ -51,6 +51,7 @@ class Comment {
         $("#comments-list-block").append(cardElement)
       }
     }
+    this.resetCommentForms(commentForm)
   }
 
   // Set load more button to "loading..."
@@ -65,8 +66,10 @@ class Comment {
   finishLoadingButton (loadMoreText) {
     let visibleCards = $('#comments-list-block .comment').length
 
+    console.log(visibleCards)
+    console.log(this.commentCount)
     // Hide load more button if no more comments are available
-    if (visibleCards < comment.commentCount) {
+    if (visibleCards < this.commentCount) {
       this.loadMoreComments = true
       $('.loadMoreComments button').html(loadMoreText)
     } else {
@@ -100,7 +103,6 @@ class Comment {
   insertReplyForm (parentCommentNode) {
     let commentForm = $('#comments > .commentForm')
     this.resetCommentForms(commentForm)
-    $('.commentReplyForm').remove()
     let parentComment = parentCommentNode
     let replyForm = commentForm.clone()
     let parentAuthor = parentComment.find(".commentAuthor a").html()
@@ -196,7 +198,7 @@ class Comment {
   // stub
   resetCommentForms (commentForm) {
     // if it's a reply, remove the reply form
-
+    $('.commentReplyForm').remove()
     // clear out top-level form
     commentForm.find(".comment-box").val('')
   }
@@ -236,9 +238,9 @@ $('.loadMoreComments button').on('click', function (event) {
       comment.insertMoreCards(responseData)
       comment.finishLoadingButton(loadMoreText)
     }
-    $.get(comment.requestUrl, data, callback, 'json')//.done(callback);
+    $.get(comment.requestUrl, data, callback, 'json')
   }
-  event.preventDefault
+  event.preventDefault()
 })
 
 $(".comments-actionable").on('click', '.reply', function (event) {

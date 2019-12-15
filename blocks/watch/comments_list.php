@@ -6,8 +6,8 @@
 <div class="card mb-3 comment <?=$commentIndentClass?>" data-comment="<?=$commentCard->comment->commentId?>">
               <div class="row">
                   <div class="col-md-3 text-center">
-                        <?php if($avatar): ?>
-                            <img src="<?=$avatar;?>" class="p-2 my-3 img-thumbnail" alt="">
+                        <?php if($commentCard->avatar): ?>
+                            <img src="<?=$commentCard->avatar;?>" class="p-2 my-3 img-thumbnail" alt="">
                         <?php else: ?>
 			    <i class="fas fa-user fa-lg py-3 mt-3" alt="<?php echo Language::getText('current_avatar'); ?>" style="font-size: 64px;"></i>
                         <?php endif; ?>
