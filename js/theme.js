@@ -106,9 +106,9 @@ var cc = {
       if (responseData.result === true) {
         //update likes and toggle class
         $('.like .likes').text(responseData.other.likes);
-        element.find('i').toggleClass('far');
-        element.find('i').toggleClass('fas');
-        element.find('i').toggleClass('disabled');
+        $('.like').find('i').toggleClass('far');
+        $('.like').find('i').toggleClass('fas');
+        $('.like').addClass('disabled');
       }
       window.scrollTo(0, 0);
   },
