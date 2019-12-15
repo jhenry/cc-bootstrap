@@ -52,7 +52,7 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
                 </div>
                 <!-- END VIDEO -->
             <?php endif; ?>
-
+           
             <!-- BEGIN ACTIONS -->
             <div class="row actions">
                 <div class="col-md-6">
@@ -60,7 +60,11 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
                 </div>
                 <div class="col-md-6">
                     <p class="text-right">
-                        <a class="like rating btn btn-sm btn-outline-primary" href="" data-rating="1" data-video_id=<?= $video->videoId; ?> role="button"><i class="far fa-heart like-icon" alt="Click to like this video."></i> <span class="likes badge badge-light"><?= $rating->likes ?></span> <span class="sr-only"> likes for this video.</span> </a>
+                        <?php if (isRated($video, $loggedInUser)) : ?>
+                        <a id="liked" class="like rating btn btn-sm btn-outline-primary disabled" href="#" data-rating="0" data-video_id=<?= $video->videoId; ?> role="button"><i class="fas fa-heart like-icon" alt="Click to like this video."></i> <span class="likes badge badge-light"><?= $rating->likes ?></span> <span class="sr-only"> likes for this video.</span> </a>
+                        <?php else: ?>
+                        <a id="like" class="like rating btn btn-sm btn-outline-primary" href="" data-rating="1" data-video_id=<?= $video->videoId; ?> role="button"><i class="far fa-heart like-icon" alt="Click to like this video."></i> <span class="likes badge badge-light"><?= $rating->likes ?></span> <span class="sr-only"> likes for this video.</span> </a>
+                        <?php endif; ?>
                     </p>
                 </div>
             </div>

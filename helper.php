@@ -71,6 +71,22 @@ function getVideoThumbUrl(Video $video)
     return $url;
 }
 
+/**
+ * Check to see if this rating was already made by this user.
+ * @param object $video Video object
+ * @param object $loggedInUser User object for this user
+ * @return bool false if it hasn't been rated.
+ *
+ **/
+function isRated($video, $loggedInUser) {
+    $liked = false;
+    $ratingMapper = new RatingMapper();
+    $usersLikes = $ratingMapper->getRatingByCustom(array('video_id' => $video->videoId, 'user_id' => $loggedInUser->userId, 'rating' => 1));
+    if (count(get_object_vars($usersLikes))) {
+        $liked = true;
+    }
+    return $liked;
+}
 
 /**
  * Output a custom video card block to the browser

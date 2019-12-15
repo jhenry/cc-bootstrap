@@ -108,7 +108,7 @@ var cc = {
         $('.like .likes').text(responseData.other.likes);
         element.find('i').toggleClass('far');
         element.find('i').toggleClass('fas');
-        $('.actions .left .dislike').text(responseData.other.dislikes);
+        element.find('i').toggleClass('disabled');
       }
       window.scrollTo(0, 0);
   },
