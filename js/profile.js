@@ -38,7 +38,7 @@ class Profile {
       else {
         const template = $.templates('#playlist-mini-card-template')
         const renderedCard = template.render(playlist)
-        // TODO: replace img element with playlist FA icon
+        $('.playlist-list').append(renderedCard)
       }
     }
   }
