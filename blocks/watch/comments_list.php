@@ -36,5 +36,6 @@
                     <div id="no-comments" class="mt-4 alert alert-info"><?=Language::getText('no_comments')?></div>
                 <?php endif; ?>
 
+                
 
 <!-- END COMMENTS LIST -->

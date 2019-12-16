@@ -17,13 +17,7 @@ class Comment {
     return $('#comments-list-block > div:last-child').data('comment')
   }
 
-  // Retrieve an HTML template for the comment card structure.
-  setUpCardTemplate () {
-    if (!this.cardTemplate.length) {
-      let callback = response => $('.comment-stream').append(response)
-      $.get(this.templateUrl).done(callback)
-    }
-  }
+  
 
   appendNew (responseData, commentForm) {
     // Append new comment if auto-approve comments is on
@@ -37,19 +31,6 @@ class Comment {
       // Update comment count text and property
       $('#comment-count').text(responseData.other.commentCount)
       this.commentCount = responseData.other.commentCount
-
-      // Un-hide and remove .template class
-      cardElement.toggleClass('d-none')
-      cardElement.toggleClass('template')
-
-      // Append comment to list
-      if (cardData.comment.parentId !== 0) {
-        let parentComment = $('[data-comment="' + cardData.comment.parentId + '"]')
-        this.indent(cardData, cardElement, parentComment)
-        parentComment.after(cardElement)
-      } else {
-        $("#comments-list-block").append(cardElement)
-      }
     }
     this.resetCommentForms(commentForm)
   }
@@ -66,8 +47,6 @@ class Comment {
   finishLoadingButton (loadMoreText) {
     let visibleCards = $('#comments-list-block .comment').length
 
-    console.log(visibleCards)
-    console.log(this.commentCount)
     // Hide load more button if no more comments are available
     if (visibleCards < this.commentCount) {
       this.loadMoreComments = true
@@ -84,17 +63,8 @@ class Comment {
     for (let key in responseData.other.commentCardList) {
       let card = responseData.other.commentCardList[key]
       let cardId = card.comment.commentId
-      $("#comments-list-block").find(`div[data-comment=${cardId}]`).remove()
-      let cardElement = this.buildCard(card)
-
-      let parentId = card.comment.parentId
-      if (parentId !== 0) {
-        let parentCard = $(`[data-comment="${parentId}"]`)
-        this.indent(card, cardElement, parentCard)
-      }
-      cardElement.removeClass("d-none")
-      cardElement.removeClass("template")
-      cardElement.appendTo("#comments-list-block")
+      $('#comments-list-block').find(`div[data-comment=${cardId}]`).remove()
+      this.buildCard(card)
     }
   }
 
@@ -118,72 +88,33 @@ class Comment {
   }
 
   /**
-       * Generates comment card dom structure and content 
-       * @param object cardData The CommentCard object for the comment being appended
-       * @return object the jQuery object for the newly filled comment card element
-       */
+   * Generates comment card dom structure and content
+   * @param object cardData The CommentCard object for the comment being appended
+   * @return object the jQuery object for the newly filled comment card element
+   */
   buildCard (cardData) {
-    let card = this.cardTemplate.clone()
-    card.attr('data-comment', cardData.comment.commentId)
+    const template = $.templates('#comment-card-template')
+    cardData.memberUrl = cc.baseUrl + '/members/'
+    cardData.replyText = this.replyText
+    cardData.replyToText = this.replyToText
+    cardData.reportAbuseText = this.reportAbuseText
+    cardData.datePosted = moment(cardData.comment.dateCreated).format('MM/DD/YYYY')
 
-    this.buildCardAvatar(card, cardData)
-    this.buildCardAuthorLink(card, cardData)
-    this.buildCardDate(card, cardData)
-    this.buildCardActions(card, cardData)
-    this.buildCardReplyTo(card, cardData)
-    this.buildCardBodyText(card, cardData)
+    const parentId = cardData.comment.parentId
+    if (parentId !== 0) {
+      const parentCard = $(`[data-comment="${parentId}"]`)
+      cardData.indent = ' ' + this.getIndent(parentCard)
 
-    return card
-  }
-
-  // Add text to comment card
-  buildCardBodyText (card, cardData) {
-    card.find('.comment-text').text(cardData.comment.comments)
-  }
-  // Fill in action links
-  buildCardActions (card, cardData) {
-    card.find('.commentAction .reply').text(this.replyText)
-    card.find('.flag').text(this.reportAbuseText).attr('data-id', cardData.comment.commentId)
-  }
-  // Set the comment date text
-  buildCardDate (card, cardData) {
-    let commentDate = new Date(cardData.comment.dateCreated.split(' ')[0])
-    let monthPadding = (String(commentDate.getMonth() + 1).length === 1) ? '0' : ''
-    let datePadding = (String(commentDate.getDate()).length === 1) ? '0' : ''
-    card.find('.commentDate').text(monthPadding + (commentDate.getMonth() + 1) + '/' + datePadding + commentDate.getDate() + '/' + commentDate.getFullYear())
-  }
-
-  // Set link for the comment author's member page.
-  buildCardAuthorLink (card, cardData) {
-    let memberUrl = cc.baseUrl + '/members/' + cardData.author.username
-    card.find('.authorUrl').attr('href', memberUrl).text(cardData.author.username)
-  }
-
-  // Set an avatar if the user has uploaded one.
-  buildCardAvatar (card, cardData) {
-    if (cardData.author.avatar !== null) {
-      card.find('.authorAvatar').attr('src', cardData.avatar)
-      card.find('.default-avatar').toggleClass('d-none')
-      card.find('.authorAvatar').toggleClass('d-none')
-    }
-  }
-
-  // Fill in the Reply To: User text
-  buildCardReplyTo (card, cardData) {
-    if (cardData.comment.parentId !== 0) {
-      card.find('.commentReply').text(this.replyToText + ' ')
-      let anchor = {
-        href: cc.baseUrl + '/members/' + cardData.parentAuthor.username,
-        text: cardData.parentAuthor.username
-      }
-      let parentAuthorText = $('<a>', anchor)
-      card.find('.commentReply').append(parentAuthorText)
+      const renderedCard = template.render(cardData)
+      parentCard.after(renderedCard)
     } else {
-      card.find('.commentReply').remove()
+      const renderedCard = template.render(cardData)
+      $('#comments-list-block').append(renderedCard)
     }
   }
+
   // Apply indent class
-  indent (card, cardElement, parentComment) {
+  getIndent(parentComment) {
     let indentClass = null
     if (parentComment.hasClass('commentIndentTriple') || parentComment.hasClass('commentIndentDouble')) {
       indentClass = 'commentIndentTriple'
@@ -192,22 +123,19 @@ class Comment {
     } else {
       indentClass = 'commentIndent'
     }
-    cardElement.addClass(indentClass)
+    return indentClass
   }
 
-  // stub
+  // Remove reply form and empty the main comment box
   resetCommentForms (commentForm) {
     // if it's a reply, remove the reply form
     $('.commentReplyForm').remove()
     // clear out top-level form
     commentForm.find(".comment-box").val('')
   }
-
 }
 
-
 let comment = new Comment()
-comment.setUpCardTemplate()
 
 // Submit 'comment form' and attach new comment to thread
 $('.comments-actionable').on("submit", "form", function (event) {
@@ -215,7 +143,6 @@ $('.comments-actionable').on("submit", "form", function (event) {
   var commentForm = $(this)
   var callback = function (responseData) {
     let comment = new Comment()
-    comment.setUpCardTemplate()
     comment.appendNew(responseData, commentForm)
     cc.displayMessage(responseData.result, responseData.message, '.comment-form-head')
   }
@@ -234,7 +161,6 @@ $('.loadMoreComments button').on('click', function (event) {
     }
     let callback = function (responseData) {
       let comment = new Comment()
-      comment.setUpCardTemplate()
       comment.insertMoreCards(responseData)
       comment.finishLoadingButton(loadMoreText)
     }

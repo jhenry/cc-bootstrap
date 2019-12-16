@@ -12,6 +12,9 @@ if ($loggedInUser && !$video->commentsClosed) {
 $this->addCss($this->options->themeUrl . '/node_modules/video.js/dist/video-js.css');
 $this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.js');
 //$this->addJs($this->options->themeUrl . '/js/general.js');
+
+$this->addJs($this->options->themeUrl . '/node_modules/moment/min/moment.min.js');
+$this->addJs($this->options->themeUrl . '/node_modules/jsrender/jsrender.min.js');
 $this->addJs($this->options->themeUrl . '/js/comments.js');
 ?>
 
@@ -143,6 +146,7 @@ $this->addJs($this->options->themeUrl . '/js/comments.js');
                     </div>
                 </div>
             <?php endif; ?>
+            <?php readfile('templates/comment_card.html', true); ?>
         </div>
         <!-- END COMMENTS SECTION -->
         <aside class="col-md-4 pt-3">
