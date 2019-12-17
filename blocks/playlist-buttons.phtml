@@ -1,16 +1,13 @@
 <div class="btn-group btn-group-sm float-left" role="group" aria-label="List of add-to-playlist buttons.">
   <div class="btn-group btn-group-sm" role="group">
-    <button id="playlists-dropdown-button" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Playlists
-    </button>
-    <div class="dropdown-menu playlist-buttons" aria-labelledby="playlists-dropdown-button">
-      <?php 
+<?php 
       $playlistService = new PlaylistService();
       $watchLater = ($loggedInUser) ? $playlistService->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_WATCH_LATER) : false;               
       $watchLaterCount = sizeof($watchLater->entries);
       $watchLaterListed = isInPlaylist($video, $watchLater);
       ?>
-      <a data-playlist_id="<?=$watchLater->playlistId?>" data-video_id="<?=$video->videoId?>" data-action="<?= ( $watchLaterListed ) ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist watch-later" role="button" href="#"><i class="playlist-icon fa-bookmark text-success pl-1 pr-2<?= ( $watchLaterListed ) ? ' fas' : ' far'; ?>" alt="<?= ( $watchLaterListed ) ? ' Video is in playlist: ' : ' Video is not in playlist:'; ?>"></i><?=Language::getText('watch_later')?> <span class="badge badge-info playlist-count"><?= $watchLaterCount; ?></span><span class="sr-only"> videos in playlist.</span></a>
+      <button data-playlist_id="<?=$watchLater->playlistId?>" data-video_id="<?=$video->videoId?>" data-action="<?= ( $watchLaterListed ) ? 'remove' : 'add'; ?>" class="btn btn-outline-secondary addToPlaylist watch-later" role="button" href="#"><i class="playlist-icon fa-bookmark text-success pl-1 pr-2<?= ( $watchLaterListed ) ? ' fas' : ' far'; ?>" alt="<?= ( $watchLaterListed ) ? ' Video is in playlist: ' : ' Video is not in playlist:'; ?>"></i></button>
+
 
       <?php 
 
@@ -18,7 +15,14 @@
       $favoritesCount = sizeof($watchLater->entries);
       $favoritesListed = isInPlaylist($video, $favorites);
       ?>
-      <a data-playlist_id="<?=$favorites->playlistId ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $favoritesListed ? 'remove' : 'add'; ?>" class="dropdown-item addToPlaylist favorites<?php echo $favoritesListed ? ' added' : ''?>" role="button" href="#"><i class="playlist-icon fa-star text-warning pr-2<?= ( $favoritesListed ) ? ' fas' : ' far'; ?>" alt="<?= ( $isListed ) ? 'Video is in playlist.' : 'Video not in this playlist.'; ?>"></i><?=Language::getText('favorites')?> <span class="badge badge-info playlist-count"><?= $favoritesCount; ?></span><span class="sr-only"> videos in playlist.</span></a>
+      <button data-playlist_id="<?=$favorites->playlistId ?>" data-video_id="<?=$video->videoId?>" data-action="<?php echo $favoritesListed ? 'remove' : 'add'; ?>" class="btn btn-outline-secondary addToPlaylist favorites<?php echo $favoritesListed ? ' added' : ''?>" role="button" href="#"><i class="playlist-icon fa-star text-warning<?= ( $favoritesListed ) ? ' fas' : ' far'; ?>" alt="<?= ( $isListed ) ? 'Video is in playlist.' : 'Video not in this playlist.'; ?>"></i></button>
+
+    <button id="playlists-dropdown-button" type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Playlists
+    </button>
+    <div class="dropdown-menu playlist-buttons" aria-labelledby="playlists-dropdown-button">
+      
+
 
       <?php
       $playlistMapper = new PlaylistMapper();
