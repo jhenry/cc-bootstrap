@@ -208,6 +208,7 @@ $('form#createNewPlaylist').submit(function(event){
   var video_id = createPlaylistForm.find('#video_id').val();
   var callback = function(createPlaylistResponse){
     cc.createPlaylist(createPlaylistResponse, createPlaylistForm, video_id);
+  $('#newPlaylistModal').modal('hide')
   };
   cc.executeAjax(url, data, callback);
   event.preventDefault();
