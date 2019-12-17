@@ -71,6 +71,31 @@ function getVideoThumbUrl(Video $video)
     return $url;
 }
 
+function watchLaterButton($video, $loggedInUser, $linkText = '')
+{
+
+    if($loggedInUser) {
+        $playlistService = new PlaylistService();
+        $watchLater = $playlistService->getUserSpecialPlaylist($loggedInUser, \PlaylistMapper::TYPE_WATCH_LATER);
+
+    if (isInPlaylist($video, $watchLater)) {
+        $dataAction = 'remove';
+        $iconClass = ' fas';
+        $alt = 'In playlist.';
+    } else {
+        $dataAction = 'add';
+        $iconClass = ' far';
+        $alt = 'Not in playlist.';
+    }
+
+    $button = <<<BUTTON
+<a data-playlist_id="$watchLater->playlistId" data-video_id="$video->videoId" data-action="$dataAction" data-toggle="tooltip" title="Watch Later" class="btn btn-sm btn-outline-success addToPlaylist watch-later-mini" role="button" href="#"><i class="playlist-icon fa-bookmark $iconClass" alt="$alt"></i>$linkText</a>
+BUTTON;
+
+    return $button;
+    }
+}
+
 /**
  * Check to see if this rating was already made by this user.
  * @param object $video Video object

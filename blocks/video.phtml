@@ -12,11 +12,14 @@ $videoService = $this->getService('Video');
     <small class="duration bg-dark text-light px-1" aria-label="<?= durationInWords($video->duration); ?>"><?= $video->duration ?></small>
   </a>
   <div class="card-body">
+<span class="float-right ml-1">
+    <?= watchLaterButton($video, $loggedInUser); ?>
+</span>
     <p class="card-title mb-0 h6">
   <a href="<?= $videoService->getUrl($video) ?>/"><?= $video->title ?></a>
     </p>
     <p class="video-author small">
-      <?= Language::getText('by') ?>: <a href="<?= HOST ?>/members/<?= $video->username ?>/"><?= $video->username ?></a>
+      <?= Language::getText('by') ?>: <a href="<?= BASE_URL ?>/members/<?= $video->username ?>/"><?= $video->username ?></a>
     </p>
     <p><?= mb_strimwidth($video->description, 0, 250, "..."); ?></p>
   </div>

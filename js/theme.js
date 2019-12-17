@@ -269,3 +269,7 @@ $('form#privacy-settings input.custom-control-input').change(function(e) {
     $(inputId).attr('value', 0)
   }
 })
+
+$('.watch-later-mini').tooltip({
+  placement: 'bottom'
+})
