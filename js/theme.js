@@ -30,28 +30,8 @@ var cc = {
     $('.message').html(message)
     $('.message').removeClass(existingClass)
     $('.message').addClass(cssClass)
+  },
 
-  },
-  /**
-   * Send AJAX request to the action's server handler script
-   * @param string url Location of the action's server handler script
-   * @param json || string data The data to be passed to the server handler script
-   * @param function callback (Optional) Code to be executed once AJAX call to handler script is complete
-   * @return void Message is display according to server response. Any other
-   * follow up behaviour is performed within the callback
-   */
-  executeAjax: function (url, data, callback)
-  {
-    $.ajax({
-      type        : 'POST',
-      data        : data,
-      dataType    : 'json',
-      url         : url,
-      success     : function (responseData, textStatus, jqXHR){
-        if (typeof callback != 'undefined') callback(responseData, textStatus, jqXHR)
-      }
-    })
-  },
   /**
    * Retrieve localised string via AJAX
    * @param function callback Code to be executed once AJAX call to retrieve text is complete
@@ -68,6 +48,7 @@ var cc = {
       success     : callback
     })
   },
+
   /**
    * Update playlist icons and messaging when saving videos to playlists.
    * @param obj response from server
@@ -79,8 +60,6 @@ var cc = {
     this.displayMessage(response.result, response.message, '.header-secondary')
 
     if (response.result) {
-      //TODO: update counts for other playlists on the page
-      link.find('.playlist-count').text(response.other.count)
       link.find('.playlist-icon').toggleClass('far')
       link.find('.playlist-icon').toggleClass('fas')
       this.toggleCustomPlaylistIcons(link)
@@ -99,8 +78,12 @@ var cc = {
       window.scrollTo(0, 0)
     }
   },
-  
-  // after like click 
+
+  /**
+   * Update ratings when Like button is clicked.
+   * @param responseData response from server
+   * @param element DOM element/jQuery object of like button.
+   */
   showRatingUpdate: function (responseData, element) {
     this.displayMessage(responseData.result, responseData.message, '.header-secondary')
     if (responseData.result === true) {
@@ -113,26 +96,40 @@ var cc = {
     window.scrollTo(0, 0)
   },
 
-  toggleCustomPlaylistIcons: function (link){
-    if( link.hasClass("customPlaylist") ) { 
-      link.find('.playlist-icon').toggleClass('fa-check-square') 
+  /**
+   * Set checked/unchecked icons for custom playlists when videos are added to them.
+   * @param link jQuery/Dom object for the link.
+   */
+  toggleCustomPlaylistIcons: function (link) {
+    if (link.hasClass('customPlaylist')) {
+      link.find('.playlist-icon').toggleClass('fa-check-square')
       link.find('.playlist-icon').toggleClass('fa-square')
     }
   },
+
+  /**
+   * Set tooltips for clipboardjs.
+   * @param btn jQuery/Dom object for the link.
+   * @param message Text to display
+   */
   setTooltip: function (btn, message) {
     $(btn).tooltip('hide')
       .attr('data-original-title', message)
       .tooltip('show')
   },
 
+  /**
+   * Set tooltips for clipboardjs.
+   * @param btn jQuery/Dom object for the link.
+   */
   hideTooltip: function (btn) {
     setTimeout(function () {
       $(btn).tooltip('hide')
     }, 1000)
-  }, 
+  },
 
-  /*
-   * Add pagination styles to the appropriate DOM elements.  
+  /**
+   * Add pagination styles to the appropriate DOM elements.
    * Generated HTML is in core application files.
    */
   paginate: function () {
@@ -143,7 +140,13 @@ var cc = {
     $('#pagination').find('strong').addClass('page-link')
     $('#pagination').find('strong').parent().addClass('active')
   },
-  // Callback for AJAX call - Update button if the action (subscribe / unsubscribe) was successful
+
+  /**
+   * Update button if the action (subscribe / unsubscribe) was successful.
+   * @param responseData response from server with status, etc.
+   * @param subscribeButton jQuery/Dom object for the button.
+   * @param subscribeType indicates if this is a subscribe/unsubscribe.
+   */
   subscribe: function (responseData, subscribeButton, subscribeType) {
     this.displayMessage(responseData.result, responseData.message, '.header-secondary')
     if (responseData.result === true) {
@@ -156,13 +159,17 @@ var cc = {
     }
     window.scrollTo(0, 0)
   },
-  /*
-   * Create and add an add to playlist button.
-   * 
+
+  /**
+   * Create and add a new playlist to the "dropdown" button on the watch page.
+   * TODO: move to jsrender/template.
+   * @param createPlaylistResponse response from server with status, etc.
+   * @param createPlaylistForm jQuery/Dom object for the creation form.
+   * @param video_id id for the initial video being added (i.e. to set playlist thumb).
    */
   createPlaylist: function (createPlaylistResponse, createPlaylistForm, video_id) {
     this.displayMessage(createPlaylistResponse.result, createPlaylistResponse.message, '.header-secondary')
-    var newButton = '<button data-playlist_id="' + createPlaylistResponse.other.playlistId + '" data-video_id="'+ video_id +'" data-action="remove" class="dropdown-item btn btn-outline-primary text-left addToPlaylist customPlaylist" href="#"><i class="playlist-icon pr-2 fas fa-check-square" alt="Video is in this playlist."></i>' + createPlaylistResponse.other.name + ' <span class="badge badge-info playlist-count">' + createPlaylistResponse.other.count + '</span><span class="sr-only"> videos in playlist.</span></button>'
+    var newButton = '<button data-playlist_id="' + createPlaylistResponse.other.playlistId + '" data-video_id="'+ video_id +'" data-action="remove" class="dropdown-item btn btn-outline-primary text-left addToPlaylist customPlaylist" href="#"><i class="playlist-icon pr-2 fas fa-check-square" alt="Video is in this playlist."></i>' + createPlaylistResponse.other.name + '</button>'
 
     // Add the button to the dropdown and clear the form.
     $('.playlist-buttons').append(newButton)
@@ -171,75 +178,91 @@ var cc = {
   }
 }
 
+/**
+ * Add a video to a playlist.
+ */
 $('.addToPlaylist').on('click', function (event) {
-  var link = $(this)
-  var action = $(this).data('action')
-  var url = cc.baseUrl+'/actions/playlist/'
-  var data = {
+  const link = $(this)
+  const action = $(this).data('action')
+  const url = cc.baseUrl + '/actions/playlist/'
+  const data = {
     action: action,
     video_id: $(this).data('video_id'),
     playlist_id: $(this).data('playlist_id')
   }
-  var callback = function (response){ cc.savedToPlaylist(response, link, action) }
-  cc.executeAjax(url, data, callback)
+  const callback = function (response) { cc.savedToPlaylist(response, link, action) }
+  $.post(url, data, callback, 'json')
   event.preventDefault()
 })
 
 // Attach Subscribe & Unsubscribe action to buttons
 $('.subscribe').click(function () {
-  var subscribeType = $(this).data('type')
-  var url = cc.baseUrl+'/actions/subscribe/'
-  var data = {type: subscribeType, user: $(this).data('user')}
-  var subscribeButton = $(this)
-  var callback = function (responseData) {
+  const subscribeType = $(this).data('type')
+  const url = cc.baseUrl+'/actions/subscribe/'
+  const data = {type: subscribeType, user: $(this).data('user')}
+  const subscribeButton = $(this)
+  const callback = function (responseData) {
     cc.subscribe(responseData, subscribeButton, subscribeType)
   }
-  cc.executeAjax(url, data, callback)
+  $.post(url, data, callback, 'json')
   event.preventDefault()
 })
 
 // Attach add new playlist actions to forms on watch page.
 $('form#createNewPlaylist').submit(function (event) {
-  var createPlaylistForm = $(this)
-  var data = $(this).serialize()
-  var url = cc.baseUrl + '/actions/playlist/'
-  var video_id = createPlaylistForm.find('#video_id').val()
-  var callback = function (createPlaylistResponse) {
+  const createPlaylistForm = $(this)
+  const data = $(this).serialize()
+  const url = cc.baseUrl + '/actions/playlist/'
+  const video_id = createPlaylistForm.find('#video_id').val()
+  const callback = function (createPlaylistResponse) {
     cc.createPlaylist(createPlaylistResponse, createPlaylistForm, video_id)
     $('#newPlaylistModal').modal('hide')
   }
-  cc.executeAjax(url, data, callback)
+  $.post(url, data, callback, 'json')
   event.preventDefault()
 })
 
 // Attach flag action to flag links / buttons
 $('.report-abuse-container').on('click', '.report-content', function () {
-  var url = cc.baseUrl + '/actions/flag/'
-  var data = {
+  const url = cc.baseUrl + '/actions/flag/'
+  const data = {
     type: $(this).data('type'),
     id: $(this).data('id')
   }
-  var callback = function (response) {
+  const callback = function (response) {
     cc.displayMessage(response.result, response.message, '.header-secondary')
   }
-  cc.executeAjax(url, data, callback)
+  $.post(url, data, callback, 'json')
   window.scrollTo(0, 0)
   event.preventDefault()
 })
 
-$( ".like" ).click(function () {
-  url = cc.baseUrl + '/actions/rate/'
-  data = {
+// Attach like/rating button.
+$('.like').click(function () {
+  const url = cc.baseUrl + '/actions/rate/'
+  const data = {
     video_id: $(this).data('video_id'),
     rating: $(this).data('rating')
   }
-  callback = function (responseData) {
+  const callback = function (responseData) {
     cc.showRatingUpdate(responseData, $(this))
   }
-  cc.executeAjax(url, data, callback)
+  $.post(url, data, callback, 'json')
   event.preventDefault()
 })
 
+// Attach changes to support fancy toggle switches, because
+// server-side expects form data submitted via drop-downs.
+$('form#privacy-settings input.custom-control-input').change(function (e) {
+  const inputId = '#' + $(this).attr('id') + '_data'
+  if ($(this).is(':checked')) {
+    $(inputId).attr('value', 1)
+  } else {
+    $(inputId).attr('value', 0)
+  }
+})
+
+// Attach and style pagination links.
 cc.paginate()
 
 // ClipboardJS
@@ -260,13 +283,5 @@ $('.btn-clipboard').tooltip({
   placement: 'bottom'
 })
 
-$('form#privacy-settings input.custom-control-input').change(function (e) {
-  const inputId = '#' + $(this).attr('id') + '_data'
-  if ($(this).is(':checked')) {
-    $(inputId).attr('value', 1)
-  } else {
-    $(inputId).attr('value', 0)
-  }
-})
 
 $('.watch-later-mini').tooltip({ placement: 'bottom' })
