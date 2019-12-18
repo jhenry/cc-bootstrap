@@ -14,14 +14,14 @@ $col_width = 12 / $columns ;
 <div class="row">
 	<!-- Begin Favorites -->
 	<div class="col-md-4 mb-4">
-		<div class="card ">
+		<div class="card">
 			<div class="playlist-count-badge text-right p-2">
 				<span class="badge badge-info"><?=count($favoritesList->entries)?> <?=Language::GetText('videos')?></span>
 			</div>
 			<?php if (!empty($favoritesList->entries)): ?>
 			<img src="<?=getPlaylistThumbnail($favoritesList)?>" class="playlist-card-thumb" alt="Playlist thumbnail image."/>
 			<?php else: ?>
-			<i class="fas fa-list-ul text-center py-4" style="font-size: 64px;" alt="Playlist thumbnail icon."></i>
+			<i class="fas fa-list-ul text-center pt-5 empty-playlist-lg" alt=""></i>
 			<?php endif; ?>
 			<div class="card-body border-top">
 				<h5 class="card-title"><i class="far fa-star text-center text-warning pr-1" alt="Playlist thumbnail icon."></i> <?=Language::GetText('favorites')?>  </h5>
@@ -45,7 +45,7 @@ $col_width = 12 / $columns ;
 			<?php if (!empty($watchLaterList->entries)): ?>
 			<img src="<?=getPlaylistThumbnail($watchLaterList)?>" class="playlist-card-thumb" alt="Playlist thumbnail image."/>
 			<?php else: ?>
-			<i class="fas fa-list-ul text-center py-4" style="font-size: 64px;" alt="Playlist thumbnail icon."></i>
+			<i class="fas fa-list-ul text-center pt-5 empty-playlist-lg" alt=""></i>
 			<?php endif; ?>
 			<div class="card-body border-top">
 				<h5 class="card-title"><i class="far fa-bookmark text-center text-success pr-1" alt="Playlist thumbnail icon."></i> <?=Language::GetText('watch_later')?>  </h5>
@@ -101,7 +101,7 @@ $col_width = 12 / $columns ;
 			<?php if (!empty($playlist->entries)): ?>
 			<img src="<?=getPlaylistThumbnail($playlist)?>" class="playlist-card-thumb" alt="Playlist thumbnail image."/>
 			<?php else: ?>
-			<i class="fas fa-list-ul text-center py-4" style="font-size: 64px;" alt="Playlist thumbnail icon."></i>
+			<i class="fas fa-list-ul text-center pt-5 empty-playlist-lg" alt=""></i>
 			<?php endif; ?>
 			<div class="card-body border-top">
         <h5 class="card-title"><?php echo htmlspecialchars($playlist->name); ?></h5>

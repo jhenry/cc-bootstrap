@@ -86,3 +86,8 @@
 	overflow: auto;
 }
 
+.empty-playlist-lg {
+	font-size: 100px; 
+	min-height: 224px;
+	color: gray;
+}
