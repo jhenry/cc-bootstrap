@@ -1,6 +1,6 @@
 # A Basic Bootstrap 4 Theme For CumulusClips
 
-This is a stripped down theme for CumulusClips Video CMS.
+This is a stripped down theme for CumulusClips Video CMS.  Here are a few [screenshots/examples](https://imgur.com/a/WIws7cu) (imgur link) of it in action. 
 
 ## Install/Config
 
