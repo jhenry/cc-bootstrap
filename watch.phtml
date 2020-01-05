@@ -9,12 +9,12 @@ $this->addMeta('report_abuse', Language::getText('report_abuse'));
 if ($loggedInUser && !$video->commentsClosed) {
     $this->addMeta('reply', Language::getText('reply'));
 }
-$this->addCss($this->options->themeUrl . '/node_modules/video.js/dist/video-js.css');
-$this->addJs($this->options->themeUrl . '/node_modules/video.js/dist/video.min.js');
+$this->addCss($this->options->themeUrl . '/css/vendor/video-js.css');
+$this->addJs($this->options->themeUrl . '/js/vendor/video.min.js');
 //$this->addJs($this->options->themeUrl . '/js/general.js');
 
-$this->addJs($this->options->themeUrl . '/node_modules/moment/min/moment.min.js');
-$this->addJs($this->options->themeUrl . '/node_modules/jsrender/jsrender.min.js');
+$this->addJs($this->options->themeUrl . '/js/vendor/moment.min.js');
+$this->addJs($this->options->themeUrl . '/js/vendor/jsrender.min.js');
 $this->addJs($this->options->themeUrl . '/js/comments.js');
 ?>
 
