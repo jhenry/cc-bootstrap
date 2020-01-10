@@ -2,13 +2,9 @@
 
 This is a stripped down theme for CumulusClips Video CMS.  Here are a few [screenshots/examples](https://imgur.com/a/WIws7cu) (imgur link) of it in action. 
 
-## Install/Config
+## Install & Config
 
-Many of the libraries used by this theme are packaged/installed using npm. Running the following in the cloned/downloaded theme directory should get you started:
-
-```bash
-npm install
-```
+To add a theme to your CumulusClips powered site drop the theme directory into your cc-content/themes directory. Then access Admin Panel -> Appearance -> Themes to activate your new theme.
 
 ### Featured Thumbnail Size
 

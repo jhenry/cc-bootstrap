@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <theme>
     <author>Justin D. Henry</author>
-    <name>Bootstrap 4 for CumulusClips</name>
+    <name>Overcast</name>
     <mobile>false</mobile>
     <description>A basic Bootstrap 4 theme for CumulusClips</description>
-    <version>0.1</version>
+    <version>0.8</version>
     <update>http://mothership.cumulusclips.org/updates/themes/cumulus/</update>
 </theme>
